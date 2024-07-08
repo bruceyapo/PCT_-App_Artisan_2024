@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Equipe{% endblock %}
+
+{% block content %}
+
+
+<h5 class="display-6 text-center my-3">Notre équipe : </h5>
+
+<main class="container my-4 min-vh-100">
+
+    <section class="row g-3">
+        <div class="col">
+            <p>Ce site est le fruit d'un projet collaboratif, ont participé à sa
+                conception :</p>
+            <h2>L'équipe de développement :</h2>
+            <hr>
+
+            <section class="row">
+                <div class="col-md-6 col-xl-3">
+                    <article class="card h-100">
+                        <img src="{% static 'artisanfinder/images/kone-m.jpg' %}" alt="KONE-M" class="card-img-top">
+                        <div class="card-body">
+                            <h2>Moussa KONE</h2>
+                            <p>Etudiant en développement d'application web et E-services (DAS-L3)</p>
+                        </div>
+                        <div class="card-footer bg-success text-center">
+                            <a href="https://github.com/KONE160" data-type="social" target="_blank"></a> <i
+                                class="fab fa-github"></i></a>
+
+                            <a href="https://www.whatsapp.com" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="card h-100">
+                        <img src="{% static 'artisanfinder/images/cheick-d.jpg' %}" alt="cheick-d" class="card-img-top">
+                        <div class="card-body">
+                            <h2>DIAKITE Cheikh ahmad tidjani</h2>
+                            <p>Etudiant en développement d'application web et E-services (DAS-L3)</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="card-footer bg-success text-center">
+                                <a href="https://github.com/Chekino" data-type="social" target="_blank"></a> <i
+                                    class="fab fa-github"></i></a>
+
+                                <a href="https://www.whatsapp.com" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="card h-100">
+                        <img src="{% static 'artisanfinder/images/natacha-n.jpg' %}" alt="natacha-n"
+                            class="card-img-top">
+                        <div class="card-body">
+                            <h2>NANDJA Kessia Natacha</h2>
+                            <p>Etudiante en base de données (BD-L3)</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="card-footer bg-success text-center">
+                                <a href="https://github.com/BLESSING-NANDJA" data-type="social" target="_blank"></a> <i
+                                    class="fab fa-github"></i></a>
+
+                                <a href="https://www.whatsapp.com" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="card h-100">
+                        <img src="{% static 'artisanfinder/images/natacha-n.jpg' %}" alt="bruce-y" class="card-img-top">
+                        <div class="card-body">
+                            <h2>YAPO Bruce bernadin evrard junior </h2>
+                            <p>Etudiant en base de données (BD-L3)</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="card-footer bg-success text-center">
+                                <a href="https://github.com/bruceyapo" data-type="social" target="_blank"></a> <i
+                                    class="fab fa-github"></i></a>
+
+                                <a href="https://www.whatsapp.com" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+
+                    </article>
+
+
+
+                    </article>
+                </div>
+            </section>
+            <br>
+            <h2 class="m-4">L'équipe de réseau et sécurité :</h2>
+            <hr>
+            <section class="row">
+
+                <div class="col-md-6 col-xl-3">
+                    <article class="card h-100">
+                        <img src="{% static 'artisanfinder/images/natacha-n.jpg' %}" alt="marcel-k" class="card-img-top">
+                        <div class="card-body">
+                            <h2>KOUADIO Koffi oussou marcel </h2>
+                            <p>Etudiant en réseau et sécurité informatique (RSI-L3)</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <div class="card-footer bg-success text-center">
+                                <a href="https://github.com/marcelus01" data-type="social" target="_blank"></a> <i
+                                    class="fab fa-github"></i></a>
+
+                                <a href="https://www.whatsapp.com" target="_blank"> <i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+
+                    </article>
+                </div>
+
+
+
+
+
+            </section>
+        </div>
+    </section>
+
+
+</main>
+
+<!-- Le pieds de pages -->{% endblock %}

@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.body{
+ font-family: "Lato", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1,h2,h3,h4,h5,form,footer,nav{
+font-family: "Josefin Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: weight;
+  font-style: normal;
+}
+
+.carousel-container {
+    max-width: 50%;
+    margin: auto;
+}
+
+.navbar-custom {
+    background-color: #008000;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: white;
+    font-weight: bold;
+}
+
+.sidebar {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    background-color: #008000;
+    border-radius: 0 10px 10px 0;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.sidebar a {
+    color: white;
+    display: block;
+    text-align: center;
+    margin: 10px 0;
+    font-size: 20px;
+}
+
+.sidebar a:hover {
+    color: #f1f1f1;
+}
+
+.vertical-frame {
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.bg-green {
+    background-color: #008000;
+    color: white;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.value-title {
+    font-size: 1.75rem;
+    color: #4ade80;
+}
+
+.value-content {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.value-card {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-10px);
+}
+
+#map {
+            height: 500px;
+            width: 100%;
+        }
+        
+.login-box {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid #008000;
+            animation: border-animation 2s infinite;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @keyframes border-animation {
+            0% {
+                border-color: #008000;
+            }
+
+            50% {
+                border-color: #00ff00;
+            }
+
+            100% {
+                border-color: #008000;
+            }
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .login-box .form-group {
+            margin-bottom: 15px;
+        }
+
+        .login-box .btn-primary {
+            background-color: #008000;
+            border-color: #008000;
+        }
+
+        .login-box .btn-primary:hover {
+            background-color: #006400;
+            border-color: #006400;
+        }
+
+        .login-box .form-check-label {
+            font-weight: normal;
+        }
+
+        .login-box .links a {
+            color: #008000;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .login-box .links a:hover {
+            text-decoration: underline;
+        }
+
+    /* Debut de la Mise en forme de la d'inscription */
+    
+        input[type="text"], input[type="email"], input[type="password"], select {
+            width: 100%; /* Ajustez la largeur selon vos besoins */
+            padding: 10px;
+            border: 1px solid #6f8a69;
+            border-radius: 10px; /* Ajustez le rayon des bordures selon vos besoins */
+            box-sizing: border-box; /* Pour inclure le padding et la bordure dans la largeur totale */
+            margin-bottom: 15px; /* Pour ajouter un espacement entre les champs */
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Espace entre les colonnes */
+        }
+        
+        .form-group.half-width {
+            flex: 1 1 35%; /* 35% pour deux colonnes avec un espace entre elles */
+        }
+        
+        .form-group.full-width {
+            flex: 1 1 100%; /* Utilisé pour les éléments à pleine largeur, si nécessaire */
+        }
+        .form-section, .image-section {
+            flex: 1;
+            margin: 30px;
+            
+        }
+        
+        .form-section {
+            max-width: 70%;
+        }
+        
+        .image-section img {
+            width: 50%;
+            border-radius: 10px;
+            border: 1px solid rgb(73, 73, 119);
+        }
+
+        /* Fin de la Mise en forme de la d'inscription */
+        
+        /* Debut de la Mise en forme de la page de contact */
+        
+        .contact-form {
+            width: 50%;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #008000;
+            box-shadow: 0 0 10px rgba(0, 128, 0, 0.5);
+        }
+        .contact-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #008000;
+        }
+        .contact-form .form-group label {
+            color: #008000;
+        }
+        .contact-form .form-control {
+            border-radius: 5px;
+        }
+        .contact-form .btn {
+            background-color: #008000;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .contact-form .btn:hover {
+            background-color: #006400;
+        }
+
+       /* Fin de la Mise en forme de la page de contact */
+    
+

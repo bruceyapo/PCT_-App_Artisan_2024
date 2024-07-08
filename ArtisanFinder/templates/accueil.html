@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static  %}
+{% block title %}Page d'accueil{% endblock %}
+
+{% block content %}
+
+    <!-- Carousel (slider)-->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="{% static 'artisanfinder/images/slide2.png' %}" class="d-block w-100" alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <!-- <h5>Premier Slide</h5>
+                    <p>Soudeur.</p> -->
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'artisanfinder/images/slide2.png' %}" class="d-block w-100" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <!-- <h5>Deuxième Slide</h5>
+                    <p>Electromécanicien.</p> -->
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'artisanfinder/images/slide3.png' %}" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <!-- <h5>Troisième Slide</h5> -->
+                    <!-- <p>Plombier.</p> -->
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'artisanfinder/images/slide4.png' %}" class="d-block w-100" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <!-- <h5>   </h5> -->
+                    <!-- <p>Mécanicien.</p> -->
+                </div>
+            </div>
+
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="précédent">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">précédent</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="suivant">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">suivant</span>
+        </a>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <h1 class="display-4">Bienvenue sur Artisan Finder</h1>
+            <p class="lead">Nous offrons les meilleurs services pour trouver des artisans qualifiés.</p>
+            <hr class="my-4">
+            <h5 class="display-6">Nos domaines d'intervention : </h5>
+              <!-- NOS DOMAINES D'INTERVENTION DEBUT -->
+              
+              <div class="row" style="row-gap:50px" data-v-fd595cb8=""><div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/icone-plomberie.png' %}" alt="icone-plomberie" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Plomberie
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/icone-electricite.png' %}" alt="icone-electricite" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Electricité
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/icone-froid..png' %}" alt="icone-froid" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Climatisation
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/icone-carrelage.png' %}" alt="icone-carreleur" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Carrelage
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/ferronerie.png' %}" alt="icone-fixation-objets" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Ferronnerie
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/menuiserie.png' %}" alt="icone-menuserie" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Menuiserie
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/peinture.png' %}" alt="icone-ferronerie" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Peinture
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/ferronerie.png' %}" alt="icone-ferronerie" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Serrurerie
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/maçon.png' %}" alt="icone-macon" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Maçonnerie
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/jardinier.png' %}" alt="icone-jardinier" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Jardinerie
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/icone-staffeur.png' %}" alt="icone-staffeur" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Stafferie
+            </a></div> <div class="col-lg-2 col-xl-2 col-md-3 col-sm-3 mt-5" style="text-align:center" data-v-fd595cb8=""><a data-v-fd595cb8=""><img src="{% static 'artisanfinder/images/vitrier.png' %}" alt="icone-vitrier-alu" width="96" height="96" class="img-reservations" style="cursor:pointer" data-v-fd595cb8=""> <br data-v-fd595cb8="">
+                Vitrerie ALU
+            </a></div></div>
+
+
+
+              <!-- DOMAINE D'INTERVENTION FIN -->
+            <hr class="my-4">
+            <p>Explorez nos services pour en savoir plus.</p>
+            <a class="btn btn-primary btn-lg my-3" href="#" role="button">En savoir plus</a>
+        </div>
+    </div>
+
+<!-- Le pieds de pages --> {% endblock %}

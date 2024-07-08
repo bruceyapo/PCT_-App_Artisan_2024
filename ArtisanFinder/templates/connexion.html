@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+    
+<main>
+    <h5 class="display-6 text-center my-5"> </h5>
+    <div class="box-body align-self : center ">
+        <div class="login-box">
+            <h3 class="text-center main_question wizard-header"
+                style="font-weight: 800; color: #008000;">Connexion
+            </h3>
+            <form>
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="phone"><h5>Numéro de téléphone (*)</h5></label>
+                    <input type="text" class="form-control" id="phone" placeholder="Numéro de téléphone "
+                        maxlength="10" required>
+
+                </div>
+                <div class="form-group">
+                    <label for="password"><h5>Mot de passe (*)</h5></label>
+                    <input type="password" class="form-control" id="password" placeholder="Mot de passe "
+                        minlength="6" required>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Se souvenir de moi</label>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-block ">Se connecter</button>
+
+                </div>
+
+
+                <div class="links mt-3">
+                    <small class="text-secondary">Pas encore inscrit(e) ?</small>
+                    <a href="/register/">S'inscrire</a> | <a href="/password-oublie/">Mot de passe oublié ?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+   </main>
+<!-- Le pieds de pages -->{% endblock %}

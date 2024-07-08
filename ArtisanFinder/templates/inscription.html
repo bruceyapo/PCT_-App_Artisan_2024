@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+
+
+<main>
+    <!-- Main Content -->
+    <div class="container">
+
+        <h2 class="p-1 mb-3 text-center mt-5">Inscription : </h2>
+        <div class="row">
+            <div class="container display-flex justify-content: space-between">
+                <div class="form-section" >
+
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-container">
+                            {% for field in form %}
+                                <div class="form-group half-width">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small>{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <div class="error">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <input type="submit" class="btn btn-success btn-block" value="S'inscrire">
+                    </form>
+                        
+                     
+
+
+
+
+
+                    
+                    <!-- <div class="section image-section  float-right">
+                        <img src="{% static 'artisanfinder/images/bricoleur-bleu.jpg' %}" alt="Les meilleurs artisans" >
+                    </div> -->
+                </div>
+            </div>
+
+
+
+</main>
+<!-- Le pieds de pages -->{% endblock %}

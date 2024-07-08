@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Connexion{% endblock %}
+
+{% block content %}>
+
+    <main>
+    <!-- Search Form -->
+    <div class="container mt-5">
+        <h1 class="display-5">Trouver un artisan</h1>
+        <form id="searchForm">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="activity">Domaine d'activité</label>
+                    <br>
+                    <input type="text" class="form-control" id="activity" placeholder="Ex: Plombier, Électricien">
+                </div>
+                <br>
+                <div class="form-group col-md-6">
+                    <label for="location">Votre localisation</label>
+                    <br>
+                    <input type="text" class="form-control" id="location" placeholder="Ex: Abidjan, Yopougon, Bouaké">
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+        </form>
+    </div>
+
+    <!-- OpenStreetMap -->
+    <div class="container mt-5">
+        <div id="map"></div>
+    </div>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Leaflet Geocoding Plugin -->
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script>
+        let map;
+        let markers = [];
+
+        function initMap() {
+            map = L.map('map').setView([7.681071510710642,-5.039615938796328], 10); // Centré sur Bouaké par défaut
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+        }
+
+        function clearMarkers() {
+            for (let i = 0; i < markers.length; i++) {
+                map.removeLayer(markers[i]);
+            }
+            markers = [];
+        }
+
+        function addMarker(location, title) {
+            const marker = L.marker(location).addTo(map).bindPopup(title);
+            markers.push(marker);
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const activity = document.getElementById('activity').value;
+            const location = document.getElementById('location').value;
+            
+            // Utiliser le plugin de géocodage de Leaflet pour obtenir la position
+            L.Control.Geocoder.nominatim().geocode(location, function(results) {
+                if (results.length > 0) {
+                    const center = results[0].center;
+                    map.setView(center, 13);
+                    clearMarkers();
+
+                    // Exemple statique d'artisans. En production, vous récupérez ces données via une API ou une base de données.
+                    const artisans = [
+                        {lat: center.lat + 0.01, lng: center.lng, name: 'Artisan 1', activity: activity},
+                        {lat: center.lat - 0.01, lng: center.lng, name: 'Artisan 2', activity: activity},
+                        {lat: center.lat, lng: center.lng + 0.01, name: 'Artisan 3', activity: activity}
+                    ];
+
+                    artisans.forEach(function(artisan) {
+                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity);
+                    });
+                } else {
+                    alert('La géolocalisation a échoué.');
+                }
+            });
+        });
+
+        initMap();
+    </script>
+
+</main>
+<!-- Le pieds de pages -->{% endblock %}

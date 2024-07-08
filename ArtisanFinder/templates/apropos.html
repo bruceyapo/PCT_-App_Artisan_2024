@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}A Propos{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <h1 class="text-center my-3">Qui sommes-nous ? </h1>
+        <div>
+            <h2>Entreprise 22 </h2>
+            <p>Connectez-vous avec des artisans locaux talentueux prêts à vous servir avec passion et expertise.</p>
+        </div>
+        <hr style="border: none; border-bottom: 3px solid green; width: 30%">
+        <div class="m-5">Bienvenue sur Entreprise 22, votre plateforme dédiée à la mise en relation de particuliers avec
+            des artisans locaux. Notre mission est de simplifier votre recherche de services professionnels en vous
+            connectant directement avec des artisans qualifiés. Que vous ayez besoin d'un plombier, d'un électricien,
+            d'un coiffeur à domicile ou d'autres services spécialisés, Entreprise 22 est là pour vous aider à trouver
+            rapidement et efficacement la solution adaptée à vos besoins. Nous nous engageons à promouvoir la qualité du
+            service et la satisfaction client, tout en soutenant nos artisans locaux dans leur développement
+            professionnel. Explorez notre plateforme et découvrez comment Entreprise 2 facilite la vie quotidienne en
+            mettant l'accent sur la fiabilité, la proximité et l'excellence du service.
+        </div>
+        <div class="row">
+            <div class="col-md-8 bg-green d-flex align-items-center justify-content-center p-4">
+                <h2 class="text-center text-white">Trouvez vos artisans locaux dès aujourd'hui!</h2>
+            </div>
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                <img src="{% static 'artisanfinder/images/artisann.jpg' %}" alt="" class="img-fluid vertical-frame">
+            </div>
+        </div>
+        <div class="container mt-5">
+            <h4 class="container text-center ">Notre objectif est de faciliter la vie des particuliers en leur
+                offrant un accès simple et rapide à des artisans qualifiés et fiables.</h4>
+                br
+            <h2 class="section-title text-center mb-5">Nos Valeurs</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <h3 class="value-title">Qualité</h3>
+                        <p class="value-content">Nous nous assurons que chaque prestation soit à la hauteur des attentes
+                            de nos clients. Nos artisans sont sélectionnés sur des critères rigoureux pour garantir un
+                            service de qualité supérieure.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <h3 class="value-title">Confiance</h3>
+                        <p class="value-content">Nous vérifions les qualifications et les avis de chaque artisan pour
+                            assurer une totale transparence. Votre satisfaction et votre sécurité sont notre
+                            priorité.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="value-card text-center">
+                        <h3 class="value-title">Accessibilité</h3>
+                        <p class="value-content">Notre plateforme est conçue pour être facile à utiliser par tout le
+                            monde. Nous nous engageons à rendre nos services accessibles à tous, peu importe leur niveau
+                            de compétence numérique.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Le pieds de pages -->{% endblock %}
