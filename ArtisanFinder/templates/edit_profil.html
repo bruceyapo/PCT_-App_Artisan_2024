@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}édition du profil{% endblock %}
+
+{% block content %}
+
+<main>
+<h5 class="display-6 text-center my-3">Modifiez votre profil : </h5>
+
+<h1>Modifier le profil de {{ form.instance.nom }} {{ form.instance.prenom }}</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer les modifications</button>
+</form>
+
+
+
+</main>
+<!-- Le pieds de pages -->{% endblock %}

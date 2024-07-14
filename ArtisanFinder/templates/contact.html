@@ -5,10 +5,10 @@
 {% block content %}
 
 <main>
-<div class="container">
+<div class="container mt-5">
     <div class="contact-form">
-        <h2>Contactez-nous :</h2>
-        <form action="{% url 'contact' %}" method="post">
+        <h2 class="text-center bg-success text-white">Contactez-nous :</h2>
+        <form action="127.0.0.1:8000/contact/" method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="nom">Nom</label>

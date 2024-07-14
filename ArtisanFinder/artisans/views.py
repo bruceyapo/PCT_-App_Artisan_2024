@@ -1,12 +1,22 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm 
 # from .forms import CustomUserCreationForm
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import RegistrationForm
+
 from django.core.mail import send_mail
+
+from .models import Artisan, PortfolioPhoto
+from .forms import ArtisanForm, PortfolioPhotoForm,ArtisanSignUpForm, LoginForm, InscriptionClientForm
+from django.contrib.auth.forms import PasswordChangeForm
+
+
+
+
+
+
 
 
 # from ..auth_app.forms import ContactForm
@@ -22,6 +32,47 @@ def trouverArtisan_view(request) :
 
 def services_view(request) : 
    return render(request,'services.html')
+
+def choix_view(request) : 
+   return render(request,'choix_inscription.html')
+
+def inscriptionClient_view(request) : 
+   return render(request,'inscription_client.html')
+
+def profile_view(request) : 
+   return render(request,'profil.html')
+
+def edit_profile_view(request, artisan_id):
+    artisan = get_object_or_404(Artisan, id=artisan_id)
+    if request.method == 'POST':
+        form = ArtisanForm(request.POST, instance=artisan)
+        if form.is_valid():
+            form.save()
+            return redirect('profil', artisan_id=artisan.id)
+    else:
+        form = ArtisanForm(instance=artisan)
+    return render(request, 'edit_profil.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            numero_de_telephone = form.cleaned_data['numero_de_telephone']
+            mot_de_passe = form.cleaned_data['mot_de_passe']
+            se_souvenir_de_moi = form.cleaned_data['se_souvenir_de_moi']
+            
+            user = authenticate(request, numero_de_telephone=numero_de_telephone, password=mot_de_passe)
+            
+            if user is not None:
+                login(request, user)
+                if not se_souvenir_de_moi:
+                    request.session.set_expiry(0)  # Session expire à la fermeture du navigateur
+                return redirect('profil', artisan_id=user.id)
+            else:
+                form.add_error(None, "Numéro de téléphone ou mot de passe incorrect.")
+    else:
+        form = LoginForm()
+    return render(request, 'connexion.html', {'form': form})
 
 def contact_view(request):
    if request.method == 'POST':
@@ -43,12 +94,7 @@ def contact_view(request):
             fail_silently=False,
         )
 
-
-
-
-
-
-        # Traitez les données du formulaire (par exemple, en les enregistrant dans la base de données)
+      # Traitez les données du formulaire (par exemple, en les enregistrant dans la base de données)
 
       return HttpResponse('Merci pour votre message !')
    return render(request, 'contact.html')
@@ -82,28 +128,80 @@ def equipe_view(request):
    return render(request,'equipe.html')
 
 def inscription_view(request):
-   return render(request,'inscription.html')
+   return render(request,'inscription_artisan.html')
 
 def passwor_oublie_view(request):
    return render(request,'password_oublie.html')
 
-
-def inscription(request):
+def inscription_view(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST,request.FILES)
+        form = ArtisanSignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
+            user = form.save()
             login(request, user)
-            return redirect('home')
+            return redirect('login_view', artisan_id=user.id)
     else:
-        form = RegistrationForm()
-    return render(request, 'inscription.html', {'form': form})
+        form = ArtisanSignUpForm()
+    return render(request, 'inscription_artisan.html', {'form': form})
 
 
 
 
+
+
+
+def inscription_client_view(request):
+    if request.method == 'POST':
+        form = InscriptionClientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')  # Rediriger vers une page de succès d'inscription
+    else:
+        form = InscriptionClientForm()
+
+    return render(request, 'inscription_client.html', {'form': form})
+
+@login_required
+def profile_view(request, artisan_id):
+    artisan = get_object_or_404(Artisan, id=artisan_id)
+    return render(request, 'profil.html', {'artisan': artisan})
+
+@login_required
+def edit_profile_view(request, artisan_id):
+    artisan = get_object_or_404(Artisan, id=artisan_id)
+    if request.method == 'POST':
+        form = ArtisanForm(request.POST, request.FILES, instance=artisan)
+        if form.is_valid():
+            form.save()
+            return redirect('profil', artisan_id=artisan.id)
+    else:
+        form = ArtisanForm(instance=artisan)
+    return render(request, 'edit_profil.html', {'form': form})
+
+@login_required
+def change_password_view(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('profil', artisan_id=request.user.id)
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'edit_password.html', {'form': form})
+
+@login_required
+def add_portfolio_photo_view(request, artisan_id):
+    artisan = get_object_or_404(Artisan, id=artisan_id)
+    if request.method == 'POST':
+        form = PortfolioPhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save()
+            artisan.portfolio_photos.add(photo)
+            return redirect('profil', artisan_id=artisan.id)
+    else:
+        form = PortfolioPhotoForm()
+    return render(request, 'add_portfolio.html', {'form': form})
 
 
 

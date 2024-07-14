@@ -13,15 +13,27 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'email'
+EMAIL_HOST_PASSWORD = 'password'
+
+
+AUTH_USER_MODEL = "users_management.UserManage" 
+AUTH_USER_MODEL = 'artisans.Artisan'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!6s^*lipd)2t8j+%dfakz(x-ajtyqt2l4lpg$@%%(&+j5d^!+3'
+SECRET_KEY = 'django-insecure-)8=nt_5zn-#5fo=tv=#3xz&1stzn6zrh&6q3@l=b5+@x+cbbst'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ArtisanFinder',
     'artisans',
 ]
 
@@ -51,7 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'ArtisanFinder.urls'
+ROOT_URLCONF = 'artisans.urls'
 
 TEMPLATES = [
     {
@@ -76,6 +89,18 @@ WSGI_APPLICATION = 'ArtisanFinder.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+    
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'Artisan_DB',
+    #     'USER': 'root',
+    #     'PASSWORD': '',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '3306'
+        
+    # },
+      
+     
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
@@ -122,17 +147,12 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 
 MEDIA_URL = 'images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'email'
-EMAIL_HOST_PASSWORD = 'password'
-
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Par défaut
+    'artisans.backends.TelephoneBackend',        # Votre backend personnalisé
+]

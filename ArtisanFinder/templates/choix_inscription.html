@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Choix d'Inscription{% endblock %}
+{% block content %}
+
+<main>
+    <h2 class="display-6  my-4 text-center"> Inscription : </h2>
+    <section class=" mt-5">
+        <div class="contact-form row justify-content-center">
+            <div class="col-md-6 col-xl-3 text-center">
+
+
+                <div>
+                    <h4><label>Artisan </label></h4>
+
+                    <button class="btn btn-success btn-block"> <a class="text-white"
+                            href="{% url 'inscription'  %}">S'inscrire</a></button>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-xl-3 text-center ">
+                <div>
+                    <h4><label>Client </label></h4>
+                    <button class="btn btn-success btn-block"> <a class="text-white"
+                            href="/clientRegistration/">S'inscrire</a></button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    </div>
+    </div>
+
+</main>
+
+<!-- Le pieds de pages -->{% endblock %}

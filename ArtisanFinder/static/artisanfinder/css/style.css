@@ -28,7 +28,7 @@ font-family: "Josefin Sans", sans-serif;
     color: white;
     font-weight: bold;
 }
-
+ 
 .sidebar {
     position: fixed;
     top: 50%;
@@ -162,7 +162,8 @@ font-family: "Josefin Sans", sans-serif;
     
         input[type="text"], input[type="email"], input[type="password"], select {
             width: 100%; /* Ajustez la largeur selon vos besoins */
-            padding: 10px;
+            height: 20PX;
+            padding: 20px;
             border: 1px solid #6f8a69;
             border-radius: 10px; /* Ajustez le rayon des bordures selon vos besoins */
             box-sizing: border-box; /* Pour inclure le padding et la bordure dans la largeur totale */
@@ -170,10 +171,19 @@ font-family: "Josefin Sans", sans-serif;
             display: flex;
             justify-content: space-between;
         }
+        textarea{
+
+            width: 50%; /* Ajustez la largeur selon vos besoins */
+            padding: 20px;
+            display: flex;
+        }
+        
 
         .form-group {
             margin-bottom: 15px;
             width: 100%;
+          
+
         }
         
         .form-container {
@@ -190,13 +200,17 @@ font-family: "Josefin Sans", sans-serif;
             flex: 1 1 100%; /* Utilisé pour les éléments à pleine largeur, si nécessaire */
         }
         .form-section, .image-section {
-            flex: 1;
-            margin: 30px;
-            
+             flex: 1;
+            margin: 30px; 
+            width: 100%;
+            padding: 30px;
         }
         
+         
         .form-section {
-            max-width: 70%;
+            width: 50%;
+            margin:  auto;
+            padding: 30px;
         }
         
         .image-section img {
@@ -237,7 +251,259 @@ font-family: "Josefin Sans", sans-serif;
         .contact-form .btn:hover {
             background-color: #006400;
         }
-
        /* Fin de la Mise en forme de la page de contact */
     
+       .navbar-nav .nav-item .dropdown-menu {
+        left: auto;
+        right: 0;
+    }
+    .profile-pic {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    /* Style pour la section principale */
+.cont {
+    width:90%;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.slogan {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 1.7rem;
+    color: #555;
+    margin: 2rem;
+    font-style: italic;
+}
+
+.slogan img {
+    width: 50%; 
+    height: auto;
+    margin-bottom: 1rem;
+    border-radius: 5%; 
+    transition: all 0.5s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+.slogan img:hover
+{
+    transform: scale(1.07);
+}
+.slogan h2 {
+    font-size: 1.5rem;
+    color: #333;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Style pour la liste des métiers */
+.list-metier {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+/* Style pour chaque élément de la liste */
+.list-metier li {
+    margin: 10px;
+    padding: 1px;
+    flex: 1 1 calc(25% - 30px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.list-metier li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour les liens */
+.list-metier a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    text-align: center;
+}
+
+/* Style pour les figures */
+.list-metier figure {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style pour les images */
+.list-metier img {
+    max-width: 30%;
+    border-radius: 10px;
+}
+/* Style pour les légendes */
+.list-metier figcaption {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .list-metier li {
+        flex: 1 1 calc(50% - 30px);
+    }
+}
+
+@media (max-width: 480px) {
+    .list-metier li {
+        flex: 1 1 100%;
+    }
+}
+
+.vous {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.vous h1 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.arti {
+    display: flex;
+    justify-content: space-around;
+    /* align-items: center; */
+    flex-wrap: wrap;
+}
+
+.arti img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.arti p {
+    font-size: 1.2em;
+    color: #666;
+    margin: 20px 0 0 0;
+    max-width: 600px;
+    text-align: left;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+    margin: 20px;
+}
+
+h2 a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+h2 a:hover {
+    text-decoration: underline;
+}
+.vous {
+    max-width: 100%;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+}
+.vous h1 {
+    text-align: center;
+    color: #333;
+}
+.arti {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    flex-wrap: wrap;
+} 
+
+.portfolio {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    flex-wrap: wrap;
+} 
+
+ .arti img {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 25%;
+    height: auto;
+    border-radius: 8px;
+} 
+ .arti p {
+    font-size: 17px;
+    color: #555;
+    line-height: 1.6;
+    margin-top: 20px;
+    text-align: center;
+} 
+
+.slogan {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  width: 100%; 
+  border-radius: 5%;
+  background-color: rgb(244, 246, 250);
+  margin: 2rem;
+  font-style: italic;
+}
+
+.slogan img {
+  width: 50%; 
+  height: 260px;
+  border-radius: 5%; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.slogan h2 {
+  font-size: 1.5rem;
+  color: #333;
+  font-style: italic;
+  margin: 0;
+}
+.arti img {
+  display: flex;
+   flex-wrap: wrap; 
+  justify-content: space-around; 
+  width: 25%;
+  height: auto;
+  border-radius: 8px;
+}  
+.vous {
+background-color: #fff;
+padding: 20px;
+margin: 20px auto;
+width: 95%;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+text-align: center;
+}
+
+.vous h1 {
+color: #333;
+font-size: 2em;
+margin-bottom: 20px;
+}
 

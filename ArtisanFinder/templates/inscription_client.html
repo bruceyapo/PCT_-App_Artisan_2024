@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Inscription client{% endblock %}
+
+{% block content %}
+
+
+<main>
+
+    
+   
+    <div class="container mt-5">
+        
+        <div class="contact-form">
+            <h2 class="bg-success text-white text-center">Inscription client  </h2>
+            <form method="post" action="{% url 'client-inscription' %}">
+                {% csrf_token %}
+                <div>
+                    <label for="id_nom">Nom:</label>
+                    {{ form.nom }}
+                    <!-- Personnalisation des erreurs -->
+                    {% for error in form.nom.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            
+                <div>
+                    <label for="id_prenom">Prénom:</label>
+                    {{ form.prenom }}
+                    {% for error in form.prenom.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            
+                <div>
+                    <label for="id_ville_ou_commune">Ville ou Commune:</label>
+                    {{ form.ville_ou_commune }}
+                    {% for error in form.ville_ou_commune.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            
+                <div>
+                    <label for="id_numero_de_telephone">Numéro de téléphone:</label>
+                    {{ form.numero_de_telephone }}
+                    {% for error in form.numero_de_telephone.errors %}
+                        <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div>
+                    <label for="id_mot_de_passe">Mot de passe :</label>
+                    {{ form.mot_de_passe }}
+                    {% for error in form.mot_de_passe.errors %}
+                    <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div>
+                    <label for="id_confirmer_le_mot_de_passe">Confirmer le mot de passe :</label>
+                    {{ form.confirmer_le_mot_de_passe }}
+                    {% for error in form.confirmer_le_mot_de_passe.errors %}
+                    <div class="error">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            
+                <button class="btn btn-success" type="submit">S'inscrire</button>
+            </form>
+        </div>
+    </div>
+
+
+
+</main>
+
+
+
+
+
+
+
+
+<!-- Le pieds de pages -->{% endblock %}

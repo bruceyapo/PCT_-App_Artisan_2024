@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <head>
-    {% load static  %}
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
@@ -11,94 +11,104 @@
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="{% static 'artisanfinder/css/style.css' %}">
-     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="static/images">
-     
-     <!-- Bootstrap JS and dependencies -->
-     <script src="{% static 'artisanfinder/js/jquery.js'   %}"></script>
-     <script src="{% static 'artisanfinder/js/popper.js'   %}"></script>
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-     
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="{% static 'artisanfinder/js/jquery.js'   %}"></script>
+    <script src="{% static 'artisanfinder/js/popper.js'   %}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
 
-  <main>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-custom">
-        <a class="navbar-brand" href="/"><i class="fas fa-home"></i></a>
-        <img width="60px" height="40px" src="{% static 'artisanfinder/images/logo3.png' %}" alt="logo">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/"><i class="fas fa-home"></i> Accueil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/services/"><i class="fas fa-concierge-bell"></i> Nos services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/artisan/"><i class="fas fa-search"></i> Trouver un artisan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/espaceArtisan/"><i class="fas fa-briefcase"></i> Espace artisan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/connexion/"><i class="fas fa-sign-in-alt"></i> Connexion</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/contact/"><i class="fas fa-envelope"></i> Nous contacter</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/apropos/"><i class="fas fa-info-circle"></i> À propos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-user"></i></a>
-                </li>
-            </ul>
+    <main>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-custom">
+            <a class="navbar-brand" href="/"><i class="fas fa-home"></i></a>
+            <img width="60px" height="40px" src="{% static 'artisanfinder/images/logo3.png' %}" alt="logo">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/services/"><i class="fas fa-concierge-bell"></i> Nos services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/artisan/"><i class="fas fa-search"></i> Trouver un artisan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/espaceArtisan/"><i class="fas fa-briefcase"></i> Espace artisan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/connexion/"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact/"><i class="fas fa-envelope"></i> Nous contacter</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/apropos/"><i class="fas fa-info-circle"></i> À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user"></i></a>
+
+                    </li>
+                </ul>
+                
+            </div>
+        </nav>
+
+        <!-- Sidebar with Social Icons -->
+        <div class="sidebar">
+            <a href="https://web.facebook.com/artisan.finder.2024?mibextid=kFxxJD&_rdc=1&_rdr" target="_blank"><i
+                    class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/arti.sanfinder495" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.youtube.com/@FinderArtisan" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.whatsapp.com" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="http://tiktok.com/@artisan.finder" target="_blank"><i class="fab fa-tiktok"></i></a>
         </div>
-    </nav>
 
-    <!-- Sidebar with Social Icons -->
-    <div class="sidebar">
-        <a href="https://web.facebook.com/artisan.finder.2024?mibextid=kFxxJD&_rdc=1&_rdr" target="_blank"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-        <a href="https://www.whatsapp.com" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
-  </main>
+        <!-- Main Content -->
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
     <!-- Footer -->
     <footer class="footer p-5">
         <div class="footer_row bg-success">
             <ul class="col-12 text-center my-3">
                 <li class="d-inline-block m-3">
-                    <a href="/mentions-legales" title="Vers la page les mentions légales de l'entreprise 22" rel="nofollow" class="text-decoration-none text-white">Mentions légales</a>
+                    <a href="/mentions-legales" title="Vers la page les mentions légales de l'entreprise 22"
+                        rel="nofollow" class="text-decoration-none text-white">Mentions légales</a>
                 </li>
                 <li class="d-inline-block m-3">
-                    <a href="/vieprivee" title="Vers la page vie privée du site Artisan Finder" rel="nofollow" class="text-decoration-none text-white">Vie privée</a>
+                    <a href="/vieprivee" title="Vers la page vie privée du site Artisan Finder" rel="nofollow"
+                        class="text-decoration-none text-white">Vie privée</a>
                 </li>
                 <li class="d-inline-block m-3">
-                    <a href="/cgu" title="Vers la page des conditions générales d'utilisation du Artisan Finder" rel="nofollow" class="text-decoration-none text-white">CGU</a>
+                    <a href="/cgu" title="Vers la page des conditions générales d'utilisation du Artisan Finder"
+                        rel="nofollow" class="text-decoration-none text-white">CGU</a>
                 </li>
                 <li class="d-inline-block m-3">
-                    <a href="/cgv" title="Vers la page des conditions générales de vente du site Artisan Finder" rel="nofollow" class="text-decoration-none text-white">CGV</a>
+                    <a href="/cgv" title="Vers la page des conditions générales de vente du site Artisan Finder"
+                        rel="nofollow" class="text-decoration-none text-white">CGV</a>
                 </li>
                 <li class="d-inline-block m-3">
-                    <a href="/equipe" title="Vers la page de l'équipe" rel="nofollow" class="text-decoration-none text-white">Equipe</a>
+                    <a href="/equipe" title="Vers la page de l'équipe" rel="nofollow"
+                        class="text-decoration-none text-white">Equipe</a>
                 </li>
                 <li class="d-inline-block m-3">
-                    <a href="/contact" title="Vers la page de contact" rel="nofollow" class="text-decoration-none text-white">Contact</a>
+                    <a href="/contact" title="Vers la page de contact" rel="nofollow"
+                        class="text-decoration-none text-white">Contact</a>
                 </li>
             </ul>
             <p class="text-white text-center">© Entreprise 22 2024</p>

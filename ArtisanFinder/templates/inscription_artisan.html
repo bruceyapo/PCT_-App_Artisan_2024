@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+
+
+<main>
+    <!-- Main Content -->
+
+    <div class="container block mt-5">
+
+        <div class="contact-form row">
+            <h2 class="bg-success text-white text-center">Inscription artisan  </h2>
+
+            <form method="post" action="{% url 'inscription' %}" enctype="multipart/form-data" class="mt-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.nom.label_tag }}
+                    {{ form.nom }}
+                    {% if form.nom.errors %}
+                    <div class="text-danger">{{ form.nom.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.prenom.label_tag }}
+                    {{ form.prenom }}
+                    {% if form.prenom.errors %}
+                    <div class="text-danger">{{ form.prenom.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.genre.label_tag }}
+                    {{ form.genre }}
+                    {% if form.genre.errors %}
+                    <div class="text-danger">{{ form.genre.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.numero_de_telephone.label_tag }}
+                    {{ form.numero_de_telephone }}
+                    {% if form.numero_de_telephone.errors %}
+                    <div class="text-danger">{{ form.numero_de_telephone.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <div class="text-danger">{{ form.email.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.domaine_activite.label_tag }}
+                    {{ form.domaine_activite }}
+                    {% if form.metier.errors %}
+                    <div class="text-danger">{{ form.domaine_activite.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.ville_ou_commune.label_tag }}
+                    {{ form.ville_ou_commune }}
+                    {% if form.ville_ou_commune.errors %}
+                    <div class="text-danger">{{ form.ville_ou_commune.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.localisation_atelier.label_tag }}
+                    {{ form.localisation_atelier }}
+                    {% if form.localisation_atelier.errors %}
+                    <div class="text-danger">{{ form.localisation_atelier.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.photo_de_profil.label_tag }}
+                    {{ form.photo_de_profil }}
+                    {% if form.photo_de_profil.errors %}
+                    <div class="text-danger">{{ form.photo_de_profil.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.mot_de_passe.label_tag }}
+                    {{ form.mot_de_passe }}
+                    {% if form.mot_de_passe.errors %}
+                    <div class="text-danger">{{ form.mot_de_passe.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirmer_le_mot_de_passe.label_tag }}
+                    {{ form.confirmer_le_mot_de_passe }}
+                    {% if form.confirmer_le_mot_de_passe.errors %}
+                    <div class="text-danger">{{ form.confirmer_le_mot_de_passe.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <hr>
+                <input type="submit" class="btn btn-success btn-block" value="S'inscrire">
+            </form>
+
+        </div>
+    </div>
+
+
+
+</main>
+<!-- Le pieds de pages -->{% endblock %}

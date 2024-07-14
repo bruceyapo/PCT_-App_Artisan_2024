@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profil{% endblock %}
+
+{% block content %}
+
+<main>
+<h5 class="display-6 text-center my-3"> </h5>
+
+<h1 class=" display-6 text-center my-3 bg-succes  text-center ">Profil de {{ artisan.nom }} {{ artisan.prenom }}</h1>
+{% if artisan.photo_profil %}
+    <img src="{{ artisan.photo_profil.url }}" alt="Photo de profil">
+{% endif %}
+<p><strong>Genre :</strong> {{ artisan.genre }}</p>
+<p><strong>Numéro de téléphone :</strong> {{ artisan.numero_telephone }}</p>
+<p><strong>Email :</strong> {{ artisan.email }}</p>
+<p><strong>Domaine d'activité :</strong> {{ artisan.domaine_activite }}</p>
+<p><strong>Ville ou Commune :</strong> {{ artisan.ville_commune }}</p>
+<p><strong>Localisation géographique :</strong> {{ artisan.localisation_geographique }}</p>
+<p><strong>Diplômes ou certificats :</strong> {{ artisan.titres_diplomes }}</p>
+<p><strong>Années d'expérience :</strong> {{ artisan.annees_experience }}</p>
+<h2>Portfolio</h2>
+{% for photo in artisan.portfolio_photos.all %}
+<div class=" portfolio">
+    <img src="{{ photo.photo.url }}" alt="Photo du portfolio">
+</div>
+    
+{% endfor %}
+<div class="text-center">
+<a class="  " href="{% url 'edit_profile_view' artisan.id %}">Modifier le profil  </a>
+<a href="{% url 'change_password_view' %}">Changer le mot de passe  </a>
+<a href="{% url 'add_portfolio_photo_view' artisan.id %}">Ajouter une photo au portfolio</a>
+</div>
+
+
+
+</main>
+<!-- Le pieds de pages -->{% endblock %}
