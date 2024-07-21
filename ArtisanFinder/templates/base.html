@@ -18,51 +18,55 @@
     <script src="{% static 'artisanfinder/js/jquery.js'   %}"></script>
     <script src="{% static 'artisanfinder/js/popper.js'   %}"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'artisanfinder/js/scripts.js'   %}" defer></script>
+    <script src="{% static 'artisanfinder/js/scripts.js'   %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Fontawesome Link for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
 </head>
 
 <body>
 
     <main>
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-custom">
-            <a class="navbar-brand" href="/"><i class="fas fa-home"></i></a>
-            <img width="60px" height="40px" src="{% static 'artisanfinder/images/logo3.png' %}" alt="logo">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/services/"><i class="fas fa-concierge-bell"></i> Nos services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/artisan/"><i class="fas fa-search"></i> Trouver un artisan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/espaceArtisan/"><i class="fas fa-briefcase"></i> Espace artisan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/connexion/"><i class="fas fa-sign-in-alt"></i> Connexion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact/"><i class="fas fa-envelope"></i> Nous contacter</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/apropos/"><i class="fas fa-info-circle"></i> À propos</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-user"></i></a>
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <a href="/"><img width="150px" height="50px" src="{% static 'artisanfinder/images/logo_new.png' %}"
+                            alt="logo"></a>
+                    <!-- <h1>ArtisanFinder</h1> -->
+                </div>
+                <nav>
+                    <ul>
 
-                    </li>
-                </ul>
-                
+                        <li class="btn"><a class="nav-link" href="/"><i class="fas fa-home"></i> Accueil</a></li>
+                        <li class="btn"><a class="nav-link" href="/artisan/"><i class="fas fa-search"></i> Trouver un
+                                artisan</a></li>
+                        <li class="btn"><a class="nav-link" href="/services/"><i class="fas fa-concierge-bell"></i> Nos
+                                services</a></li>
+                        <li class="btn"><a class="nav-link" href="/connexion/"><i class="fas fa-sign-in-alt"></i>
+                                Connexion</a></li>
+                        <li class="btn"><a class="nav-link" href="/apropos/"><i class="fas fa-info-circle"></i> À
+                                propos</a></li>
+                        <li class="btn"><a class="nav-link" href="/contact/"><i class="fas fa-envelope"></i> Contact</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-user"></i></a></li>
+                    </ul>
+                </nav>
             </div>
-        </nav>
+        </header>
+        <!-- Bloc flottant -->
+        <a href="/artisan/">
+            <div class="background-block">
+                <div class="floating-text">
+                    Trouver les meilleurs artisans près de chez vous !
+                </div>
+            </div>
+        </a>
 
         <!-- Sidebar with Social Icons -->
         <div class="sidebar">
@@ -76,15 +80,37 @@
             <a href="http://tiktok.com/@artisan.finder" target="_blank"><i class="fab fa-tiktok"></i></a>
         </div>
 
+
+        <!-- Vidéo flottante -->
+        <div id="floating-video-container">
+            <div id="video-controls">
+                <button id="close-button">X</button>
+                <button id="toggle-size-button">⇔</button>
+            </div>
+            <video id="floating-video" width="300" muted>
+                <source src="{% static 'artisanfinder/vidéos/video1.mp4' %}" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo HTML5.
+            </video>
+            <div id="playlist">
+                <video src="{% static 'artisanfinder/vidéos/video2.mp4' %}"></video>
+                <video src="video3.mp4"></video>
+                <!-- Ajoutez d'autres vidéos ici -->
+            </div>
+        </div>
+
+
+
+
         <!-- Main Content -->
-        <div class="container">
+        <div class="">
             {% block content %}
             {% endblock %}
         </div>
+
     </main>
     <!-- Footer -->
     <footer class="footer p-5">
-        <div class="footer_row bg-success">
+        <div class="footer_row bg-dark">
             <ul class="col-12 text-center my-3">
                 <li class="d-inline-block m-3">
                     <a href="/mentions-legales" title="Vers la page les mentions légales de l'entreprise 22"

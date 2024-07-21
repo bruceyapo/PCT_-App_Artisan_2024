@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Connexion{% endblock %}
+{% block title %}Trouver artisan{% endblock %}
 
 {% block content %}>
 
@@ -13,7 +13,20 @@
                 <div class="form-group col-md-6">
                     <label for="activity">Domaine d'activité</label>
                     <br>
-                    <input type="text" class="form-control" id="activity" placeholder="Ex: Plombier, Électricien">
+                    <select class="form-select form-select-lg mb-3 " id="options" name="options" onchange="updateSelectedOption()">
+                        <option selected>Choisissez un metier</option>
+                        <option value="1">Mécanicien</option>
+                        <option value="2">Plombier</option>
+                        <option value="3">Electricien</option>
+                        <option value="4">Electronicien</option>
+                        <option value="5">Peintre</option>
+                        <option value="6">Carreleur</option>
+                        <option value="7">Maçon</option>
+                        <option value="8">Vitrier</option>
+                        <option value="9">Ferronier</option>
+                        <option value="10">Menuisier</option>
+                      </select>
+                      <p>Vous avez sélectionné : <span id="selectedOption">Aucun metier</span></p>
                 </div>
                 <br>
                 <div class="form-group col-md-6">
@@ -23,8 +36,18 @@
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Rechercher</button>
+            <button type="submit" class="btn-custom">Rechercher</button>
         </form>
+
+        <script>
+            function updateSelectedOption() {
+                var select = document.getElementById("options");
+                var selectedOption = select.options[select.selectedIndex].text;
+                document.getElementById("selectedOption").innerText = selectedOption;
+            }
+        </script>
+
+
     </div>
 
     <!-- OpenStreetMap -->

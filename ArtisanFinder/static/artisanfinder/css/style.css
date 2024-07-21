@@ -1,5 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+/* Début de la mise en forme de la navbar */
+header {
+    background-color: #ada5a57a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #ff6f61;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    font-weight: bold;
+}
+
+header nav ul li {
+    margin-left: 1rem;
+}
+
+header nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s;
+}
+
+header nav ul li a:hover {
+    background-color: #27e08a;
+    color: #fff;
+    border-radius: 6px;
+    transform: scale(1.1);
+    background-color: #43ce94;
+}
+/* Fin de la mise en forme de la navbar */
 
 .body{
  font-family: "Lato", sans-serif;
@@ -14,27 +63,109 @@ font-family: "Josefin Sans", sans-serif;
   font-style: normal;
 }
 
-.carousel-container {
+/* .carousel-container {
     max-width: 50%;
-    margin: auto;
+    margin: 50%;
+} */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  body {
+    /* display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; */
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(to left top, #b46d9f3d, #c2d4bd60 );
+  }
+
+
+/* Styles pour le slider de cartes 3D */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box; 
+	list-style: none;
+}
+.slide {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-image: url(../images/);
+	background-size: cover;
+	background-position: center center;
+}
+.slideshow {
+	position: absolute;
+	width: 800px;
+	margin: auto;
+	overflow: hidden;
+	box-shadow: 0 20px 20px 5px rgba(0, 0, 0, 0.3);
+	border-radius: 15px;
+}
+.slideshow ul {
+	position: relative;
+	left: 0;
+	width: 7000px;
+	transition: left .3s linear;
+	animation: slide 15s infinite;
+}
+.slideshow ul li {
+	display: inline-block;
+	height: auto;
+	float: none;
+	width: 800px;
+}
+.single-img {
+	margin: 0 auto;
+	padding: 0;
+	width: 800px;
+    height: 400px;
+}
+.single-img img {
+	width: 100%;
+}
+@keyframes slide {
+	20% {
+		left: 0;
+	}
+	25% {
+		left: -800px;
+	}
+	45% {
+		left: -800px;
+	}
+	50% {
+		left: -1600px;
+	}
+	70% {
+		left: -1600px;
+	}
+	75% {
+		left: -2400px;
+	}
+	98% {
+		left: -2400px;
+	}
+	100% {
+		left: 0;
+	}
 }
 
-.navbar-custom {
-    background-color: #008000;
-}
-
-.navbar-custom .navbar-brand,
-.navbar-custom .nav-link {
-    color: white;
-    font-weight: bold;
-}
  
+
+/* Styles pour le sidebar */
 .sidebar {
     position: fixed;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    background-color: #008000;
+    background-color: #2c302c;
     border-radius: 0 10px 10px 0;
     padding: 10px;
     z-index: 1000;
@@ -171,6 +302,19 @@ font-family: "Josefin Sans", sans-serif;
             display: flex;
             justify-content: space-between;
         }
+          /* Mise en forme de la balise select sur la page Trouver un artisan */
+        .form-select{
+
+            width: 100%; /* Ajustez la largeur selon vos besoins */
+            height: 30px;
+            padding: 20px;
+            border: 1px solid #6f8a69;
+            border-radius: 10px; 
+
+
+        }
+
+
         textarea{
 
             width: 50%; /* Ajustez la largeur selon vos besoins */
@@ -181,11 +325,18 @@ font-family: "Josefin Sans", sans-serif;
 
         .form-group {
             margin-bottom: 15px;
+            width: 60%;
+          
+
+        }
+        .form-group1 {
+            margin-bottom: 15px;
             width: 100%;
           
 
         }
-        
+
+
         .form-container {
             display: flex;
             flex-wrap: wrap;
@@ -338,6 +489,11 @@ font-family: "Josefin Sans", sans-serif;
     margin: 0;
     padding: 0;
 }
+.cont{
+background-image: url(../images/);
+
+background-repeat: no-repeat;
+}
 
 /* Style pour les images */
 .list-metier img {
@@ -424,6 +580,41 @@ h2 a:hover {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     border-radius: 8px;
 }
+.btn-custom {
+    background-color: #ffffff; /* Fond blanc */
+    color: #5cb85c; /* Texte vert */
+    border: 2px solid #5cb85c; /* Bordure initiale verte */
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 25px; /* Bordure arrondie */
+    transition: color 0.3s, background-color 0.3s, border-color 0.3s, transform 0.3s;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-custom:hover {
+    background-color: #5cb85c; /* Fond vert au survol */
+    color: #ffffff; /* Texte blanc au survol */
+    border-color: #5cb85c; /* Bordure verte au survol */
+    transform: scale(1.05); /* Légèrement agrandir le bouton au survol */
+}
+.image-section {
+    flex: 0 0 300px; /* Vous pouvez ajuster la largeur selon vos besoins */
+    padding: 20px;
+}
+
+.right-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: bloc;
+    margin-left: auto;
+}
+
+
 .vous h1 {
     text-align: center;
     color: #333;
@@ -507,3 +698,195 @@ font-size: 2em;
 margin-bottom: 20px;
 }
 
+/* Debut de la mise en forme du contenu de la page d'accueil */
+.categories {
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.category-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.category-item {
+    width: 160px;
+    text-align: center;
+    padding: 1rem;
+    border: 1px solid #4acc9a;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+
+.category-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.category-item i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #ff6f61;
+}
+
+.testimonials {
+    background-color: #fff;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.testimonial-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.testimonial-item {
+    width: 240px;
+    padding: 1rem;
+    border: 1px solid #e06328;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.testimonial-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.etape {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+.etape img {
+    width: 150px; /* Taille de l'image */
+    height: 150px;
+  }
+
+.cta {
+    /* background-color: #474241; */
+    
+    background-image: url('../images/abstract-luxury-gradient-blue.jpg');
+    /* background-size: cover; */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 60%;
+    height: 100vh;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    align-content: center;
+
+}
+
+
+
+.cta-container {
+    display: flex;
+    align-items: center;
+    gap: 7rem;
+    align-content: center;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.cta-image {
+    width: 300px; /* Ajustez la taille selon vos besoins */
+    height: 300px;
+}
+/* style pour la vidéo flottante */
+#floating-video-container {
+    position: fixed;
+    right: 0;
+    bottom: 20px;
+    width: 300px;
+    z-index: 1000;
+    transition: width 0.3s, height 0.3s;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  
+  #video-controls {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #FF5841;
+  }
+  
+  #video-controls button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  #floating-video {
+    width: 100%;
+    height: auto;
+  }
+  
+  #playlist {
+    display: none;
+    background: white;
+    padding: 10px;
+  }
+  
+  #playlist video {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+  /* Style pour le second slider */
+  .carousel{
+    height: 300px; 
+    perspective: 300px;
+	margin-top: 5%;
+}
+.carousel .carousel-item {
+	width: 240px;
+	height: 190px;
+	box-shadow: 0 0 40px #61dafb, 0 0 40px #61dafb, 0 0 40px #61dafb;
+	animation: animate 2s infinite alternate;
+	border-radius: 15px;
+}
+
+@keyframes animate {
+    to {
+      box-shadow: 0 0 50px #43ec84b0, 0 0 50px #43ec84b0, 0 0 50px #43ec84b0;
+    }
+  }
+  .background-block {
+    background-image: url(../images/bricoleur-bleu.jpg); 
+    background-size: cover;
+    background-position: center;
+    height: 50px;
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    transform: translateY(-5px);
+
+}
+
+.floating-text {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
