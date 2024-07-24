@@ -21,6 +21,19 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 # from ..auth_app.forms import ContactForm
 
+def plombier_view(request) :
+   return render(request, 'services/plombier.html')
+
+
+def menuisier_view(request) :
+   return render(request, 'services/menuisier.html')
+
+def bijoutier_view(request) :
+   return render(request, 'services/bijoutier.html')
+
+
+
+
 def accueil_view(request) :
    return render(request, 'accueil.html')
 

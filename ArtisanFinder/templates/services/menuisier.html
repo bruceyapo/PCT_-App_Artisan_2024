@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Menuisier{% endblock %}
+
+{% block content %}
+
+<main>
+    <div class="container">
+        <h1 class="text-center mt-5">Trouvez les meilleurs menuisiers près de chez vous!</h1>
+
+        <div class="search-container">
+            <select id="carpentry-work" onchange="displaySelectedWork()">
+                <option value="" disabled selected>Choisissez un travail de menuiserie</option>
+                <option value="fabrication">Fabrication de portes</option>
+                <option value="fabrication">Fabrication de fenêtres</option>
+                <option value="fabrication">Fabrication d'escaliers</option>
+                <option value="fabrication">Fabrication de placards</option>
+                <option value="fabrication">Fabrication de meubles sur-mesure</option>
+                <option value="reparation">Réparation</option>
+                <option value="entretien">Entretien</option>
+            </select>
+
+            <input type="text" id="location-input" placeholder="Entrez votre localisation..." class="location-input">
+            <button class="btn-custom" onclick="filterByLocation()">Rechercher</button>
+
+        </div>
+        <div id="selected-work" class="selected-work"></div>
+       
+        <div class="carpenters-list">
+            <div class="carpenter-card" data-location="Abidjan">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 1" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Doumbia Allassane</h2>
+                    <p>Note: ★★★★☆</p>
+                    <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
+                    <hr>
+                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="review">"Excellent service, rapide et efficace!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <div class="carpenter-card" data-location="Abidjan">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Marie France Kouamé</h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Qualité et précision!"</p>
+                    <hr>
+                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="review">"Très satisfaite du travail effectué!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+            <div class="carpenter-card" data-location="Bouaké">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Coulibaly Kolan</h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Qualité et précision!"</p>
+                    <hr>
+                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="review">"Très satisfaite du travail effectué!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+            <div class="carpenter-card" data-location="Bouaké">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>David Kouadio </h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Meilleur finission de rendu !"</p>
+                    <hr>
+                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="review">"Wouahh Meuble très jolie!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+            <div class="carpenter-card" data-location="Yopougon">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Aboubacar Sanogo </h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Travail bien fait et livré !"</p>
+                    <hr>
+                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="review">"Délais de livraison respecté"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+            <div class="carpenter-card" data-location="Yopougon">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 1" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Doumbia Allassane</h2>
+                    <p>Note: ★★★★☆</p>
+                    <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
+                    <hr>
+                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="review">"Excellent service, rapide et efficace!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <div class="carpenter-card" data-location="Yopougon">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Touré Losseni </h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Travail bien fait et livré !"</p>
+                    <hr>
+                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="review">"Délais de livraison respecté"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+        </div>
+        <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité
+            .</div>
+
+    </div>
+    <script src="{% static 'artisanfinder/js/scripts.js}"></script>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+</main>
+
+
+
+
+<!-- Le pieds de pages -->{% endblock %}

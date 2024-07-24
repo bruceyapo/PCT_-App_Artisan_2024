@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}A Propos{% endblock %}
+
+{% block content %}
+
+<main>
+
+
+    <div class="container">
+        <h1 class="mt-5">Trouvez les meilleurs plombiers près de chez vous!</h1>
+
+        <div class="search-container mt-3">
+            <select id="plumbing-work">
+                <option value="" disabled selected>Choisissez un travail de plomberie</option>
+                <option value="installation">Installation</option>
+                <option value="reparation">Réparation</option>
+                <option value="entretien">Entretien</option>
+            </select>
+            <input type="text" placeholder="Entrez votre localisation..." class="location-input">
+            <button class="search-button">Rechercher</button>
+        </div>
+
+        <div class="plumbers-list">
+            <div class="plumber-card">
+                <div class="profile-pic-container">
+                    <img src="" alt="Plombier 1" class="profile-pic">
+                </div>
+                <div class="plumber-info">
+                    <h2>Jean Dupont</h2>
+                    <p>Note: ★★★★☆</p>
+                    <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
+                    <hr>
+                    <p>Avis le plus récent :</p>
+                    <br>
+                    <p class="review">"Excellent service, rapide et efficace!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le plombier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de plombiers ici -->
+            <div class="plumber-card">
+                <div class="profile-pic-container">
+                    <img src="" alt="Plombier 1" class="profile-pic">
+                </div>
+                <div class="plumber-info">
+                    <h2>Kouamé Franck</h2>
+                    <p>Note: ★★★★☆</p>
+                    <p class="slogan-artisan">"Le travail bien fait est ma devise !"</p>
+                    <hr>
+                    <p>Avis le plus récent :</p>
+                    <br>
+                    <p class="review">"Travail impécable !"</p>
+                    <br>
+                    <button class="contact-button">Contacter le plombier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de plombiers ici -->
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</main>
+
+
+
+
+<!-- Le pieds de pages -->{% endblock %}

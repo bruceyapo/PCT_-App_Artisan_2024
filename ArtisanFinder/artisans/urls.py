@@ -31,5 +31,7 @@ urlpatterns = [
     path('artisan/change-password/', views.change_password_view, name='change_password_view'),
     path('artisan/<int:artisan_id>/add-portfolio-photo/', views.add_portfolio_photo_view, name='add_portfolio_photo_view'),
     # path('profil/', views.profil_view, name='profil'),
-    
+    path('plombier/', views.plombier_view, name= 'plombier'),
+    path('menuisier/', views.menuisier_view, name= 'menuisier'),
+    path('bijoutier/', views.bijoutier_view, name= 'bijoutier'),
 ]
