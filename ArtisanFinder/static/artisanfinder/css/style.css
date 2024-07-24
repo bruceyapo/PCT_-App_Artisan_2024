@@ -6,7 +6,8 @@
 header {
     background-color: #ada5a57a;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1rem 0;
+    /* padding: 1rem 0; */
+    padding: auto;
 }
 
 header .container {
@@ -16,7 +17,7 @@ header .container {
 }
 
 header .logo h1 {
-    margin: 0;
+    margin: auto;
     font-size: 1.5rem;
     color: #ff6f61;
 }
@@ -37,8 +38,9 @@ header nav ul li a {
     color: #333;
     text-decoration: none;
     font-weight: bold;
-    padding: 0.5rem 1rem;
+    padding: auto; 
     transition: background-color 0.3s;
+    /* padding: 0.5rem 1rem; */
 }
 
 header nav ul li a:hover {
@@ -188,7 +190,12 @@ font-family: "Josefin Sans", sans-serif;
     object-fit: cover;
     object-position: center;
 }
+.mt1{
+ text-align: left;
 
+
+
+}
 .bg-green {
     background-color: #008000;
     color: white;
@@ -317,7 +324,7 @@ font-family: "Josefin Sans", sans-serif;
 
         textarea{
 
-            width: 50%; /* Ajustez la largeur selon vos besoins */
+            width: 100%; /* Ajustez la largeur selon vos besoins */
             padding: 20px;
             display: flex;
         }
@@ -325,7 +332,7 @@ font-family: "Josefin Sans", sans-serif;
 
         .form-group {
             margin-bottom: 15px;
-            width: 60%;
+            width: 100%;          /* Ajustez la largeur des inputs */
           
 
         }
@@ -334,6 +341,12 @@ font-family: "Josefin Sans", sans-serif;
             width: 100%;
           
 
+        }
+
+        .form-group2{
+
+            margin-bottom: 15px;
+            width: 60%;                /* Ajustez la largeur des inputs  de la page trouver un artisan */
         }
 
 
@@ -376,7 +389,7 @@ font-family: "Josefin Sans", sans-serif;
         
         .contact-form {
             width: 50%;
-            margin: 50px auto;
+            margin:  auto;
             padding: 30px;
             border-radius: 10px;
             border: 1px solid #008000;
@@ -404,10 +417,10 @@ font-family: "Josefin Sans", sans-serif;
         }
        /* Fin de la Mise en forme de la page de contact */
     
-       .navbar-nav .nav-item .dropdown-menu {
+       /* .navbar-nav .nav-item .dropdown-menu {
         left: auto;
         right: 0;
-    }
+    } */
     .profile-pic {
         width: 40px;
         height: 40px;
@@ -585,7 +598,8 @@ h2 a:hover {
     color: #5cb85c; /* Texte vert */
     border: 2px solid #5cb85c; /* Bordure initiale verte */
     padding: 10px 20px;
-    font-size: 18px;
+    font-size: 15px;
+    font-weight: bold;
     border-radius: 25px; /* Bordure arrondie */
     transition: color 0.3s, background-color 0.3s, border-color 0.3s, transform 0.3s;
     display: inline-block;
@@ -791,15 +805,21 @@ margin-bottom: 20px;
 .cta-container {
     display: flex;
     align-items: center;
-    gap: 7rem;
+    gap: 5rem;
     align-content: center;
     margin-left: 2%;
     margin-right: 2%;
 }
 
-.cta-image {
+.cta-image1 {
     width: 300px; /* Ajustez la taille selon vos besoins */
     height: 300px;
+    border-radius:50% 50% 0% 100% / 0% 1% 99% 100%  ;
+}
+.cta-image2 {
+    width: 300px; /* Ajustez la taille selon vos besoins */
+    height: 300px;
+    border-radius:0% 100% 100% 0% / 0% 0% 100% 100% ;
 }
 /* style pour la vidéo flottante */
 #floating-video-container {
@@ -889,4 +909,213 @@ margin-bottom: 20px;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
+}
+/*  Style pour la mise en relation clients --- Artisans */ 
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#carpentry-work, #plumbing-work, .location-input {
+    padding: 22px;
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+}
+
+.carpenters-list, .plumbers-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.carpenter-card, .plumber-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 15px;
+    padding: 20px;
+    text-align: left;
+}
+
+.profile-pic-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background: #f0f0f0;
+    position: relative;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.profile-pic-container img[src=""] {
+    display: none;
+}
+
+.profile-pic-container:before {
+    content: "\1F464"; /* Unicode for user icon */
+    /* content: url('../images/profil.png'); Unicode for user icon */
+    font-size: 50px;
+    color: #ccc;
+    position: absolute;
+}
+
+.carpenter-info, .plumber-info h2 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.plumber-info p {
+    margin: 5px 0;
+}
+
+.contact-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+
+.contact-button:hover {
+    background-color: #218838;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#carpentry-work, .location-input{
+    padding: 20px;
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.search-button {
+    background-color: #28860b;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.search-button:hover {
+    background-color: #0ca82e;
+}
+
+.carpenters-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.carpenter-card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 15px;
+    padding: 20px;
+    text-align: left;
+    display: none; /* Masquer les cartes par défaut */
+}
+
+.profile-pic-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background: #f0f0f0;
+    position: relative;
+}
+
+.profile-pic {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.profile-pic-container img[src=""] {
+    display: none;
+}
+
+.profile-pic-container:before {
+    content: "\1F464"; /* Unicode for user icon */
+    font-size: 100px;
+    color: #ccc;
+    position: absolute;
+}
+
+.carpenter-info h2 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.carpenter-info p {
+    margin: 5px 0;
+}
+.avis{
+   font-style: italic;
+   font-size: medium;
+   font-weight: bold;
+
+}
+.contact-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+
+.contact-button:hover {
+    background-color: #218838;
+}
+
+.no-results {
+    display: none;
+    color: red;
+    font-size: 1.2em;
+    margin-top: 20px;
+    text-align: center;
 }

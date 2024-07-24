@@ -70,3 +70,43 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(autoplay, 4500);
   }
   });
+
+  // Filtre selon la localisation :
+
+  function filterByLocation() {
+    const locationInput = document.getElementById('location-input').value.toLowerCase();
+    const cards = document.querySelectorAll('.carpenter-card');
+    let found = false;
+
+    cards.forEach(card => {
+        const cardLocation = card.getAttribute('data-location').toLowerCase();
+        if (cardLocation.includes(locationInput)) {
+            card.style.display = 'block';
+            found = true;
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    const noResultsMessage = document.getElementById('no-results');
+    if (found) {
+        noResultsMessage.style.display = 'none';
+    } else {
+        noResultsMessage.style.display = 'block';
+    }
+}
+
+// Affiche la selection :
+
+function updateSelectedOption() {
+  var select = document.getElementById("options");
+  var selectedOption = select.options[select.selectedIndex].text;
+  document.getElementById("selectedOption").innerText = selectedOption;
+}
+
+function displaySelectedWork() {
+  const selectElement = document.getElementById('carpentry-work');
+  const selectedWork = selectElement.options[selectElement.selectedIndex].text;
+  const selectedWorkDiv = document.getElementById('selected-work');
+  selectedWorkDiv.textContent = `Travail sélectionné : ${selectedWork}`;
+}

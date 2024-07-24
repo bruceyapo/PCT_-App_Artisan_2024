@@ -10,7 +10,7 @@
         <h1 class="display-5">Trouver un artisan</h1>
         <form id="searchForm">
             <div class="form-row">
-                <div class="form-group col-md-6">
+                <div class="form-group2 col-md-6">
                     <label for="activity">Domaine d'activité</label>
                     <br>
                     <select class="form-select form-select-lg mb-3 " id="options" name="options" onchange="updateSelectedOption()">
@@ -29,23 +29,250 @@
                       <p>Vous avez sélectionné : <span id="selectedOption">Aucun metier</span></p>
                 </div>
                 <br>
-                <div class="form-group col-md-6">
+                <div class="form-group2 col-md-6">
                     <label for="location">Votre localisation</label>
                     <br>
-                    <input type="text" class="form-control" id="location" placeholder="Ex: Abidjan, Yopougon, Bouaké">
+                    <input type="text" class="form-control" id="location-input" placeholder="Ex: Abidjan, Yopougon, Bouaké">
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn-custom">Rechercher</button>
+            <button class="btn-custom" onclick="filterByLocation()">Rechercher</button>
         </form>
 
-        <script>
-            function updateSelectedOption() {
-                var select = document.getElementById("options");
-                var selectedOption = select.options[select.selectedIndex].text;
-                document.getElementById("selectedOption").innerText = selectedOption;
-            }
-        </script>
+        <!-- Liste des artisan -->
+<div class="carpenters-list">
+            <div class="carpenter-card" data-location="Abidjan">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 1" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Doumbia Allassane</h2>
+                    <p>Note: ★★★★☆</p>
+                    <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
+                    <hr>
+                    <p class="text-center">Avis le plus récent :</p>
+                    <p class="review">"Excellent service, rapide et efficace!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <div class="carpenter-card" data-location="Abidjan">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Marie France Kouamé</h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Qualité et précision!"</p>
+                    <hr>
+                    <p class="text-center">Avis le plus récent :</p>
+                    <p class="review">"Très satisfaite du travail effectué!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+            <div class="carpenter-card" data-location="Bouaké">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Coulibaly Kolan</h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Qualité et précision!"</p>
+                    <hr>
+                    <p class="text-center">Avis le plus récent :</p>
+                    <p class="review">"Très satisfaite du travail effectué!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+            <div class="carpenter-card" data-location="Bouaké">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>David Kouadio </h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Meilleur finission de rendu !"</p>
+                    <hr>
+                    <p class="text-center">Avis le plus récent :</p>
+                    <p class="review">"Wouahh Meuble très jolie!"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+            <div class="carpenter-card" data-location="Yopougon">
+                <div class="profile-pic-container">
+                    <img src="" alt="Menuisier 2" class="profile-pic">
+                </div>
+                <div class="carpenter-info">
+                    <h2>Aboubacar Sanogo </h2>
+                    <p>Note: ★★★★★</p>
+                    <p class="slogan-artisan">"Travail bien fait et livré !"</p>
+                    <hr>
+                    <p class="text-center">Avis le plus récent :</p>
+                    <p class="review">"Délais de livraison respecté"</p>
+                    <br>
+                    <button class="contact-button">Contacter le menuisier</button>
+                </div>
+            </div>
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+            <div class="carpenters-list">
+                <div class="carpenter-card" data-location="Abobo">
+                    <div class="profile-pic-container">
+                        <img src="" alt="bijoutier 1" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>TRA BI</h2>
+                        <p>Note: ★★★★☆</p>
+                        <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
+                        <hr>
+                        <p class="text-center">Avis le plus récent : </p>
+                        <p class="review">"Excellent service, rapide et performant!"</p>
+                        <br>
+                        <button class="contact-button">Contacter le bijoutier</button>
+                    </div>
+                </div>
+                <div class="carpenters-list">
+                    <div class="carpenter-card" data-location="Abobo">
+                        <div class="profile-pic-container">
+                            <img src="" alt="bijoutier 1" class="profile-pic">
+                        </div>
+                        <div class="carpenter-info">
+                            <h2>Lamine Touré</h2>
+                            <p>Note: ★★★★☆</p>
+                            <p class="slogan-artisan">"Nous travaillons pour vous satisfaire!"</p>
+                            <hr>
+                            <p class="avis text-center">Avis le plus récent : </p>
+                            <p class="review">"Excellent service, rapide et performant!"</p>
+                            <br>
+                            <button class="contact-button">Contacter le bijoutier</button>
+                        </div>
+                    </div>
+                <div class="carpenter-card" data-location="Koumassi">
+                    <div class="profile-pic-container">
+                        <img src="" alt="bijoutier 2" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>Fabrice Konan</h2>
+                        <p>Note: ★★★★★</p>
+                        <p class="slogan-artisan">"Qualité et précision!"</p>
+                        <hr>
+                        <p class="avis text-center">Avis le plus récent : </p>
+                        <p class="review">"Très satisfaite du travail effectué!"</p>
+                        <br>
+                        <button class="contact-button">Contacter le bijoutier</button>
+                    </div>
+                </div>
+                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+                <div class="carpenter-card" data-location="Koumassi">
+                    <div class="profile-pic-container">
+                        <img src="" alt="bijoutier 2" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>Bakaré Oussein</h2>
+                        <p>Note: ★★★★★</p>
+                        <p class="slogan-artisan">"Service de Qualité !"</p>
+                        <hr>
+                        <p class="avis text-center">Avis le plus récent : </p>
+                        <p class="review">"Très satisfaite du travail effectué!"</p>
+                        <br>
+                        <button class="contact-button">Contacter le bijoutier</button>
+                    </div>
+                </div>
+                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+                <div class="carpenter-card" data-location="Bouaké">
+                    <div class="profile-pic-container">
+                        <img src="" alt="Menuisier 2" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>Coulibaly Issa</h2>
+                        <p>Note: ★★★★★</p>
+                        <p class="slogan-artisan">"Qualité et précision!"</p>
+                        <hr>
+                        <p class="avis text-center">Avis le plus récent : </p>
+                        <p class="review">"Très satisfaite du travail effectué!"</p>
+                        <br>
+                        <button class="contact-button">Contacter le bijoutier</button>
+                    </div>
+                </div>
+                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+                <div class="carpenter-card" data-location="Bouaké">
+                    <div class="profile-pic-container">
+                        <img src="" alt="Menuisier 2" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>Aristide DETHO </h2>
+                        <p>Note: ★★★★★</p>
+                        <p class="slogan-artisan">"Meilleur finission et de rendu !"</p>
+                        <hr>
+                        <p class="avis text-center">Avis le plus récent : </p>
+                        <p class="review">"Bague et bracelets très jolie!"</p>
+                        <br>
+                        <button class="contact-button">Contacter le Bijoutier</button>
+                    </div>
+                </div>
+                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+                <div class="carpenter-card" data-location="Bouaké">
+                    <div class="profile-pic-container">
+                        <img src="" alt="Menuisier 2" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>Bamba Moussa </h2>
+                        <p>Note: ★★★★★</p>
+                        <p class="slogan-artisan">"Service de qualité supérieur !"</p>
+                        <hr>
+                        <p class="avis text-center">Avis le plus récent : </p>
+                        <p class="review">"Chaine de valeur avec une finission parfaite!"</p>
+                        <br>
+                        <button class="contact-button">Contacter le Bijoutier</button>
+                    </div>
+                </div>
+                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+                <div class="carpenter-card" data-location="Cocody">
+                    <div class="profile-pic-container">
+                        <img src="" alt="bijoutier 2" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>Christian Sanogo </h2>
+                        <p>Note: ★★★★★</p>
+                        <p class="slogan-artisan">"Travail bien fait et livré !"</p>
+                        <hr>
+                        <p class="avis text-center">Avis le plus récent : </p>
+                        <p class="review">"Délais de livraison respecté"</p>
+                        <br>
+                        <button class="contact-button">Contacter le bijoutier</button>
+                    </div>
+                </div>
+                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+                <div class="carpenter-card" data-location="Cocody">
+                    <div class="profile-pic-container">
+                        <img src="" alt="bijoutier 2" class="profile-pic">
+                    </div>
+                    <div class="carpenter-info">
+                        <h2>Traoré Mahmoud </h2>
+                        <p>Note: ★★★★★</p>
+                        <p class="slogan-artisan">"Service de qualité !"</p>
+                        <hr>
+                        <p class="text-center">Avis le plus récent : </p>
+                        <p class="review">"Délais de livraison respecté"</p>
+                        <br>
+                        <button class="contact-button">Contacter le bijoutier</button>
+                    </div>
+                </div>
+
+        </div>
+        <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité
+            .</div>
+
+
+
+
+
+        <script src="{% static 'artisanfinder/js/scripts.js}"></script>
 
 
     </div>
