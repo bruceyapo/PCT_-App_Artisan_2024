@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ArtisanFinder',
+    # 'ArtisanFinder',
     'artisans',
 ]
 
@@ -88,22 +88,37 @@ WSGI_APPLICATION = 'ArtisanFinder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+# DATABASES = {
     
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'Artisan_DB',
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306'
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.mysql',
+#     #     'NAME': 'Artisan_DB',
+#     #     'USER': 'root',
+#     #     'PASSWORD': '',
+#     #     'HOST': '127.0.0.1',
+#     #     'PORT': '3306'
         
-    # },
+#     # },
       
      
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mssql',  # Use 'mssql' for mssql-django
+        'NAME': 'ArtisanFinder',
+        'USER': 'Yapo2000',
+        'PASSWORD': 'Yapo2000@',
+        'HOST': 'DESKTOP-QQGKONI\\SQLEXPRESS',
+        'PORT': '',  # Optional, defaults to 1433
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',  # Adjust based on your driver version
+            'Trusted_Connection': 'yes;',
+        }
     }
 }
 
@@ -126,7 +141,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL = 'artisans.Users'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -152,7 +167,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  # Par défaut
-    'artisans.backends.TelephoneBackend',        # Votre backend personnalisé
-]
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',  # Par défaut
+#     'artisans.backends.TelephoneBackend',        # Votre backend personnalisé
+# ]

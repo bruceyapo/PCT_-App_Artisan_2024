@@ -8,8 +8,8 @@ from django.contrib.auth.decorators import login_required
 
 from django.core.mail import send_mail
 
-from .models import Artisan, PortfolioPhoto
-from .forms import ArtisanForm, PortfolioPhotoForm,ArtisanSignUpForm, LoginForm, InscriptionClientForm
+# from .models import Artisan, PortfolioPhoto
+# from .forms import ArtisanForm, PortfolioPhotoForm,ArtisanSignUpForm, LoginForm, InscriptionClientForm
 from django.contrib.auth.forms import PasswordChangeForm
 
 
@@ -43,36 +43,36 @@ def profile_view(request) :
    return render(request,'profil.html')
 
 def edit_profile_view(request, artisan_id):
-    artisan = get_object_or_404(Artisan, id=artisan_id)
-    if request.method == 'POST':
-        form = ArtisanForm(request.POST, instance=artisan)
-        if form.is_valid():
-            form.save()
-            return redirect('profil', artisan_id=artisan.id)
-    else:
-        form = ArtisanForm(instance=artisan)
-    return render(request, 'edit_profil.html', {'form': form})
+    # artisan = get_object_or_404(Artisan, id=artisan_id)
+    # if request.method == 'POST':
+    #     form = ArtisanForm(request.POST, instance=artisan)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('profil', artisan_id=artisan.id)
+    # else:
+    #     form = ArtisanForm(instance=artisan)
+    return render(request, 'edit_profil.html')
 
 def login_view(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            numero_de_telephone = form.cleaned_data['numero_de_telephone']
-            mot_de_passe = form.cleaned_data['mot_de_passe']
-            se_souvenir_de_moi = form.cleaned_data['se_souvenir_de_moi']
+    # if request.method == 'POST':
+    #     form = LoginForm(request.POST)
+    #     if form.is_valid():
+    #         numero_de_telephone = form.cleaned_data['numero_de_telephone']
+    #         mot_de_passe = form.cleaned_data['mot_de_passe']
+    #         se_souvenir_de_moi = form.cleaned_data['se_souvenir_de_moi']
             
-            user = authenticate(request, numero_de_telephone=numero_de_telephone, password=mot_de_passe)
+    #         user = authenticate(request, numero_de_telephone=numero_de_telephone, password=mot_de_passe)
             
-            if user is not None:
-                login(request, user)
-                if not se_souvenir_de_moi:
-                    request.session.set_expiry(0)  # Session expire à la fermeture du navigateur
-                return redirect('profil', artisan_id=user.id)
-            else:
-                form.add_error(None, "Numéro de téléphone ou mot de passe incorrect.")
-    else:
-        form = LoginForm()
-    return render(request, 'connexion.html', {'form': form})
+    #         if user is not None:
+    #             login(request, user)
+    #             if not se_souvenir_de_moi:
+    #                 request.session.set_expiry(0)  # Session expire à la fermeture du navigateur
+    #             return redirect('profil', artisan_id=user.id)
+    #         else:
+    #             form.add_error(None, "Numéro de téléphone ou mot de passe incorrect.")
+    # else:
+    #     form = LoginForm()
+    return render(request, 'connexion.html')
 
 def contact_view(request):
    if request.method == 'POST':
@@ -134,15 +134,15 @@ def passwor_oublie_view(request):
    return render(request,'password_oublie.html')
 
 def inscription_view(request):
-    if request.method == 'POST':
-        form = ArtisanSignUpForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('login_view', artisan_id=user.id)
-    else:
-        form = ArtisanSignUpForm()
-    return render(request, 'inscription_artisan.html', {'form': form})
+    # if request.method == 'POST':
+    #     form = ArtisanSignUpForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         user = form.save()
+    #         login(request, user)
+    #         return redirect('login_view', artisan_id=user.id)
+    # else:
+    #     form = ArtisanSignUpForm()
+    return render(request, 'inscription_artisan.html')
 
 
 
@@ -151,32 +151,32 @@ def inscription_view(request):
 
 
 def inscription_client_view(request):
-    if request.method == 'POST':
-        form = InscriptionClientForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')  # Rediriger vers une page de succès d'inscription
-    else:
-        form = InscriptionClientForm()
+#     if request.method == 'POST':
+#         form = InscriptionClientForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/')  # Rediriger vers une page de succès d'inscription
+#     else:
+#         form = InscriptionClientForm()
 
-    return render(request, 'inscription_client.html', {'form': form})
+#     return render(request, 'inscription_client.html', {'form': form})
 
-@login_required
-def profile_view(request, artisan_id):
-    artisan = get_object_or_404(Artisan, id=artisan_id)
-    return render(request, 'profil.html', {'artisan': artisan})
+# @login_required
+# def profile_view(request, artisan_id):
+#     artisan = get_object_or_404(Artisan, id=artisan_id)
+    return render(request, 'profil.html')
 
 @login_required
 def edit_profile_view(request, artisan_id):
-    artisan = get_object_or_404(Artisan, id=artisan_id)
-    if request.method == 'POST':
-        form = ArtisanForm(request.POST, request.FILES, instance=artisan)
-        if form.is_valid():
-            form.save()
-            return redirect('profil', artisan_id=artisan.id)
-    else:
-        form = ArtisanForm(instance=artisan)
-    return render(request, 'edit_profil.html', {'form': form})
+    # artisan = get_object_or_404(Artisan, id=artisan_id)
+    # if request.method == 'POST':
+    #     form = ArtisanForm(request.POST, request.FILES, instance=artisan)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('profil', artisan_id=artisan.id)
+    # else:
+    #     form = ArtisanForm(instance=artisan)
+    return render(request, 'edit_profil.html')
 
 @login_required
 def change_password_view(request):
@@ -192,16 +192,16 @@ def change_password_view(request):
 
 @login_required
 def add_portfolio_photo_view(request, artisan_id):
-    artisan = get_object_or_404(Artisan, id=artisan_id)
-    if request.method == 'POST':
-        form = PortfolioPhotoForm(request.POST, request.FILES)
-        if form.is_valid():
-            photo = form.save()
-            artisan.portfolio_photos.add(photo)
-            return redirect('profil', artisan_id=artisan.id)
-    else:
-        form = PortfolioPhotoForm()
-    return render(request, 'add_portfolio.html', {'form': form})
+    # artisan = get_object_or_404(Artisan, id=artisan_id)
+    # if request.method == 'POST':
+    #     form = PortfolioPhotoForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         photo = form.save()
+    #         artisan.portfolio_photos.add(photo)
+    #         return redirect('profil', artisan_id=artisan.id)
+    # else:
+    #     form = PortfolioPhotoForm()
+    return render(request, 'add_portfolio.html')
 
 
 
