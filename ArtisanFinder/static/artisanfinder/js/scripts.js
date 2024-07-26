@@ -61,12 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   $(document).ready(function(){
-    $('.carousel').carousel({
+    $('.slideshow').slideshow({
       padding: 200
   });
   autoplay();
   function autoplay() {
-    $('.carousel').carousel('next');
+    $('.slideshow').slideshow('next');
     setTimeout(autoplay, 4500);
   }
   });
@@ -110,3 +110,56 @@ function displaySelectedWork() {
   const selectedWorkDiv = document.getElementById('selected-work');
   selectedWorkDiv.textContent = `Travail sélectionné : ${selectedWork}`;
 }
+
+// Affichage dynamique des publicités
+function loadAdvertisements() {
+  fetch('/static/json/ads.json')
+      .then(response => response.json())
+      .then(data => {
+          const adContainer = document.querySelector('.ad-carousel');
+          data.forEach(ad => {
+              const adElement = document.createElement('div');
+              adElement.classList.add('ad-item');
+              adElement.innerHTML = `
+                  <a href="${ad.link}" target="_blank">
+                      <img src="${ad.image}" alt="${ad.alt}">
+                  </a>
+              `;
+              adContainer.appendChild(adElement);
+          });
+      })
+      .catch(error => console.error('Error loading ads:', error));
+}
+
+document.addEventListener('DOMContentLoaded', loadAdvertisements);
+
+
+   //Pour l'ajout de photo au portfolio
+  
+    function deleteImage(imageSrc) {
+      const portfolioItems = document.querySelectorAll('.portfolio-item');
+      portfolioItems.forEach(item => {
+        const img = item.querySelector('img');
+        if (img.getAttribute('src') === imageSrc) {
+          item.remove();
+        }
+      });
+    }
+
+    function submitPhotoForm() {
+      document.getElementById('add-photo-form').submit();
+    }
+
+
+ 
+  //Pour afficher et masquer la carte de contact 
+  
+    function showContactCard() {
+      document.getElementById('contact-card').style.display = 'block';
+    }
+
+    function hideContactCard() {
+      document.getElementById('contact-card').style.display = 'none';
+    }
+
+  

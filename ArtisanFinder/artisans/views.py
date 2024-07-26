@@ -17,6 +17,9 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 
 
+def profilArtisan_view(request) :
+   return render(request, 'profil_artisan.html')
+
 
 
 # from ..auth_app.forms import ContactForm
