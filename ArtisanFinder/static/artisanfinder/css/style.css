@@ -1258,7 +1258,7 @@ margin-bottom: 20px;
   /* Styles pour la carte de contact */
   .contact-button {
     background-color: #008CBA;
-    color: white;
+    color: rgb(255, 255, 255);
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -1267,7 +1267,7 @@ margin-bottom: 20px;
   }
 
   .contact-button:hover {
-    background-color: #007B9A;
+    background-color: #108b10;
   }
 
   .contact-card {
@@ -1276,7 +1276,7 @@ margin-bottom: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: rgba(101, 108, 206, 0.479);
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 20px;
@@ -1306,10 +1306,11 @@ margin-bottom: 20px;
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    color: black;
+    color: rgba(15, 80, 117, 0.767);
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: #21438b;
   }
 
   .contact-option img {
@@ -1318,7 +1319,7 @@ margin-bottom: 20px;
   }
 
   .contact-option:hover {
-    background-color: #f0f0f0;
+    background-color: #0bbe47b7;
   }
 
   .card-header {
