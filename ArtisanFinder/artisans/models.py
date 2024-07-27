@@ -2,26 +2,87 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import AbstractUser
 
+# class UserManager(BaseUserManager):
+#     def create_user(self, email, username, password=None):
+#         if not email:
+#             raise ValueError('L\'adresse email est obligatoire')
+        
+#         if not username:
+#             raise ValueError('Le username est obligatoire')
+        
+#         user = self.model(
+#             email=self.normalize_email(email),
+#             username=username,
+#         )
+#         user.set_password(password)
+#         user.is_active = True
+#         user.save(using=self._db)
+#         return user
+    
+#     def create_superuser(self, email, username, password):
+#         user = self.create_user(
+#             email=self.normalize_email(email),
+#             username=username,
+#             password=password,
+#         )
+#         user.is_admin = True
+#         user.is_staff = True
+#         user.is_superadmin = True
+#         user.is_active = True
+#         user.save(using=self._db)
+#         return user
+    
+
+# ROLES_CHOICES = (
+#     ('Administrateur', 'Administrateur'),
+#     ('Artisan', 'Artisan'),
+#     ('Client', 'Client')   
+# )
+
+# class Users(AbstractBaseUser):
+#     username      = models.CharField(max_length=50, unique=True)
+#     email         = models.EmailField(max_length=100, unique=True)
+#     Telephone     = models.CharField(max_length=20, unique=True)
+#     roles         = models.CharField(choices=ROLES_CHOICES, max_length=100)
+#     # required
+#     date_joined = models.DateTimeField(auto_now_add=True)
+#     last_login = models.DateTimeField(auto_now_add=True)
+#     is_admin = models.BooleanField(default=False)
+#     is_staff = models.BooleanField(default=False)
+#     is_active = models.BooleanField(default=True)
+#     is_superadmin = models.BooleanField(default=False)
+#     USERNAME_FIELD = 'email'
+#     REQUIRED_FIELDS = ['username']
+#     objects = UserManager()
+
+#     def __str__(self):
+#         return self.email
+
+#     def has_perm(self, perm, obj=None):
+#         return self.is_admin
+
+#     def has_module_perms(self, add_label):
+#         return True
+
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, password=None):
-        if not email:
-            raise ValueError('L\'adresse email est obligatoire')
-        
-        if not username:
-            raise ValueError('Le username est obligatoire')
-        
+    def create_user(self, Telephone, email=None, username=None, password=None):
+        if not Telephone:
+            raise ValueError("Le numéro de téléphone est obligatoire")
+
         user = self.model(
             email=self.normalize_email(email),
             username=username,
+            Telephone=Telephone,
         )
         user.set_password(password)
         user.is_active = True
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, email, username, password):
+    def create_superuser(self, Telephone, password, email=None, username=None):
         user = self.create_user(
-            email=self.normalize_email(email),
+            Telephone=Telephone,
+            email=email,
             username=username,
             password=password,
         )
@@ -40,28 +101,31 @@ ROLES_CHOICES = (
 )
 
 class Users(AbstractBaseUser):
-    username = models.CharField(max_length=50, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
+    username = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    email = models.EmailField(max_length=100, unique=True, null=True, blank=True)
+    Telephone = models.CharField(max_length=20, unique=True)
     roles = models.CharField(choices=ROLES_CHOICES, max_length=100)
-    # required
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now_add=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superadmin = models.BooleanField(default=False)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+
+    USERNAME_FIELD = 'Telephone'
+    REQUIRED_FIELDS = []  # Leave empty if no additional fields are required
+    
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.Telephone
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
 
-    def has_module_perms(self, add_label):
+    def has_module_perms(self, app_label):
         return True
+
 
 class Metier(models.Model):  
     Nom  = models.CharField(max_length=100, blank=True)
@@ -73,11 +137,8 @@ class Artisan(models.Model):
     Nom                     = models.CharField(max_length=50)
     Prenom                  = models.CharField(max_length=100)
     genre                   = models.CharField(max_length=10, choices=[('Homme', 'Homme'), ('Femme', 'Femme')])
-    Telephone               = models.CharField(max_length=20)
-    Metier                  = models.ForeignKey(Metier, on_delete=models.CASCADE)
-    portfolio_photos        = models.ManyToManyField('PortfolioPhoto', blank=True)
+    Metier                  = models.ForeignKey(Metier, on_delete=models.CASCADE, blank=True, null=True)
     IdUser                  = models.ForeignKey(Users, on_delete=models.CASCADE)
-
     def __str__(self):
         return self.Nom
     
@@ -87,6 +148,7 @@ class UserProfile(models.Model):
     photo_de_profil         = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     Descriptions            = models.TextField(blank=True)
     Annee_experience        = models.IntegerField(blank=True)
+    portfolio_photos        = models.ManyToManyField('PortfolioPhoto', blank=True)
     
     def __str__(self):
         return self.user.Nom

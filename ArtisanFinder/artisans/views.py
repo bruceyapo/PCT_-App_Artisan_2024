@@ -12,6 +12,8 @@ from django.core.mail import send_mail
 # from .forms import ArtisanForm, PortfolioPhotoForm,ArtisanSignUpForm, LoginForm, InscriptionClientForm
 from django.contrib.auth.forms import PasswordChangeForm
 
+from artisans.forms import ArtisanForm, LoginForm
+
 
 
 
@@ -67,25 +69,25 @@ def edit_profile_view(request, artisan_id):
     return render(request, 'edit_profil.html')
 
 def login_view(request):
-    # if request.method == 'POST':
-    #     form = LoginForm(request.POST)
-    #     if form.is_valid():
-    #         numero_de_telephone = form.cleaned_data['numero_de_telephone']
-    #         mot_de_passe = form.cleaned_data['mot_de_passe']
-    #         se_souvenir_de_moi = form.cleaned_data['se_souvenir_de_moi']
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            Telephone = form.cleaned_data['Telephone']
+            password = form.cleaned_data['password']
             
-    #         user = authenticate(request, numero_de_telephone=numero_de_telephone, password=mot_de_passe)
+            user = authenticate(request, Telephone=Telephone, password=password)
             
-    #         if user is not None:
-    #             login(request, user)
-    #             if not se_souvenir_de_moi:
-    #                 request.session.set_expiry(0)  # Session expire à la fermeture du navigateur
-    #             return redirect('profil', artisan_id=user.id)
-    #         else:
-    #             form.add_error(None, "Numéro de téléphone ou mot de passe incorrect.")
-    # else:
-    #     form = LoginForm()
-    return render(request, 'connexion.html')
+            if user is not None:
+                login(request, user)
+                # if not se_souvenir_de_moi:
+                #     request.session.set_expiry(0)  # Session expire à la fermeture du navigateur
+                return redirect('profil')
+            else:
+                form.add_error(None, "Numéro de téléphone ou mot de passe incorrect.")
+    else:
+        form = LoginForm()
+    context = {'form': form}
+    return render(request, 'connexion.html', context)
 
 def contact_view(request):
    if request.method == 'POST':
@@ -140,22 +142,25 @@ def vieprivee_view(request):
 def equipe_view(request):
    return render(request,'equipe.html')
 
-def inscription_view(request):
-   return render(request,'inscription_artisan.html')
+# def inscription_view(request):
+#    return render(request,'inscription_artisan.html')
 
 def passwor_oublie_view(request):
    return render(request,'password_oublie.html')
 
 def inscription_view(request):
-    # if request.method == 'POST':
-    #     form = ArtisanSignUpForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         user = form.save()
-    #         login(request, user)
-    #         return redirect('login_view', artisan_id=user.id)
-    # else:
-    #     form = ArtisanSignUpForm()
-    return render(request, 'inscription_artisan.html')
+    if request.method == 'POST':
+        form = ArtisanForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # login(request, user)
+            return redirect('login_view', artisan_id=user.id)
+    else:
+        form = ArtisanForm()
+    context = {
+        'form': form
+        }
+    return render(request, 'inscription_artisan.html', context)
 
 
 

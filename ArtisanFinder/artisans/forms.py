@@ -1,10 +1,128 @@
-# from django import forms
-# from .models import InscriptionClient, Artisan
+from django import forms
+from .models import Artisan, Users
 # from .models import Artisan, PortfolioPhoto, User, UserManager
 # from django.contrib.auth.forms import UserCreationForm
 
 
 # # Formulaire d'inscription Artisan:
+
+# class ArtisanForm(forms.ModelForm):
+#     email = forms.EmailField(required=True, widget=forms.EmailInput(
+#         {'class': 'form-control'}
+#     ))
+#     password = forms.CharField(widget=forms.PasswordInput(
+#         {'class': 'form-control'}
+#     ))
+#     confirm_password = forms.CharField(widget=forms.PasswordInput(
+#         {'class': 'form-control'}
+#     ))
+
+#     class Meta:
+#         model = Artisan
+#         fields = ['Nom', 'Prenom', 'genre', 'Telephone', 'Metier']
+    
+#     def __init__(self, *args, **kwargs):
+#         super(ArtisanForm, self).__init__(*args, **kwargs)
+#         self.fields['Nom'].widget.attrs.update({'class': 'form-control'})
+#         self.fields['Prenom'].widget.attrs.update({'class': 'form-control'})
+#         self.fields['genre'].widget.attrs.update({'class': 'form-control'})
+#         self.fields['Telephone'].widget.attrs.update({'class': 'form-control'})
+#         self.fields['Metier'].widget.attrs.update({'class': 'form-control'})
+
+#     def clean_email(self):
+#         email = self.cleaned_data.get('email')
+#         if Users.objects.filter(email=email).exists():
+#             raise forms.ValidationError("Un utilisateur avec cet email existe déjà.")
+#         return email
+
+#     def clean(self):
+#         cleaned_data = super().clean()
+#         password = cleaned_data.get("password")
+#         confirm_password = cleaned_data.get("confirm_password")
+
+#         if password and confirm_password and password != confirm_password:
+#             self.add_error('confirm_password', "Les mots de passe ne correspondent pas.")
+
+#     def save(self, commit=True):
+#         instance = super(ArtisanForm, self).save(commit=False)
+        
+#         utilisateur = Users(
+#             email=self.cleaned_data['email'],
+#             username=self.cleaned_data['email'],  # Utiliser l'email comme username
+#             roles='Artisan'
+#         )
+#         utilisateur.set_password(self.cleaned_data['password'])
+        
+#         if commit:
+#             utilisateur.save()
+#             instance.IdUser = utilisateur
+#             instance.save()
+        
+#         return instance
+ 
+class ArtisanForm(forms.ModelForm):
+    email = forms.EmailField(required=True, widget=forms.EmailInput(
+        attrs={'class': 'form-control'}
+    ))
+    Telephone = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control'}
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}
+    ))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control'}
+    ))
+
+    class Meta:
+        model = Artisan
+        fields = ['Nom', 'Prenom', 'genre', 'Metier']
+    
+    def __init__(self, *args, **kwargs):
+        super(ArtisanForm, self).__init__(*args, **kwargs)
+        self.fields['Nom'].widget.attrs.update({'class': 'form-control'})
+        self.fields['Prenom'].widget.attrs.update({'class': 'form-control'})
+        self.fields['genre'].widget.attrs.update({'class': 'form-control'})
+        self.fields['Metier'].widget = forms.Select(attrs={'class': 'form-control'})
+
+    def clean_phone(self):
+        Telephone = self.cleaned_data.get('Telephone')
+        if Users.objects.filter(Telephone=Telephone).exists():
+            raise forms.ValidationError("Un utilisateur avec cet numéro de telephone existe déjà.")
+        return Telephone
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 6:
+            raise forms.ValidationError("Le mot de passe doit contenir au moins 6 caractères.")
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password and password != confirm_password:
+            self.add_error('confirm_password', "Les mots de passe ne correspondent pas.")
+
+    def save(self, commit=True):
+        instance = super(ArtisanForm, self).save(commit=False)
+        
+        utilisateur = Users(
+            Telephone=self.cleaned_data['Telephone'],
+            email=self.cleaned_data['email'],
+            username=self.cleaned_data['email'],  # Utiliser l'email comme username
+            roles='Artisan'
+        )
+        utilisateur.set_password(self.cleaned_data['password'])
+        
+        if commit:
+            utilisateur.save()
+            instance.IdUser = utilisateur
+            instance.save()
+        
+        return instance
+
 # class ArtisanForm(forms.ModelForm):
 #     class Meta:
 #         model = Artisan
@@ -21,20 +139,15 @@
 
 # # Formulaire de connexion :
 
-# class LoginForm(forms.Form):
-#     numero_de_telephone = forms.CharField(
-#         label='Numéro de téléphone',
-#         widget=forms.TextInput(attrs={'placeholder': 'Numéro de téléphone', 'class': 'form-control'})
-#     )
-#     mot_de_passe = forms.CharField(
-#         label='Mot de passe',
-#         widget=forms.PasswordInput(attrs={'placeholder': 'Mot de passe', 'class': 'form-control'})
-#     )
-#     se_souvenir_de_moi = forms.BooleanField(
-#         label='Se souvenir de moi',
-#         required=False,
-#         widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
-#     )
+class LoginForm(forms.Form):
+    Telephone = forms.CharField(
+        label='Numéro de téléphone',
+        widget=forms.TextInput(attrs={'placeholder': 'Numéro de téléphone', 'class': 'form-control'})
+    )
+    password = forms.CharField(
+        label='Mot de passe',
+        widget=forms.PasswordInput(attrs={'placeholder': 'Mot de passe', 'class': 'form-control'})
+    )
     
     
 

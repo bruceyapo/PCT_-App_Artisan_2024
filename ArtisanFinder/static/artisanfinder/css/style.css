@@ -298,7 +298,7 @@ font-family: "Josefin Sans", sans-serif;
 
     /* Debut de la Mise en forme de la d'inscription */
     
-        input[type="text"], input[type="email"], input[type="password"], select {
+        input[type="text"], input[type="email"], input[type="password"] {
             width: 100%; /* Ajustez la largeur selon vos besoins */
             height: 20PX;
             padding: 20px;
@@ -312,7 +312,7 @@ font-family: "Josefin Sans", sans-serif;
           /* Mise en forme de la balise select sur la page Trouver un artisan */
         .form-select{
 
-            width: 100%; /* Ajustez la largeur selon vos besoins */
+            width: 100%; 
             height: 30px;
             padding: 20px;
             border: 1px solid #6f8a69;

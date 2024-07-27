@@ -11,23 +11,23 @@
         <form method="post" action="{% url 'login' %}"  class="mt-4">
             {% csrf_token %}
             <div class="form-group">
-                {{ form.numero_de_telephone.label_tag }}
-                {{ form.numero_de_telephone }}
-                {% if form.numero_de_telephone.errors %}
-                    <div class="text-danger">{{ form.numero_de_telephone.errors }}</div>
+                {{ form.Telephone.label_tag }}
+                {{ form.Telephone }}
+                {% if form.Telephone.errors %}
+                    <div class="text-danger">{{ form.Telephone.errors }}</div>
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ form.mot_de_passe.label_tag }}
-                {{ form.mot_de_passe }}
-                {% if form.mot_de_passe.errors %}
-                    <div class="text-danger">{{ form.mot_de_passe.errors }}</div>
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <div class="text-danger">{{ form.password.errors }}</div>
                 {% endif %}
             </div>
-            <div class="form-check">
+            <!-- <div class="form-check">
                 {{ form.se_souvenir_de_moi }}
                 {{ form.se_souvenir_de_moi.label_tag }}
-            </div>
+            </div> -->
             <button type="submit" class="btn-custom mt-3">Se connecter</button>
             {% if form.non_field_errors %}
                 <div class="text-danger mt-3">{{ form.non_field_errors }}</div>
