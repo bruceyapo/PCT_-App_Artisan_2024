@@ -107,20 +107,20 @@ DATABASES = {
     # }
 }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',  # Use 'mssql' for mssql-django
-        'NAME': 'ArtisanFinder',
-        'USER': 'Yapo2000',
-        'PASSWORD': 'Yapo2000@',
-        'HOST': 'DESKTOP-QQGKONI\\SQLEXPRESS',
-        'PORT': '',  # Optional, defaults to 1433
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',  # Adjust based on your driver version
-            'Trusted_Connection': 'yes;',
-        }
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',  # Use 'mssql' for mssql-django
+#         'NAME': 'ArtisanFinder',
+#         'USER': 'Yapo2000',
+#         'PASSWORD': 'Yapo2000@',
+#         'HOST': 'DESKTOP-QQGKONI\\SQLEXPRESS',
+#         'PORT': '',  # Optional, defaults to 1433
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',  # Adjust based on your driver version
+#             'Trusted_Connection': 'yes;',
+#         }
+#     }
+# }
 
 
 # Password validation
