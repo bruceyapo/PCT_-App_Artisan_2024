@@ -1,0 +1,17 @@
+[
+    {
+        "image": "/static/artisanfinder/images/ads/ArtisanFinder.jpg",
+        "link": "https://example.com/ad1",
+        "alt": "Publicité 1"
+    },
+    {
+        "image": "/static/artisanfinder/images/ads/ImagePub1.jpg",
+        "link": "https://example.com/ad1",
+        "alt": "Publicité 2"
+    }
+    
+   
+]
+
+
+    

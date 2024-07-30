@@ -11,8 +11,12 @@ from django.core.mail import send_mail
 # from .models import Artisan, PortfolioPhoto
 # from .forms import ArtisanForm, PortfolioPhotoForm,ArtisanSignUpForm, LoginForm, InscriptionClientForm
 from django.contrib.auth.forms import PasswordChangeForm
+from django.urls import reverse
+import pandas as pd
 
-from artisans.forms import ArtisanForm, LoginForm
+from artisans.forms import ArtisanForm, ArtisanProfilForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
+from artisans.models import Artisan, Localisation, Metier, UserProfile, Users
+
 
 
 
@@ -37,7 +41,11 @@ def bijoutier_view(request) :
 
 
 def accueil_view(request) :
-   return render(request, 'accueil.html')
+    metier = Metier.objects.filter()[:4]
+    context = {
+        'metier': metier
+    }
+    return render(request, 'accueil.html', context)
 
 
 
@@ -46,7 +54,11 @@ def trouverArtisan_view(request) :
 
 
 def services_view(request) : 
-   return render(request,'services.html')
+    metier = Metier.objects.all()
+    context = {
+        'metier': metier
+    }
+    return render(request,'services.html', context)
 
 def choix_view(request) : 
    return render(request,'choix_inscription.html')
@@ -57,17 +69,122 @@ def inscriptionClient_view(request) :
 def profile_view(request) : 
    return render(request,'profil.html')
 
-def edit_profile_view(request, artisan_id):
-    # artisan = get_object_or_404(Artisan, id=artisan_id)
-    # if request.method == 'POST':
-    #     form = ArtisanForm(request.POST, instance=artisan)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('profil', artisan_id=artisan.id)
-    # else:
-    #     form = ArtisanForm(instance=artisan)
-    return render(request, 'edit_profil.html')
+# def edit_profile_view(request):
+    
+#     # Récupérer l'utilisateur connecté
+#     utilisateur = get_object_or_404(Utilisateur, id=request.user.id)
+#     # Utiliser la clé étrangère pour récupérer le client associé
+#     clients = get_object_or_404(client, IdUtilisateur=utilisateur)
+    
+    
+    
+#     # artisan = get_object_or_404(Artisan, id=artisan_id)
+#     # if request.method == 'POST':
+#     #     form = ArtisanForm(request.POST, instance=artisan)
+#     #     if form.is_valid():
+#     #         form.save()
+#     #         return redirect('profil', artisan_id=artisan.id)
+#     # else:
+#     #     form = ArtisanForm(instance=artisan)
+#     return render(request, 'edit_profil.html')
 
+@login_required(login_url='login')
+def profilArtisan_view(request):
+    user = request.user
+    utilisateur = get_object_or_404(Users, id=user.id)
+    artisan = get_object_or_404(Artisan, IdUser=utilisateur)
+    userprofile, created = UserProfile.objects.get_or_create(user=artisan)
+
+    if request.method == 'POST':
+        user_form = ArtisanProfilForm(request.POST, instance=artisan)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        emailform = UserForm(request.POST, instance=utilisateur)
+
+        if user_form.is_valid() and profile_form.is_valid() and emailform.is_valid():
+            user_form.save()
+            profile_form.save()
+            emailform.save()
+            messages.success(request, 'Profile updated successfully')
+            return redirect('profil')
+        else:
+            # Affichage des erreurs de validation des formulaires
+            messages.error(request, 'Error updating profile')
+            print("User form errors:", user_form.errors)
+            print("Profile form errors:", profile_form.errors)
+            print("Email form errors:", emailform.errors)
+    else:
+        user_form = ArtisanProfilForm(instance=artisan)
+        profile_form = UserProfileForm(instance=userprofile)
+        emailform = UserForm(instance=utilisateur)
+
+    context = {
+        'utilisateur': utilisateur,
+        'artisan': artisan,
+        'userprofile': userprofile,
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'emailform': emailform,
+    }
+    return render(request, 'profil_artisan.html', context)
+# def profilArtisan_view(request) :
+#     user = request.user
+#     # Récupérer l'utilisateur connecté
+#     utilisateur = get_object_or_404(Users, id=request.user.id)
+#     # Utiliser la clé étrangère pour récupérer l'artisan associé
+#     artisan = get_object_or_404(Artisan, IdUser=utilisateur)
+#     # Récupérer ou créer le UserProfile associé au client
+#     userprofile, created = UserProfile.objects.get_or_create(user=artisan)
+#     if request.method == 'POST':
+#         user_form = ArtisanProfilForm(request.POST, instance=artisan)
+#         profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+#         emailform = UserForm(request.POST, instance=utilisateur)
+#         if user_form.is_valid() and profile_form.is_valid() and emailform.is_valid():
+#             user_form.save()
+#             profile_form.save()
+#             emailform.save()
+#             messages.success(request, 'Profile updated successfully')
+#             context ={
+#                 'utilisateur': utilisateur,
+#                 'artisan': artisan,
+#                 # 'Portform': Portform,
+#                 'userprofile':userprofile,
+#                 'user_form': user_form,
+#                 'profile_form': profile_form,
+#                 'emailform': emailform,
+#             }
+#             return render(request, 'profil_artisan.html', context)
+#         else:
+#             messages.error(request, 'Error updating profile')
+#     else:
+#         user_form = ArtisanProfilForm(instance=artisan)
+#         profile_form = UserProfileForm(instance=userprofile)
+#         emailform = UserForm(instance=utilisateur)
+        
+#     # if request.method == 'POST':
+#     #     Portform = PortfolioPhotoForm(request.POST, request.FILES)
+#     #     if Portform.is_valid():
+#     #         Portform.save()
+#     #         messages.success(request, 'Ajouter avec succes')
+#     #         return redirect('profil')
+#     #     else:
+#     #         messages.error(request, 'Error updating profile')
+#     # else:
+#     #     Portform = PortfolioPhotoForm()
+#     context ={
+#         'utilisateur': utilisateur,
+#         'artisan': artisan,
+#         # 'Portform': Portform,
+#         'userprofile':userprofile,
+#         'user_form': user_form,
+#         'profile_form': profile_form,
+#         'emailform': emailform,
+#     }
+#     return render(request, 'profil_artisan.html', context)
+
+def deconnexion(request):
+    logout(request)
+    messages.success(request,f"vous êtes déconnecté")
+    return redirect('login')  # Redirige vers la page de connexion après la déconnexion
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -81,7 +198,12 @@ def login_view(request):
                 login(request, user)
                 # if not se_souvenir_de_moi:
                 #     request.session.set_expiry(0)  # Session expire à la fermeture du navigateur
-                return redirect('profil')
+                if user.roles == 'Artisan':
+                    next_url = request.GET.get('next', reverse('profil'))
+                    return redirect(next_url)
+                elif user.roles == 'Client':
+                    next_url = request.GET.get('next', reverse('profilClient'))
+                    return redirect(next_url)
             else:
                 form.add_error(None, "Numéro de téléphone ou mot de passe incorrect.")
     else:
@@ -124,8 +246,112 @@ def espaceArtisan_view(request):
 def connexion_view(request):
    return render(request,'connexion.html')
 
+from django.utils.crypto import get_random_string
+
+from django.utils.text import slugify
+def handle_uploaded_file(file):
+    if file.name.endswith('.csv'):
+        data = pd.read_csv(file, sep=";")
+    elif file.name.endswith('.xlsx'):
+        data = pd.read_excel(file)
+    else:
+        raise ValueError("Le fichier n'est pas un format supporté. Seuls CSV et Excel sont acceptés.")
+    
+    df = data.copy()
+
+    # Afficher les noms de colonnes pour le débogage
+    print(df.columns)
+
+    # Normalisation des noms de colonnes pour éviter les erreurs de casse ou d'espaces
+    df.columns = df.columns.str.strip().str.lower()
+
+    # Vérifiez si la colonne 'Nom' (ou sa version normalisée) existe
+    if 'nom' not in df.columns:
+        raise KeyError("La colonne 'Nom' n'a pas été trouvée dans le fichier.")
+    
+    for index, row in df.iterrows():
+        # Split le nom pour obtenir prenoms et nom
+        name_parts = row['nom'].split(' ', 1)
+        Prenom = name_parts[0]
+        Nom = name_parts[1] if len(name_parts) > 1 else ''  # Gère les noms sans prénom
+        Telephone = row['telephone']
+        
+        # Définir le rôle par défaut et le mot de passe par défaut
+        roles = 'Artisan'
+        password = '123456789'
+        
+        # Créer ou récupérer l'utilisateur
+        utilisateur, created = Users.objects.get_or_create(
+            Telephone=Telephone,
+            defaults={
+                'roles': roles,
+                'is_active': True,
+            }
+        )
+        # Créer ou récupérer le métier
+        metier, created_metier = Metier.objects.get_or_create(
+            Nom=row['activite'],
+            defaults={'Nom': row['activite']}
+        )
+        if created:
+            # Si l'utilisateur est créé, définir le mot de passe
+            utilisateur.set_password(password)
+            utilisateur.save()
+
+        # Créer ou récupérer l'artisan
+        artisan_instance, created = Artisan.objects.get_or_create(
+            Nom=Nom,
+            Prenom=Prenom,
+            defaults={'genre': row['sexe'], 'Metier': metier, 'IdUser': utilisateur}
+        )
+        
+        description = 'Lorem ipsum dolor sit amet consectetur adipisicing elit...'
+
+        # Créer ou récupérer le profil utilisateur
+        profile, created_user_profile = UserProfile.objects.get_or_create(
+            user=artisan_instance,
+            defaults={
+                'Ville': row['ville'],
+                'Commune': row['commune'],
+                'Annee_experience': 3,
+                'Descriptions': description,
+            }
+        )
+        localisation, created_localisation = Localisation.objects.get_or_create(
+            user=artisan_instance,
+            defaults={
+                'Longitude': row['longitude'],
+                'Latitude': row['latitude'],
+                'Details': description,
+            }
+        )      
+
 def apropos_view(request):
-   return render(request,'apropos.html')
+    # user = request.user.id
+    #  # Récupérer l'utilisateur connecté
+    # utilisateur = get_object_or_404(Users, id=user)
+    # artisan = get_object_or_404(Artisan, IdUser=utilisateur)
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES['file']
+            if file.name.endswith('.csv'):
+                # Traitement du fichier CSV avec Pandas
+                handle_uploaded_file(file)
+                messages.success(request, "enregistrée avec succès.")
+                return render(request, 'apropos.html', {'form': form})
+
+            elif file.name.endswith(('.xlsx', '.xls')):
+                # Traitement du fichier Excel avec Pandas
+                handle_uploaded_file(file)
+                messages.success(request, "enregistrée avec succès.")
+                return render(request, 'apropos.html', {'form': form})
+
+            else:
+                messages.warning(request, 'Le fichier doit être au format CSV ou excel')
+    else:
+        form = UploadFileForm()
+    return render(request,'apropos.html', locals())
    
 def mentions_view(request):
    return render(request,'mentions.html')
@@ -154,7 +380,7 @@ def inscription_view(request):
         if form.is_valid():
             user = form.save()
             # login(request, user)
-            return redirect('login_view', artisan_id=user.id)
+            return redirect('login_view')
     else:
         form = ArtisanForm()
     context = {
@@ -184,17 +410,17 @@ def inscription_client_view(request):
 #     artisan = get_object_or_404(Artisan, id=artisan_id)
     return render(request, 'profil.html')
 
-@login_required
-def edit_profile_view(request, artisan_id):
-    # artisan = get_object_or_404(Artisan, id=artisan_id)
-    # if request.method == 'POST':
-    #     form = ArtisanForm(request.POST, request.FILES, instance=artisan)
-    #     if form.is_valid():
-    #         form.save()
-    #         return redirect('profil', artisan_id=artisan.id)
-    # else:
-    #     form = ArtisanForm(instance=artisan)
-    return render(request, 'edit_profil.html')
+# @login_required
+# def edit_profile_view(request, artisan_id):
+#     # artisan = get_object_or_404(Artisan, id=artisan_id)
+#     # if request.method == 'POST':
+#     #     form = ArtisanForm(request.POST, request.FILES, instance=artisan)
+#     #     if form.is_valid():
+#     #         form.save()
+#     #         return redirect('profil', artisan_id=artisan.id)
+#     # else:
+#     #     form = ArtisanForm(instance=artisan)
+#     return render(request, 'edit_profil.html')
 
 @login_required
 def change_password_view(request):

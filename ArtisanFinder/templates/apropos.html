@@ -5,6 +5,24 @@
 {% block content %}
 <main>
     <div class="container animate__animated animate__fadeInLeft">
+        <div class="m-auto" style="width: 80%;">
+            {% if messages %}
+            {% for msg in messages %}
+                <p id="alert-message" class="alert alert-{{msg.tags}}" role="alert"> {{msg}} </p>
+            {% endfor %}
+          {% endif %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        {{ form.as_p }}
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success ml-4 text-white fw-bold">Téléverser</button>
+                    </div>
+                </div>
+            </form>
+          </div>
         <h1 class="text-center my-3">Qui sommes-nous ? </h1>
         <div>
             <h2>Artisan Finder </h2>

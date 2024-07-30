@@ -1,9 +1,14 @@
 from django import forms
-from .models import Artisan, Users
+from .models import Artisan, PortfolioPhoto, UserProfile, Users,Metier
 # from .models import Artisan, PortfolioPhoto, User, UserManager
 # from django.contrib.auth.forms import UserCreationForm
 
-
+class UploadFileForm(forms.Form):
+    file = forms.FileField(label='', widget=forms.FileInput(
+            attrs= {'class':'form-control li'}),
+            error_messages={'required': ''}
+        )
+    
 # # Formulaire d'inscription Artisan:
 
 # class ArtisanForm(forms.ModelForm):
@@ -59,6 +64,54 @@ from .models import Artisan, Users
 #             instance.save()
         
 #         return instance
+
+    
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = Users
+        fields = ['email']
+    
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({'class': 'form-control'})
+        
+class ArtisanProfilForm(forms.ModelForm):
+    Metier = forms.ModelChoiceField(label="Metier",queryset=Metier.objects.all(), required=True, widget=forms.Select())
+    class Meta:
+        model = Artisan
+        fields = ['Nom', 'Prenom', 'Metier']
+    
+    def __init__(self, *args, **kwargs):
+        super(ArtisanProfilForm, self).__init__(*args, **kwargs)
+        self.fields['Nom'].widget.attrs.update({'class': 'form-control'})
+        self.fields['Prenom'].widget.attrs.update({'class': 'form-control'})
+        # self.fields['genre'].widget.attrs.update({'class': 'form-control'})
+        self.fields['Metier'].widget.attrs.update({'class': 'form-control'})
+        
+class UserProfileForm(forms.ModelForm):
+    profile_picture = forms.ImageField(required=False, error_messages={'invalid': ("Image file only")}, widget= forms.FileInput)
+    class Meta:
+        model = UserProfile
+        fields = ['Ville', 'Commune', 'Entreprise', 'Competence', 'Descriptions','Annee_experience', 'photo_de_profil']
+    
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['Ville'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+        self.fields['Commune'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+        self.fields['Entreprise'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+        self.fields['Competence'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+        self.fields['Descriptions'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+        self.fields['Annee_experience'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+        self.fields['photo_de_profil'].widget.attrs.update({'class': 'form-control'})
+ 
+class PortfolioPhotoForm(forms.ModelForm):
+    class Meta:
+        model = PortfolioPhoto
+        fields = ['media']
+    
+    def __init__(self, *args, **kwargs):
+        super(PortfolioPhotoForm, self).__init__(*args, **kwargs)
+        self.fields['media'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
  
 class ArtisanForm(forms.ModelForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(
@@ -73,7 +126,7 @@ class ArtisanForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'class': 'form-control'}
     ))
-
+    Metier = forms.ModelChoiceField(label="Metier",queryset=Metier.objects.all(), required=True, widget=forms.Select())
     class Meta:
         model = Artisan
         fields = ['Nom', 'Prenom', 'genre', 'Metier']
@@ -83,7 +136,8 @@ class ArtisanForm(forms.ModelForm):
         self.fields['Nom'].widget.attrs.update({'class': 'form-control'})
         self.fields['Prenom'].widget.attrs.update({'class': 'form-control'})
         self.fields['genre'].widget.attrs.update({'class': 'form-control'})
-        self.fields['Metier'].widget = forms.Select(attrs={'class': 'form-control'})
+        self.fields['Metier'].widget.attrs.update({'class': 'form-control'})
+        # self.fields['Metier'].widget = forms.Select(attrs={'class': 'form-control'})
 
     def clean_phone(self):
         Telephone = self.cleaned_data.get('Telephone')
