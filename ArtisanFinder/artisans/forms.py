@@ -1,5 +1,7 @@
+from urllib import request
 from django import forms
-from .models import Artisan, PortfolioPhoto, UserProfile, Users,Metier
+from django.shortcuts import get_object_or_404
+from .models import Artisan, PortfolioPhoto, Tache, UserProfile, Users,Metier
 # from .models import Artisan, PortfolioPhoto, User, UserManager
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -88,22 +90,100 @@ class ArtisanProfilForm(forms.ModelForm):
         # self.fields['genre'].widget.attrs.update({'class': 'form-control'})
         self.fields['Metier'].widget.attrs.update({'class': 'form-control'})
         
+# class UserProfileForm(forms.ModelForm):
+#     photo_de_profil = forms.ImageField(required=False, error_messages={'invalid': ("Image file only")}, widget= forms.FileInput)
+#     class Meta:
+#         model = UserProfile
+#         fields = ['Ville', 'Commune', 'Entreprise', 'Competence', 'Descriptions','Annee_experience', 'photo_de_profil']
+    
+#     def __init__(self, *args, **kwargs):
+#         super(UserProfileForm, self).__init__(*args, **kwargs)
+#         self.fields['Ville'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Commune'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Entreprise'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Competence'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Descriptions'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Annee_experience'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['photo_de_profil'].widget.attrs.update({'class': 'form-control'})
+ 
+# class UserProfileForm(forms.ModelForm):
+#     utilisateur = get_object_or_404(Users, id=user.id)
+#     artisan = get_object_or_404(Artisan, IdUser=utilisateur)
+#     Competence = forms.ModelMultipleChoiceField(
+#         queryset=Tache.objects.filter(metier=Artisan.objects.filter(metier= artisan.Metier)),
+#         widget=forms.CheckboxSelectMultiple,
+#         required=False
+#     )
+#     photo_de_profil = forms.ImageField(required=False, error_messages={'invalid': ("Image file only")}, widget=forms.FileInput)
+
+#     class Meta:
+#         model = UserProfile
+#         fields = ['Ville', 'Commune', 'Entreprise', 'Competence', 'Descriptions', 'Annee_experience', 'photo_de_profil']
+
+#     def __init__(self, *args, **kwargs):
+        
+#         metier_id = kwargs.pop('metier', None)
+#         super(UserProfileForm, self).__init__(*args, **kwargs)
+#         if metier_id:
+#             self.fields['Competence'].queryset = Tache.objects.filter(metier=metier_id)
+        
+#         self.fields['Ville'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Commune'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Entreprise'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Descriptions'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Annee_experience'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['photo_de_profil'].widget.attrs.update({'class': 'form-control'})
+ 
+# class UserProfileForm(forms.ModelForm):
+#     Competence = forms.ModelMultipleChoiceField(
+#         queryset=Tache.objects.none(),
+#         widget=forms.CheckboxSelectMultiple,
+#         required=False
+#     )
+#     photo_de_profil = forms.ImageField(required=False, error_messages={'invalid': ("Image file only")}, widget=forms.FileInput)
+
+#     class Meta:
+#         model = UserProfile
+#         fields = ['Ville', 'Commune', 'Entreprise', 'Competence', 'Descriptions', 'Annee_experience', 'photo_de_profil']
+
+#     def __init__(self, *args, **kwargs):
+#         user = kwargs.pop('user', None)
+#         super(UserProfileForm, self).__init__(*args, **kwargs)
+#         if user and hasattr(user, 'Metier'):# Suppose que le modèle Artisan a un champ metier
+#             self.fields['Competence'].queryset = Tache.objects.filter(metier=user.Metier)
+        
+#         self.fields['Ville'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Commune'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Entreprise'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Descriptions'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['Annee_experience'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
+#         self.fields['photo_de_profil'].widget.attrs.update({'class': 'form-control'})
+
 class UserProfileForm(forms.ModelForm):
-    profile_picture = forms.ImageField(required=False, error_messages={'invalid': ("Image file only")}, widget= forms.FileInput)
+    Competence = forms.ModelMultipleChoiceField(
+        queryset=Tache.objects.none(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False
+    )
+    photo_de_profil = forms.ImageField(required=False, error_messages={'invalid': ("Image file only")}, widget=forms.FileInput)
+
     class Meta:
         model = UserProfile
-        fields = ['Ville', 'Commune', 'Entreprise', 'Competence', 'Descriptions','Annee_experience', 'photo_de_profil']
-    
+        fields = ['Ville', 'Commune', 'Entreprise', 'Competence', 'Descriptions', 'Annee_experience', 'photo_de_profil']
+
     def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs)
+        user = kwargs.pop('user', None)  # Pop user from kwargs
+        super(UserProfileForm, self).__init__(*args, **kwargs)  # Correct usage of super()
+        if user and hasattr(user, 'Metier'):
+            self.fields['Competence'].queryset = Tache.objects.filter(metier=user.Metier)
+        
         self.fields['Ville'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
         self.fields['Commune'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
         self.fields['Entreprise'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
-        self.fields['Competence'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
         self.fields['Descriptions'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
         self.fields['Annee_experience'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
-        self.fields['photo_de_profil'].widget.attrs.update({'class': 'form-control'})
- 
+        self.fields['photo_de_profil'].widget.attrs.update({'class': 'form-control'})     
+                   
 class PortfolioPhotoForm(forms.ModelForm):
     class Meta:
         model = PortfolioPhoto

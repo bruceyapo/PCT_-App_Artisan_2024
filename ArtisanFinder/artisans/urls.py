@@ -5,7 +5,8 @@ from . import views
 # from django.conf.urls.static import static
 # # from django.contrib.auth import authenticate, login
 # # from .forms import LoginForm
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,9 +31,11 @@ urlpatterns = [
     # path('profil/<int:artisan_id>/', views.profile_view, name='profil'),
     # path('edit_profile/', views.edit_profile_view, name='edit_profile'),
     path('artisan/change-password/', views.change_password_view, name='change_password_view'),
-    path('artisan/<int:artisan_id>/add-portfolio-photo/', views.add_portfolio_photo_view, name='add_portfolio_photo_view'),
+    path('supp_portfolio/<int:portfolio_id>', views.supp_portfolio, name='supp_portfolio'),
     path('profil/', views.profilArtisan_view, name='profil'),
     path('plombier/', views.plombier_view, name= 'plombier'),
     path('menuisier/', views.menuisier_view, name= 'menuisier'),
     path('bijoutier/', views.bijoutier_view, name= 'bijoutier'),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

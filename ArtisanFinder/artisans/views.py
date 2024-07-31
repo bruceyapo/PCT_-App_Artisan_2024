@@ -15,7 +15,7 @@ from django.urls import reverse
 import pandas as pd
 
 from artisans.forms import ArtisanForm, ArtisanProfilForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
-from artisans.models import Artisan, Localisation, Metier, UserProfile, Users
+from artisans.models import Artisan, Localisation, Metier, PortfolioPhoto, UserProfile, Users
 
 
 
@@ -88,44 +88,114 @@ def profile_view(request) :
 #     #     form = ArtisanForm(instance=artisan)
 #     return render(request, 'edit_profil.html')
 
+# @login_required(login_url='login')
+# def profilArtisan_view(request):
+#     user = request.user
+#     utilisateur = get_object_or_404(Users, id=user.id)
+#     artisan = get_object_or_404(Artisan, IdUser=utilisateur)
+#     userprofile, created = UserProfile.objects.get_or_create(user=artisan)
+#     if request.method == 'POST':
+#         user_form = ArtisanProfilForm(request.POST, instance=artisan)
+#         profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile, metier=artisan)
+#         emailform = UserForm(request.POST, instance=utilisateur)
+
+#         if user_form.is_valid() and profile_form.is_valid() and emailform.is_valid():
+#             user_form.save()
+#             profile_form.save()
+#             emailform.save()
+#             messages.success(request, 'Profile updated successfully')
+#             return redirect('profil')
+#     else:
+#         user_form = ArtisanProfilForm(instance=artisan)
+#         profile_form = UserProfileForm(instance=userprofile, user=artisan)
+#         emailform = UserForm(instance=utilisateur)
+        
+#     if request.method == 'POST':
+#         Portform = PortfolioPhotoForm(request.POST, request.FILES)
+#         if Portform.is_valid():
+#             portfolio_photo = Portform.save(commit=False)
+#             portfolio_photo.user = artisan
+#             portfolio_photo.save()
+#             messages.success(request, 'Ajouter avec succes')
+#             return redirect('profil')
+#         else:
+#             messages.error(request, 'Error updating profile')
+#     else:
+#         Portform = PortfolioPhotoForm()
+    
+#     list_port = PortfolioPhoto.objects.filter(user=artisan).order_by('DateAjout')
+    
+#     # Charger les données dans le contexte pour la vue
+#     context = {
+#         'utilisateur': utilisateur,
+#         'artisan': artisan,
+#         'userprofile': userprofile,
+#         'user_form': user_form,
+#         'Portform': Portform,
+#         'profile_form': profile_form,
+#         'emailform': emailform,
+#         'list_port': list_port
+#     }
+#     return render(request, 'profil_artisan.html', context)
+
 @login_required(login_url='login')
 def profilArtisan_view(request):
     user = request.user
     utilisateur = get_object_or_404(Users, id=user.id)
     artisan = get_object_or_404(Artisan, IdUser=utilisateur)
     userprofile, created = UserProfile.objects.get_or_create(user=artisan)
-
+    
     if request.method == 'POST':
+        # Initialiser les formulaires ici pour garantir qu'ils soient définis dans tous les cas
         user_form = ArtisanProfilForm(request.POST, instance=artisan)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile, user=artisan)
         emailform = UserForm(request.POST, instance=utilisateur)
-
-        if user_form.is_valid() and profile_form.is_valid() and emailform.is_valid():
-            user_form.save()
-            profile_form.save()
-            emailform.save()
-            messages.success(request, 'Profile updated successfully')
-            return redirect('profil')
+        Portform = PortfolioPhotoForm(request.POST, request.FILES)
+        if 'submit_user_form' in request.POST:
+            if user_form.is_valid() and profile_form.is_valid() and emailform.is_valid():
+                user_form.save()
+                profile_form.save()
+                emailform.save()
+                messages.success(request, 'Profile updated successfully')
+                return redirect('profil')
+        elif 'submit_portform' in request.POST:
+            
+            if Portform.is_valid():
+                portfolio_photo = Portform.save(commit=False)
+                portfolio_photo.user = artisan
+                portfolio_photo.save()
+                messages.success(request, 'Ajouter avec succes')
+                return redirect('profil')
+            else:
+                messages.error(request, 'Error updating profile')
         else:
-            # Affichage des erreurs de validation des formulaires
-            messages.error(request, 'Error updating profile')
-            print("User form errors:", user_form.errors)
-            print("Profile form errors:", profile_form.errors)
-            print("Email form errors:", emailform.errors)
+            Portform = PortfolioPhotoForm()
     else:
         user_form = ArtisanProfilForm(instance=artisan)
-        profile_form = UserProfileForm(instance=userprofile)
+        profile_form = UserProfileForm(instance=userprofile, user=artisan)
         emailform = UserForm(instance=utilisateur)
-
+        Portform = PortfolioPhotoForm()
+    
+    list_port = PortfolioPhoto.objects.filter(user=artisan).order_by('DateAjout')
+    competencies = userprofile.Competence.all()
     context = {
         'utilisateur': utilisateur,
         'artisan': artisan,
         'userprofile': userprofile,
         'user_form': user_form,
+        'Portform': Portform,
+        'competencies':competencies,
         'profile_form': profile_form,
         'emailform': emailform,
+        'list_port': list_port
     }
     return render(request, 'profil_artisan.html', context)
+@login_required
+def supp_portfolio(request, portfolio_id):
+    portfolio = PortfolioPhoto.objects.get(id=portfolio_id)
+    portfolio.delete()
+    messages.success(request, 'portfolio retiré avec succes')
+    return redirect('profil')
 # def profilArtisan_view(request) :
 #     user = request.user
 #     # Récupérer l'utilisateur connecté
@@ -434,18 +504,7 @@ def change_password_view(request):
         form = PasswordChangeForm(user=request.user)
     return render(request, 'edit_password.html', {'form': form})
 
-@login_required
-def add_portfolio_photo_view(request, artisan_id):
-    # artisan = get_object_or_404(Artisan, id=artisan_id)
-    # if request.method == 'POST':
-    #     form = PortfolioPhotoForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         photo = form.save()
-    #         artisan.portfolio_photos.add(photo)
-    #         return redirect('profil', artisan_id=artisan.id)
-    # else:
-    #     form = PortfolioPhotoForm()
-    return render(request, 'add_portfolio.html')
+
 
 
 

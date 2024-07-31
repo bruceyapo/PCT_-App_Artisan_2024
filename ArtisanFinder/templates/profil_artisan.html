@@ -24,17 +24,15 @@
                   <div class="card-body">
                     <div class="text-center mb-3">
                       {% if userprofile.photo_de_profil %}
-                                                
-                               
-                                    <img src="{{ userprofile.photo_de_profil.url }}" width="150px" height="150px" alt="Profile picture" class="img-fluid">
-                                
-                            
-                            {% else %}
-                            
-                            <img width="150px" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid"
-                              alt="Franck Kouamé"> 
-                            
-                            {% endif %}
+                          <div class="col-md-12" width="200">
+                            <img src="{{ userprofile.photo_de_profil.url }}" width="200" alt="Profile picture" class="img-fluid img-thumbnail shadow">
+                          </div>
+                      {% else %}
+                      
+                        <img width="150px" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid"
+                          alt="{{artisan.Prenom}} {{artisan.Nom}}"> 
+                      
+                      {% endif %}
                       <!-- <img src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid rounded-circle" alt="Profil-artisan"> -->
                     </div>
                     <h5 class="text-center mb-1">{{artisan.Prenom}} {{artisan.Nom}}</h5>
@@ -91,12 +89,17 @@
                 <div class="card widget-card border-light shadow-sm">
                   <div class="card-header text-bg-success text-center">Compétences</div>
                   <div class="card-body">
-                    <span class="badge text-bg-light">Installation de Lavabo</span>
+                    {% for competence in competencies %}
+                    <span class="badge text-bg-light">{{ competence.description }}</span>
+                    {% empty %}
+                        <li>Aucune compétence enregistrée.</li>
+                    {% endfor %}
+                    <!-- <span class="badge text-bg-light">Installation de Lavabo
                     <span class="badge text-bg-light">Installation de chauffe eau</span>
                     <span class="badge text-bg-light">Pose d'éviers</span>
                     <span class="badge text-bg-light">Pose de WC</span>
                     <span class="badge text-bg-light">............</span>
-                    <!-- Ajoutez d'autres compétences ici -->
+                    Ajoutez d'autres compétences ici -->
                   </div>
                 </div>
               </div>
@@ -129,8 +132,7 @@
                   <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel"
                     aria-labelledby="overview-tab" tabindex="0">
                     <h5 class="mb-3">A propos de moi</h5>
-                    <p class=" mb-3"> <b>{{artisan.Prenom}} {{artisan.Nom}} </b> est un chef plombier qualifié dans l'installation et de la
-                      maintenance d'équipements sanitaires</p>
+                    <p class=" mb-3">{{userprofile.Descriptions}}</p>
                     <h5 class="mb-3">Profil</h5>
                     <div class="row g-0">
                       <div class="col-5 col-md-3 bg-light border-bottom border-white border-3">
@@ -532,7 +534,7 @@
                           id="inputAbout">Kouamé Franck est un chef plombier qualifié dans l'installation et de la maintenance d'équipements sanitaires.</textarea> -->
                       </div>
                       <div class="col-12">
-                        <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+                        <button type="submit" name="submit_user_form" class="btn btn-success">Enregistrer les modifications</button>
                       </div>
                     </form>
                   </div>
@@ -599,6 +601,7 @@
                           <input type="password" class="form-control" id="confirmPassword">
                         </div>
                         <div class="col-12">
+                          
                           <button type="submit" class="btn btn-success">Enregistrer le Changement</button>
                         </div>
                       </div>
@@ -614,29 +617,60 @@
               <div class="card widget-card border-light shadow-sm mt-4">
                 <div class="card-header text-bg-success text-center">Portfolio</div>
                 <div class="card-body">
-                  <div class="portfolio-section">
-                    <!-- <h2></h2> -->
-                    <div class="portfolio">
-                      <!-- Exemple d'image de portfolio -->
-                      <div class="portfolio-item">
-                        <img src="portfolio1.jpg" alt="Projet 1">
-                        <button class="delete-button" onclick="deleteImage('portfolio1.jpg')">Supprimer</button>
+                  <div class="portfolio-section mt-0">
+                    <div class="row mb-3">
+                      <div class="col-md-10">
+
                       </div>
-                      <div class="portfolio-item">
-                        <img src="portfolio2.jpg" alt="Projet 2">
-                        <button class="delete-button" onclick="deleteImage('portfolio2.jpg')">Supprimer</button>
+                      <form id="add-photo-form" method="post" enctype="multipart/form-data" action="" class="end col-md-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="submit_portform" value="true">
+                        <input type="file" name="media" id="photo-input" style="display: none;" onchange="this.form.submit()">
+                        <button type="button" onclick="document.getElementById('photo-input').click()">Ajouter</button>
+                    </form>
+                    <!-- <h2></h2> -->
+                    <div class="row">
+                      
+                      <!-- Exemple d'image de portfolio -->
+                        {% for portfolio in list_port %}
+                        
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ portfolio.id }}">
+                              <img src="{{ portfolio.media.url }}" class="img-thumbnail shadow" width="300"  style="width: 100%; height:200px; object-fit: cover" alt="Projet 1">
+                            </a>
+                          </div>
+                        
+                      
+                      <!-- Button trigger modal -->
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop{{ portfolio.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ portfolio.id }}" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel{{ portfolio.id }}">Mon Portfolio</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <img src="{{ portfolio.media.url }}" alt="Projet 1" class="img-fluid img-thumbnail shadow" style="width: 100%; height:380px; object-fit: cover">
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abandonner</button>
+                                <a href="{% url 'supp_portfolio' portfolio.id %}" class="btn btn-danger">Supprimer</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {%empty%}
+
+                      <div class="text-center">
+                        <p>Aucun portfolio disponible pour le moment.</p>
+                      </div>
+
+                      {% endfor %}
                       </div>
                       <!-- Ajoutez plus d'images de portfolio ici -->
                     </div>
-                    <!-- Formulaire d'ajout de photo -->
-                    <form id="add-photo-form" action="/url_add_photo_view/" method="post" enctype="multipart/form-data">
-                      <!-- {% csrf_token %} -->
-                      <input type="file" name="photo" id="photo-input" style="display: none;"
-                        onchange="submitPhotoForm()">
-                      <button class="bg-success" type="button"
-                        onclick="document.getElementById('photo-input').click()">Ajouter une
-                        photo</button>
-                    </form>
                   </div>
                 </div>
               </div>

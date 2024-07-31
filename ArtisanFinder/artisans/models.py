@@ -67,9 +67,14 @@ class Users(AbstractBaseUser):
 
 class Metier(models.Model):  
     Nom  = models.CharField(max_length=100, blank=True)
-    
     def __str__(self):
         return self.Nom
+class Tache(models.Model):
+    metier = models.ForeignKey(Metier, on_delete=models.CASCADE)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.description
 # Model de modification de profil Artisan :
 class Artisan(models.Model):
     Nom                     = models.CharField(max_length=50)
@@ -85,7 +90,7 @@ class UserProfile(models.Model):
     Ville                   = models.CharField(max_length=100, blank=True, null=True)
     Commune                 = models.CharField(max_length=100, blank=True, null=True)
     Entreprise              = models.CharField(max_length=100, blank=True, null=True)
-    Competence              = models.CharField(max_length=100, blank=True, null=True)
+    Competence              = models.ManyToManyField(Tache, blank=True)  # Changement ici
     photo_de_profil         = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     Descriptions            = models.TextField(blank=True)
     Annee_experience        = models.IntegerField(blank=True, null=True)
@@ -104,9 +109,12 @@ class Localisation(models.Model):
         return self.user.Nom
 
 class PortfolioPhoto(models.Model):
-    user = models.ManyToManyField(UserProfile) 
+    user = models.ForeignKey(Artisan, on_delete=models.CASCADE, null=True, blank=True) 
     media = models.ImageField(upload_to='portfolio_photos/', blank=True, null=True)
-    
+    DateAjout = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.user.Nom
 # Model d'enregistrement client :
 class Client(models.Model):
     Nom                     = models.CharField(max_length=50, blank=False)
