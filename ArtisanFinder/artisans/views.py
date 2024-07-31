@@ -380,7 +380,8 @@ def inscription_view(request):
         if form.is_valid():
             user = form.save()
             # login(request, user)
-            return redirect('login_view')
+            messages.success(request, "Inscription effectuée avec succès !")
+            return redirect('login')
     else:
         form = ArtisanForm()
     context = {

@@ -6,42 +6,116 @@
 
 
 <style>
-    .custom-border-radius{
-    border-radius: 96% 4% 36% 64% / 41% 45% 55% 59% ;
-}
+  .custom-border-radius {
+    border-radius: 96% 4% 36% 64% / 41% 45% 55% 59%;
+  }
 </style>
 <div class="animate__animated animate__fadeInLeft">
-<h1 class="display-4 mt-5 text-center ">Bienvenue sur Artisan Finder !</h1>
-<!-- 3D Card Slider -->
-<div class="slide1 animate__animated animate__bounceIn">
-    <div class="slideshow">
-        <ul>
-            <li>
-                <div class="single-img">
-                    <img  src="{% static 'artisanfinder/images/couture2.jpg'   %}" alt="Slide 1">
-                </div>
-            </li>
-            <li>
-                <div class="single-img">
-                    <img  src="{% static 'artisanfinder/images/african-woman.jpg'   %}" alt="Slide 2">
-                </div>
-            </li>
-            <li>
-                <div class="single-img">
-                    <img src="{% static 'artisanfinder/images/soudeur.jpg'   %}" alt="Slide 3">
-                </div>
-            </li>
-            <li>
-                <div class="single-img">
-                    <img src="{% static 'artisanfinder/images/menuisier.jpg'   %}" alt="Slide 4">
-                </div>
-            </li>
-            
-        </ul>
+  <h1 class="display-4 mt-5 text-center ">Bienvenue sur Artisan Finder !</h1>
+  <!-- 3D Card Slider -->
+  <div class="slide1 animate__animated animate__bounceIn">
+
+    <div id="carouselExampleAutoplaying" class="carousel-slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'artisanfinder/images/couture2.jpg'   %}" class="single-img" alt="slide 1">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'artisanfinder/images/african-woman.jpg'   %}" class="single-img" alt="slide 2">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'artisanfinder/images/soudeur.jpg'   %}" class="single-img" alt="slide 3">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'artisanfinder/images/menuisier.jpg' %}" class="single-img" alt="slide 4">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
-</div>
+
+  </div>
 </div>
 
+ <!-- Modal -->
+ <div class="modal fade" id="publiciteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Publicité</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Slider d'images -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img class="single-img" src="{% static 'artisanfinder/images/ads/bijoux.jpg' %}" alt="First slide">
+            </div>
+            <div class="carousel-item">
+              <img class="single-img" src="{% static 'artisanfinder/images/ads/pack1.png' %}" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+              <img class="single-img" src="{% static 'artisanfinder/images/ads/pack_artisan_pro.jpg' %}" alt="Third slide">
+            </div>
+
+            <div class="carousel-item">
+              <img class="single-img" src="{% static 'artisanfinder/images/ads/pack_artisan_prem1.jpg' %}" alt="First slide">
+
+            </div>
+
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#publiciteModal').modal('show');
+    console.log("Modal opened");
+
+    // Add event listeners for closing modal
+    $('.close').click(function() {
+      $('#publiciteModal').modal('hide');
+      console.log("Close button clicked");
+    });
+
+    $('.btn-secondary').click(function() {
+      $('#publiciteModal').modal('hide');
+      console.log("Fermer button clicked");
+    });
+  });
+</script>
 
 
 
@@ -49,22 +123,22 @@
 
 
 <div class=" ">
-    <div class="jumbotron">
+  <div class="jumbotron">
 
-        <p class="lead text-center">Nous offrons les meilleurs services pour trouver des artisans qualifiés.</p>
-        <hr class="my-4">
+    <p class="lead text-center">Nous offrons les meilleurs services pour trouver des artisans qualifiés.</p>
+    <hr class="my-4">
 
-        <section class="categories">
-            <div class="container">
-                <h2>Catégories populaires</h2>
-                <div class="category-grid">
-                    {% for met in metier %}
-                    <div class="category-item" style="width: 20%;">
-                        <i class="fas fa-wrench"></i>
-                        <h4>{{met.Nom}}</h4>
-                    </div>
-                    {% endfor %}
-                    <!-- <div class="category-item">
+    <section class="categories">
+      <div class="container">
+        <h2>Catégories populaires</h2>
+        <div class="category-grid">
+          {% for met in metier %}
+          <div class="category-item" style="width: 20%;">
+            <i class="fas fa-wrench"></i>
+            <h4>{{met.Nom}}</h4>
+          </div>
+          {% endfor %}
+          <!-- <div class="category-item">
                         <i class="fas fa-bolt"></i>
                         <h4>Électricité</h4>
                     </div>
@@ -81,98 +155,106 @@
                         <h4>Froid climatisation</h4>
                     </div>
                      -->
-                </div>
-            </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
 
-        <section class="testimonials">
+    <section class="testimonials">
 
-           
-            <div class="container">
-                <h2>Avis de nos clients</h2>
-                <div class="testimonial-grid">
-                    <div class="testimonial-item">
-                        <p>"Service excellent ! J'ai trouvé un plombier en moins de 10 minutes."</p>
-                        <h4>Marie Dupont</h4>
-                    </div>
-                    <div class="testimonial-item">
-                        <p>"Les électriciens recommandés sont très professionnels."</p>
-                        <h4>Jean Jacques Martin</h4>
-                    </div>
-                    <div class="testimonial-item">
-                        <p>"Une plateforme très pratique et facile à utiliser."</p>
-                        <h4>Kouamé Moise</h4>
-                    </div>
 
-                    <div class="testimonial-item">
-                        <p>"Le technicien froid m'a installé mon split en un rien de temps."</p>
-                        <h4>Sophie Bernard</h4>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <div class="container-fluid p-4">
-            <div class="container">
-              <h1 class="text-center mt-5 my-5 "><img src="https://images.cooltext.com/5703555.gif" style="border-radius: 20px;" width="769" height="114" alt="Comment ça marche ?" /></a></h1>
-              <div class="row">
-                <div class="col-md-4 col-sm-12">
-                  <div class="etape">
-                    <img src="{% static 'artisanfinder/images/etape1.jpg'   %}" class="img-fluid rounded-circle" alt="Étape 1"/>
-                    <h5 class="stat-color">CHOISISSEZ VOTRE ARTISAN</h5>
-                    <p>Selon son portfolio, sa distance et sa réactivité</p>
-                  </div>
-                </div>
-                <div class="col-md-4 col-sm-12">
-                  <div class="etape">
-                    <img src="{% static 'artisanfinder/images/etape2.jpg'   %}" class="img-fluid rounded-circle" alt="Étape 2"/>
-                    <h5 class="stat-color">TROUVEZ ET DISCUTER</h5>
-                    <p>Avec votre Artisan</p>
-                  </div>
-                </div>
-                <div class="col-md-4 col-sm-12">
-                  <div class="etape ">
-                    <img src="{% static 'artisanfinder/images/etape3.jpg'   %}" class="img-fluid rounded-circle" alt="Étape 3"/>
-                    <h5 class="stat-color">VOS TRAVAUX SONT ZOOO !</h5>
-                    <p>C'est Vous qui validez le paiement à votre artisan</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div class="container">
+        <h2>Avis de nos clients</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-item">
+            <p>"Service excellent ! J'ai trouvé un plombier en moins de 10 minutes."</p>
+            <h4>Marie Dupont</h4>
+          </div>
+          <div class="testimonial-item">
+            <p>"Les électriciens recommandés sont très professionnels."</p>
+            <h4>Jean Jacques Martin</h4>
+          </div>
+          <div class="testimonial-item">
+            <p>"Une plateforme très pratique et facile à utiliser."</p>
+            <h4>Kouamé Moise</h4>
           </div>
 
-        <section class="container cta">
-            <div class="cta-container">
-
-                <img width="100px" height="100px" src="{% static 'artisanfinder/images/bijoux1.jpg'   %}" " alt=" Left
-                    Image" class="cta-image1">
-
-                <a href="/artisan/" class="btn-custom">Rechercher un Artisan <i class="fas fa-search p-2"></i></a>
-
-                <img width="100px" height="100px" src="{% static 'artisanfinder/images/Artisan5.jpg'   %}" alt="Right Image" class="cta-image2 ">
-            </div>
-           </div>
-        </section>
-
-
-        <div class="container-fluid " style="background-image: url('/static/artisanfinder/images/Artisan1jpg.jpg');background-size: cover; background-position: center; background-repeat: no-repeat;min-height: 400px;">
-            <div class="row justify-content-center">
-              <div class="col-md-8">
-                <div class="">
-                  <div class="row">
-                    <div class="col-md-8 p-4">
-                      <h2 class="text-white">Vous cherchez des Clients?</h2>
-                      <h3 class="text-white">Développez votre activité avec ArtisanFinder.com</h3>
-                      <p class="text-white">ArtisanFinder.com est le moyen fiable pour obtenir plus et différents clients de votre choix. Inscrivez-vous gratuitement pour recevoir régulièrement des projets de client près de chez vous qui correspondent à vos compétences. Petits ou grands projets, c'est vous qui décidez.</p>
-                      <a href="/inscription/" class="btn-custom m-3">Artisans, inscrivez-vous gratuitement dès maintenant.</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div class="testimonial-item">
+            <p>"Le technicien froid m'a installé mon split en un rien de temps."</p>
+            <h4>Sophie Bernard</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="container-fluid p-4">
+      <div class="container">
+        <h1 class="text-center mt-5 my-5 "><img src="https://images.cooltext.com/5703555.gif"
+            style="border-radius: 20px;" width="769" height="114" alt="Comment ça marche ?" /></a></h1>
+        <div class="row">
+          <div class="col-md-4 col-sm-12">
+            <div class="etape">
+              <img src="{% static 'artisanfinder/images/etape1.jpg'   %}" class="img-fluid rounded-circle"
+                alt="Étape 1" />
+              <h5 class="stat-color">CHOISISSEZ VOTRE ARTISAN</h5>
+              <p>Selon son portfolio, sa distance et sa réactivité</p>
             </div>
           </div>
+          <div class="col-md-4 col-sm-12">
+            <div class="etape">
+              <img src="{% static 'artisanfinder/images/etape2.jpg'   %}" class="img-fluid rounded-circle"
+                alt="Étape 2" />
+              <h5 class="stat-color">TROUVEZ ET DISCUTER</h5>
+              <p>Avec votre Artisan</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12">
+            <div class="etape ">
+              <img src="{% static 'artisanfinder/images/etape3.jpg'   %}" class="img-fluid rounded-circle"
+                alt="Étape 3" />
+              <h5 class="stat-color">VOS TRAVAUX SONT ZOOO !</h5>
+              <p>C'est Vous qui validez le paiement à votre artisan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <!-- <div class="container">
+    <section class="container cta">
+      <div class="cta-container">
+
+        <img width="100px" height="100px" src="{% static 'artisanfinder/images/bijoux1.jpg'   %}" " alt=" Left Image"
+          class="cta-image1">
+
+        <a href="/artisan/" class="btn-custom">Rechercher un Artisan <i class="fas fa-search p-2"></i></a>
+
+        <img width="100px" height="100px" src="{% static 'artisanfinder/images/Artisan5.jpg'   %}" alt="Right Image"
+          class="cta-image2 ">
+      </div>
+  </div>
+  </section>
+
+
+  <div class="container-fluid "
+    style="background-image: url('/static/artisanfinder/images/Artisan1jpg.jpg');background-size: cover; background-position: center; background-repeat: no-repeat;min-height: 400px;">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="">
+          <div class="row">
+            <div class="col-md-8 p-4">
+              <h2 class="text-white">Vous cherchez des Clients?</h2>
+              <h3 class="text-white">Développez votre activité avec ArtisanFinder.com</h3>
+              <p class="text-white">ArtisanFinder.com est le moyen fiable pour obtenir plus et différents clients de
+                votre choix. Inscrivez-vous gratuitement pour recevoir régulièrement des projets de client près de chez
+                vous qui correspondent à vos compétences. Petits ou grands projets, c'est vous qui décidez.</p>
+              <a href="/inscription/" class="btn-custom m-3">Artisans, inscrivez-vous gratuitement dès maintenant.</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="container">
         <div class="row">
             <div class="col-6">
                 <img src="{% static 'artisanfinder/images/multiple-horizontal.jpg'   %}" alt="Right Image" class="cta-image">
@@ -186,11 +268,11 @@
         </div>
 
     </div> -->
-    <div class="container">
+  <div class="container">
     <hr class="my-4">
     <p>Explorez nos services pour en savoir plus.</p>
     <a class="btn-custom my-3" href="{% url 'services' %}" role="button">En savoir plus</a>
-    </div>
+  </div>
 </div>
 </div>
 
