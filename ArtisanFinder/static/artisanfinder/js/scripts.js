@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   autoplay();
   function autoplay() {
     $('.slideshow').slideshow('next');
-    setTimeout(autoplay, 4500);
+    setTimeout(autoplay, 5500);
   }
   });
 
