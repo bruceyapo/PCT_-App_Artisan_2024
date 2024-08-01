@@ -87,7 +87,6 @@ def profile_view(request) :
 #     #     form = ArtisanForm(instance=artisan)
 #     return render(request, 'edit_profil.html')
 
-<<<<<<< Updated upstream
 # @login_required(login_url='login')
 # def profilArtisan_view(request):
 #     user = request.user
@@ -137,13 +136,6 @@ def profile_view(request) :
 #         'list_port': list_port
 #     }
 #     return render(request, 'profil_artisan.html', context)
-=======
-def artisan_profile(request, artisan_id):
-    artisan = Artisan.objects.get(id=artisan_id)
-    return render(request, 'modal_profil.html', {'artisan': artisan})
-
-
->>>>>>> Stashed changes
 
 @login_required(login_url='login')
 def profilArtisan_view(request):

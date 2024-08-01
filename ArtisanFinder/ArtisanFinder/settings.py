@@ -88,17 +88,17 @@ WSGI_APPLICATION = 'ArtisanFinder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
+DATABASES = {
     
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'ArtisanFinder',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306'
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ArtisanFinder',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306'
         
-#     },
+    }
       
      
 #     # 'default': {
@@ -107,19 +107,19 @@ WSGI_APPLICATION = 'ArtisanFinder.wsgi.application'
 #     # }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'mssql',  # Use 'mssql' for mssql-django
-        'NAME': 'ArtisanFinder',
-        'USER': 'Yapo2000',
-        'PASSWORD': 'Yapo2000@',
-        'HOST': 'DESKTOP-QQGKONI\\SQLEXPRESS',
-        'PORT': '',  # Optional, defaults to 1433
-        'OPTIONS': {
-            'driver': 'ODBC Driver 17 for SQL Server',  # Adjust based on your driver version
-            'Trusted_Connection': 'yes;',
-        }
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',  # Use 'mssql' for mssql-django
+#         'NAME': 'ArtisanFinder',
+#         'USER': 'Yapo2000',
+#         'PASSWORD': 'Yapo2000@',
+#         'HOST': 'DESKTOP-QQGKONI\\SQLEXPRESS',
+#         'PORT': '',  # Optional, defaults to 1433
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',  # Adjust based on your driver version
+#             'Trusted_Connection': 'yes;',
+#         }
+#     }
 }
 
 

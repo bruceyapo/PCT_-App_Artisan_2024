@@ -5,49 +5,50 @@
 {% block content %}
 
 <main>
-    <style>
-        .progress-container {
-            width: 100%;
-            background-color: #f3f3f3;
-            margin-bottom: 20px;
-        }
+    <script src="{% static 'artisanfinder/js/scripts.js}"></script>
+<style>
+ .progress-container {
+    width: 100%;
+    background-color: #f3f3f3;
+    margin-bottom: 20px;
+}
 
-        .progress-bar {
-            width: 0%;
-            height: 20px;
-            background-color: #FF5841;
-        }
+.progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: #FF5841;
+}
 
-        .form-step {
-            display: none;
-            width: 100%;
-        }
+.form-step {
+    display: none;
+    width: 100%;
+}
 
-        .card {
+.card {
 
-            width: 80%;
-            border-radius: 10px;
-        }
-
-
-
-        .form-step.active {
-            display: block;
-        }
-
-        .required-label::after {
-            content: " *";
-            color: red;
-        }
-    </style>
+    width: 80%;
+    border-radius: 10px;
+}
 
 
+
+.form-step.active {
+    display: block;
+}
+
+.required-label::after {
+    content: " *";
+    color: red;
+}
+
+
+</style>
 
 
     <div class="container">
         <h1 class="text-center mt-5">Trouvez les meilleurs menuisiers près de chez vous!</h1>
 
-        <div class="card ">
+        <div class="card">
             <div class="card-header text-center">
                 <div class="progress-container">
                     <div class="progress-bar" id="progressBar"></div>
@@ -60,20 +61,23 @@
                     <form id="multiStepForm">
                         <div class="form-step active">
                             <div class="form-group">
+
                                 <label for="task" class="required-label">Choisissez une tache </label>
                                 <select id="carpentry-work" onchange="displaySelectedWork()" class="form-control"
                                     required>
                                     <option value="" disabled selected>Sélectionner...</option>
-                                    <option value="tache1">Tâche 1</option>
+                                    <option value="tache1">Tache 1</option>
                                     <option value="tache2">Tâche 2</option>
                                 </select>
+
                             </div>
                             <div id="selected-work" class="selected-work"></div>
                             <div class="form-group">
                                 <label for="location mt-3" class="required-label">Précisez votre localisation</label>
                                 <input type="text" class="form-control" id="location-input" required>
                             </div>
-                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                            <button type="button" class="btn btn-success" onclick="nextStep()"
+                                style="border-radius: 15px;">Suivant</button>
                         </div>
                         <div class="form-step">
                             <div class="form-group">
@@ -84,7 +88,8 @@
                                 <label for="lastName" class="required-label">Entrez votre prénom</label>
                                 <input type="text" class="form-control" id="lastName" required>
                             </div>
-                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                            <button type="button" class="btn btn-success" onclick="nextStep()"
+                                style="border-radius: 15px;">Suivant</button>
                         </div>
                         <div class="form-step">
                             <div class="form-group">
@@ -92,17 +97,20 @@
                                 <input type="tel" class="form-control" id="phone" required>
                             </div>
                             <div class="form-group">
-                                <label for="password" class="required-label">Choisissez un mot de passe pour vous connecter</label>
+                                <label for="password" class="required-label">Choisissez un mot de passe pour vous
+                                    connecter</label>
                                 <input type="password" class="form-control" id="password" required>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="required-label">Confirmer votre mot de passe </label>
                                 <input type="password" class="form-control" id="confirm-password" required>
                             </div>
-                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                            <button type="button" class="btn btn-success" onclick="nextStep()"
+                                style="border-radius: 15px;">Suivant</button>
                         </div>
                         <div class="form-step">
-                            <button type="submit" class="btn btn-success onclick=" filterByLocation()" style="border-radius: 15px;">Recherchez
+                            <button type="submit" class="btn btn-success onclick=" filterByLocation()"
+                                style="border-radius: 15px;">Recherchez
                                 l'artisan</button>
                         </div>
                     </form>
@@ -110,13 +118,10 @@
 
             </div>
         </div>
-
-
-
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
         <script>
             let currentStep = 0;
 
@@ -159,7 +164,15 @@
             });
 
             showStep(currentStep);
+
+
+
+
         </script>
+
+
+
+
 
 
 
