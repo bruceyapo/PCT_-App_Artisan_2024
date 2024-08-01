@@ -5,10 +5,171 @@
 {% block content %}
 
 <main>
+    <style>
+        .progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #FF5841;
+        }
+
+        .form-step {
+            display: none;
+            width: 100%;
+        }
+
+        .card {
+
+            width: 80%;
+            border-radius: 10px;
+        }
+
+
+
+        .form-step.active {
+            display: block;
+        }
+
+        .required-label::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+
+
+
+
     <div class="container">
         <h1 class="text-center mt-5">Trouvez les meilleurs menuisiers près de chez vous!</h1>
 
-        <div class="search-container">
+        <div class="card ">
+            <div class="card-header text-center">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="container mt-5">
+
+                    <form id="multiStepForm">
+                        <div class="form-step active">
+                            <div class="form-group">
+                                <label for="task" class="required-label">Choisissez une tache </label>
+                                <select id="carpentry-work" onchange="displaySelectedWork()" class="form-control"
+                                    required>
+                                    <option value="" disabled selected>Sélectionner...</option>
+                                    <option value="tache1">Tâche 1</option>
+                                    <option value="tache2">Tâche 2</option>
+                                </select>
+                            </div>
+                            <div id="selected-work" class="selected-work"></div>
+                            <div class="form-group">
+                                <label for="location mt-3" class="required-label">Précisez votre localisation</label>
+                                <input type="text" class="form-control" id="location-input" required>
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                        </div>
+                        <div class="form-step">
+                            <div class="form-group">
+                                <label for="firstName" class="required-label">Entrez votre nom</label>
+                                <input type="text" class="form-control" id="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="required-label">Entrez votre prénom</label>
+                                <input type="text" class="form-control" id="lastName" required>
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                        </div>
+                        <div class="form-step">
+                            <div class="form-group">
+                                <label for="phone" class="required-label">Entrez votre numéro de téléphone</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="required-label">Choisissez un mot de passe pour vous connecter</label>
+                                <input type="password" class="form-control" id="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="required-label">Confirmer votre mot de passe </label>
+                                <input type="password" class="form-control" id="confirm-password" required>
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                        </div>
+                        <div class="form-step">
+                            <button type="submit" class="btn btn-success onclick=" filterByLocation()" style="border-radius: 15px;">Recherchez
+                                l'artisan</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script>
+            let currentStep = 0;
+
+            function updateProgressBar() {
+                const progressBar = document.getElementById('progressBar');
+                const totalSteps = document.querySelectorAll('.form-step').length;
+                const percentage = ((currentStep + 1) / totalSteps) * 100;
+                progressBar.style.width = percentage + '%';
+            }
+
+            function showStep(step) {
+                const steps = document.querySelectorAll('.form-step');
+                steps.forEach((element, index) => {
+                    element.classList.toggle('active', index === step);
+                });
+                updateProgressBar();
+            }
+
+            function nextStep() {
+                const steps = document.querySelectorAll('.form-step');
+                const currentInputs = steps[currentStep].querySelectorAll('input, select');
+                let allValid = true;
+
+                currentInputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        input.reportValidity();
+                        allValid = false;
+                    }
+                });
+
+                if (allValid && currentStep < steps.length - 1) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            }
+
+            document.getElementById('multiStepForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                alert('Form submitted successfully!');
+            });
+
+            showStep(currentStep);
+        </script>
+
+
+
+
+
+
+
+
+
+        <!-- <div class="search-container">
             <select id="carpentry-work" onchange="displaySelectedWork()">
                 <option value="" disabled selected>Choisissez un travail de menuiserie</option>
                 <option value="fabrication">Fabrication de portes</option>
@@ -23,9 +184,9 @@
             <input type="text" id="location-input" placeholder="Entrez votre localisation..." class="location-input">
             <button class="btn-custom" onclick="filterByLocation()">Rechercher</button>
 
-        </div>
-        <div id="selected-work" class="selected-work"></div>
-       
+        </div> -->
+
+
         <div class="carpenters-list">
             <div class="carpenter-card" data-location="Abidjan">
                 <div class="profile-pic-container">
@@ -36,7 +197,7 @@
                     <p>Note: ★★★★☆</p>
                     <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
                     <hr>
-                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="avis text-center">Avis le plus récent :</p>
                     <p class="review">"Excellent service, rapide et efficace!"</p>
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
@@ -51,7 +212,7 @@
                     <p>Note: ★★★★★</p>
                     <p class="slogan-artisan">"Qualité et précision!"</p>
                     <hr>
-                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="avis text-center">Avis le plus récent :</p>
                     <p class="review">"Très satisfaite du travail effectué!"</p>
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
@@ -67,7 +228,7 @@
                     <p>Note: ★★★★★</p>
                     <p class="slogan-artisan">"Qualité et précision!"</p>
                     <hr>
-                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="avis text-center">Avis le plus récent :</p>
                     <p class="review">"Très satisfaite du travail effectué!"</p>
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
@@ -83,13 +244,13 @@
                     <p>Note: ★★★★★</p>
                     <p class="slogan-artisan">"Meilleur finission de rendu !"</p>
                     <hr>
-                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="avis text-center">Avis le plus récent :</p>
                     <p class="review">"Wouahh Meuble très jolie!"</p>
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
                 </div>
             </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
             <div class="carpenter-card" data-location="Yopougon">
                 <div class="profile-pic-container">
                     <img src="" alt="Menuisier 2" class="profile-pic">
@@ -99,13 +260,13 @@
                     <p>Note: ★★★★★</p>
                     <p class="slogan-artisan">"Travail bien fait et livré !"</p>
                     <hr>
-                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="avis text-center">Avis le plus récent :</p>
                     <p class="review">"Délais de livraison respecté"</p>
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
                 </div>
             </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
             <div class="carpenter-card" data-location="Yopougon">
                 <div class="profile-pic-container">
                     <img src="" alt="Menuisier 1" class="profile-pic">
@@ -115,7 +276,7 @@
                     <p>Note: ★★★★☆</p>
                     <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
                     <hr>
-                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="avis text-center">Avis le plus récent :</p>
                     <p class="review">"Excellent service, rapide et efficace!"</p>
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
@@ -130,20 +291,20 @@
                     <p>Note: ★★★★★</p>
                     <p class="slogan-artisan">"Travail bien fait et livré !"</p>
                     <hr>
-                    <p class="avis text-center" >Avis le plus récent :</p>
+                    <p class="avis text-center">Avis le plus récent :</p>
                     <p class="review">"Délais de livraison respecté"</p>
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
                 </div>
             </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
+            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
         </div>
         <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité
             .</div>
 
     </div>
     <script src="{% static 'artisanfinder/js/scripts.js}"></script>
-    
+
 
 
 

@@ -77,7 +77,6 @@ def profile_view(request) :
 #     clients = get_object_or_404(client, IdUtilisateur=utilisateur)
     
     
-    
 #     # artisan = get_object_or_404(Artisan, id=artisan_id)
 #     # if request.method == 'POST':
 #     #     form = ArtisanForm(request.POST, instance=artisan)
@@ -88,6 +87,7 @@ def profile_view(request) :
 #     #     form = ArtisanForm(instance=artisan)
 #     return render(request, 'edit_profil.html')
 
+<<<<<<< Updated upstream
 # @login_required(login_url='login')
 # def profilArtisan_view(request):
 #     user = request.user
@@ -137,6 +137,13 @@ def profile_view(request) :
 #         'list_port': list_port
 #     }
 #     return render(request, 'profil_artisan.html', context)
+=======
+def artisan_profile(request, artisan_id):
+    artisan = Artisan.objects.get(id=artisan_id)
+    return render(request, 'modal_profil.html', {'artisan': artisan})
+
+
+>>>>>>> Stashed changes
 
 @login_required(login_url='login')
 def profilArtisan_view(request):
@@ -253,7 +260,7 @@ def supp_portfolio(request, portfolio_id):
 
 def deconnexion(request):
     logout(request)
-    messages.success(request,f"vous êtes déconnecté")
+    # messages.success(request,f"vous êtes déconnecté")
     return redirect('login')  # Redirige vers la page de connexion après la déconnexion
 def login_view(request):
     if request.method == 'POST':
