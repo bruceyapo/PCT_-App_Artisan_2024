@@ -473,7 +473,7 @@ font-family: "Josefin Sans", sans-serif;
 .list-metier {
     list-style-type: none;
     padding: 0;
-    display: flex;
+    /* display: flex; */
     flex-wrap: wrap;
     justify-content: space-around;
 }
@@ -482,7 +482,7 @@ font-family: "Josefin Sans", sans-serif;
 .list-metier li {
     margin: 10px;
     padding: 1px;
-    flex: 1 1 calc(25% - 30px);
+    /* flex: 1 1 calc(25% - 30px); */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -490,14 +490,14 @@ font-family: "Josefin Sans", sans-serif;
 
 .list-metier li:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */
 }
 
 /* Style pour les liens */
 .list-metier a {
     text-decoration: none;
     color: inherit;
-    display: block;
+    /* display: block; */
     text-align: center;
 }
 
@@ -618,6 +618,7 @@ h2 a:hover {
     border-color: #5cb85c; /* Bordure verte au survol */
     transform: scale(1.05); /* Légèrement agrandir le bouton au survol */
 }
+
 .image-section {
     flex: 0 0 300px; /* Vous pouvez ajuster la largeur selon vos besoins */
     padding: 20px;

@@ -67,6 +67,7 @@ class Users(AbstractBaseUser):
 
 class Metier(models.Model):  
     Nom  = models.CharField(max_length=100, blank=True)
+    icon = models.ImageField(upload_to='icons/', null=True, blank=True)
     def __str__(self):
         return self.Nom
 class Tache(models.Model):

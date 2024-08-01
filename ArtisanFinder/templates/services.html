@@ -14,175 +14,17 @@
         <div class="row">
             <div class=""></div>
             <section class="cont col-10 animate__animated animate__zoomIn">
-                <ul class="list-metier ">
+                <ul class="list-metier row">
                     {% for met in metier %}
-                    <li class="btn-custom">
+                    <li class="btn-custom col-md-3">
                         <a href="{% url 'menuisier' %}">
                             <figure style="padding: 20px 7px;">
-                                <!-- <img src="{% static 'artisanfinder/images/constructeur.png'%}." alt="Menuiserie"> -->
+                                <img src="{{met.icon.url}}." alt="{{met.Nom}}">
                                 <figcaption> {{met.Nom}} </figcaption>
                             </figure>
                         </a>
                     </li>
                     {% endfor %}
-                    <li class="btn-custom">
-                        <a href="{% url 'bijoutier' %}">
-                            <figure style="padding: 20px 7px;">
-                                <!-- <img src="{% static 'artisanfinder/images/bijoutier.png'%}." alt="Menuiserie"> -->
-                                <figcaption>Bijoutier</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure style="padding: 20px 7px;">
-                                <!-- <img src="{% static 'artisanfinder/images/ciseaux-et-peigne.png'%}." alt="Menuiserie"> -->
-                                <figcaption>Coiffure</figcaption>
-                            </figure>
-                        </a>
-                    </li> 
-
-
-
-
-                    <!-- <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/renovation.png'%}." alt="Menuiserie">
-                                <figcaption>Renovation</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/support-informatique.png'%}."
-                                    alt="Menuiserie">
-                                <figcaption>Maintenance informatique</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom"><a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/jardinage.png'%}." alt="Menuiserie">
-                                <figcaption>Jardinage</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/brosse-a-rouleau.png'%}." alt="Menuiserie">
-                                <figcaption>Decoration d'interieur</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/couture.png'%}." alt="Menuiserie">
-                                <figcaption>Couture</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/electricite.png'%}." alt="Menuiserie">
-                                <figcaption>Electricité</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/domotique.png'%}." alt="Menuiserie">
-                                <figcaption>Domotique</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/blanchisserie.png'%}." alt="Menuiserie">
-                                <figcaption>Blanchisserie</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="{% url 'plombier' %}">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/robinet.png'%}." alt="Menuiserie">
-                                <figcaption>Plomberie</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/Climatisation.png'%}." alt="Menuiserie">
-                                <figcaption>Climatisation</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/constructeur1.png'%}." alt="Menuiserie">
-                                <figcaption>Marçon</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/serrure-intelligente.png'%}."
-                                    alt="Menuiserie">
-                                <figcaption>Serrurerie</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/Carrelage.png'%}." alt="Menuiserie">
-                                <figcaption>Carrelage</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/roulette.png'%}." alt="Menuiserie">
-                                <figcaption>Ferronnier</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/fenetre.png'%}." alt="Menuiserie">
-                                <figcaption>Vitrier</figcaption>
-                            </figure>
-                        </a>
-                    </li>
-                    <li class="btn-custom">
-                        <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/garage.png'%}." alt="Menuiserie">
-                                <figcaption>Mecanique</figcaption>
-                            </figure>
-                        </a>
-                    </li> --> 
-
-                    <li class="btn-custom">
-                        <a href="{% url 'artisan' %}">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/chercher.png'%}." alt="Menuiserie">
-                                <figcaption>Plus de metier</figcaption>
-                            </figure>
-                        </a>
-                    </li>
                 </ul>
 
             </section>
