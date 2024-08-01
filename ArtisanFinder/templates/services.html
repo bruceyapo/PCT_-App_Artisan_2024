@@ -18,8 +18,8 @@
                     {% for met in metier %}
                     <li class="btn-custom">
                         <a href="{% url 'menuisier' %}">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/constructeur.png'%}." alt="Menuiserie">
+                            <figure style="padding: 20px 7px;">
+                                <!-- <img src="{% static 'artisanfinder/images/constructeur.png'%}." alt="Menuiserie"> -->
                                 <figcaption> {{met.Nom}} </figcaption>
                             </figure>
                         </a>
@@ -27,16 +27,16 @@
                     {% endfor %}
                     <li class="btn-custom">
                         <a href="{% url 'bijoutier' %}">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/bijoutier.png'%}." alt="Menuiserie">
+                            <figure style="padding: 20px 7px;">
+                                <!-- <img src="{% static 'artisanfinder/images/bijoutier.png'%}." alt="Menuiserie"> -->
                                 <figcaption>Bijoutier</figcaption>
                             </figure>
                         </a>
                     </li>
                     <li class="btn-custom">
                         <a href="#">
-                            <figure>
-                                <img src="{% static 'artisanfinder/images/ciseaux-et-peigne.png'%}." alt="Menuiserie">
+                            <figure style="padding: 20px 7px;">
+                                <!-- <img src="{% static 'artisanfinder/images/ciseaux-et-peigne.png'%}." alt="Menuiserie"> -->
                                 <figcaption>Coiffure</figcaption>
                             </figure>
                         </a>

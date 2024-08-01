@@ -36,3 +36,90 @@
 
 </main>
 <!-- Le pieds de pages -->{% endblock %}
+
+
+
+<nav class="navbar bg-body-tertiary">
+
+                
+    <form class="container-fluid justify-content-between">
+        <div class="logo col-md-3">
+            <a href="/"><img width="140px" height="45px"
+                    src="{% static 'artisanfinder/images/logo_new.png' %}" alt="logo"></a>
+            
+        </div>
+        
+        <div class="col-md-8">
+
+        
+            {% if user.id is None %}
+            
+                <li class="btn btn-sm btn-outline-success" style="font-weight: bold; border-color: aliceblue;">
+                    <a class="nav-link" href="/"><i class="fas fa-home"></i> Accueil</a>
+                </li>
+            
+                <li class="btn btn-sm btn-outline-success" style="font-weight: bold; border-color: aliceblue;"><a class="nav-link" href="/artisan/"><i class="fas fa-search"></i> Trouver un
+                        artisan</a></li>
+                <li class="btn btn-sm btn-outline-success" style="font-weight: bold; border-color: aliceblue;"><a class="nav-link" href="/services/"><i class="fas fa-concierge-bell"></i> Nos
+                        services</a></li>
+            <li class="dropdown">
+                <a class="btn btn-sm btn-outline-success" dropdown-toggle dropdown-toggle-split data-bs-toggle="dropdown"
+                    aria-expanded="false" style="font-weight: bold; border-color: aliceblue;" type="button">
+                    <li class="dropdown"><i class="fas fa-sign-in-alt"></i>Connexion</a>
+
+                    </li>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/connexion/">Se connecter</a></li>
+                    <li><a class="dropdown-item" href="{% url 'inscription'  %}">S'inscrire</a></li>
+                </ul>
+
+            </li>
+                    <li><a class="nav-link btn btn-sm btn-outline-success" style="font-weight: bold; border-color: aliceblue;" href="/apropos/"><i class="fas fa-info-circle"></i> À propos</a>
+                    </li>
+                    <li><a class="nav-link btn btn-sm btn-outline-success" style="font-weight: bold; border-color: aliceblue;" href="/contact/"><i class="fas fa-info-circle"></i> Contact</a>
+                    </li>
+            <!-- <div>
+                <button class="btn btn-sm btn-outline-success me-3"
+                    style="font-weight: bold; border-color: aliceblue;" type="button">
+                    <li><a class="nav-link" href=""><i class="fas fa-info-circle"></i> Contact</a>
+                    </li>
+                </button>
+            </div> -->
+            {% else %}
+            <div>
+                <button class="btn btn-sm btn-outline-success me-3"
+                    style="font-weight: bold; border-color: aliceblue;" type="button">
+                    <li><a class="nav-link" href="/"><i class="fas fa-home"></i> Accueil</a></li>
+                </button>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-success me-3"
+                    style="font-weight: bold; border-color: aliceblue;" type="button">
+                    <li><a class="nav-link" href="/artisan/"><i class="fas fa-search"></i> Trouver un
+                            artisan</a></li>
+                </button>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-success me-3"style="font-weight: bold; border-color: aliceblue;" type="button">
+                    <li><a class="nav-link" href="{% url 'deconnexion' %}"><i
+                                class="fas fa-sign-in-alt"></i>Deconnection</a></li>
+                </button>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-success me-3"
+                    style="font-weight: bold; border-color: aliceblue;" type="button">
+                    <li><a class="nav-link" href="{% url 'profil' %}"><i class="fas fa-info-circle"></i>Mon
+                            Espace</a></li>
+                </button>
+            </div>
+            <div>
+                <button class="btn btn-sm btn-outline-success me-3"
+                    style="font-weight: bold; border-color: aliceblue;" type="button">
+                    <li><a class="nav-link" href="/contact/"><i class="fas fa-envelope"></i> Contact</a></li>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </form>
+</nav>
