@@ -5,42 +5,34 @@
 {% block content %}>
 
     <main>
-    <!-- Search Form -->
     <div class="container mt-5">
         <h1 class="display-5">Trouver un artisan</h1>
-        <form id="searchForm">
-            <div class="form-row">
-                <div class="form-group2 col-md-6">
-                    <label for="activity">Domaine d'activité</label>
-                    <br>
-                    <select class="form-control   id="options" name="options" onchange="updateSelectedOption()">
-                        <option selected>Choisissez un metier</option>
-                        <option value="1">Mécanicien</option>
-                        <option value="2">Plombier</option>
-                        <option value="3">Electricien</option>
-                        <option value="4">Electronicien</option>
-                        <option value="5">Peintre</option>
-                        <option value="6">Carreleur</option>
-                        <option value="7">Maçon</option>
-                        <option value="8">Vitrier</option>
-                        <option value="9">Ferronier</option>
-                        <option value="10">Menuisier</option>
-                      </select>
-                      <!-- <p>Vous avez sélectionné : <span id="selectedOption">Aucun metier</span></p> -->
+        <!-- <form id="searchForm" method="GET"> -->
+            <form method="GET" action="{% url 'artisan' %}">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="metier">Métier:</label>
+                        <select name="metier" id="metier" class="form-control">
+                            <option value="">-- Sélectionner un métier --</option>
+                            {% for metier in metiers %}
+                                <option value="{{ metier.id }}">{{ metier.Nom }}</option>
+                            {% endfor %}
+                        </select>     
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="ville">Ville:</label>
+                        <input type="text" name="ville" id="ville" class="form-control" placeholder="Ex: Abidjan, Yopougon, Bouaké">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="commune">Commune:</label>
+                        <input type="text" name="commune" id="commune" class="form-control" placeholder="Commune">
+                    </div>
                 </div>
-                <br>
-                <div class="form-group2 col-md-6">
-                    <label for="location">Votre localisation</label>
-                    <br>
-                    <input type="text" class="form-control" id="location-input" placeholder="Ex: Abidjan, Yopougon, Bouaké">
-                </div>
-            </div>
-            <br>
-            <button class="btn-custom" onclick="filterByLocation()">Rechercher</button>
-        </form>
+                <button class="btn btn-success" type="submit">Rechercher</button>
+            </form>
 
         <!-- Liste des artisan -->
-<div class="carpenters-list">
+        <div class="carpenters-list">
             <div class="carpenter-card" data-location="Abidjan">
                 <div class="profile-pic-container">
                     <img src="" alt="Menuisier 1" class="profile-pic">
@@ -55,291 +47,826 @@
                     <br>
                     <button class="contact-button">Contacter le menuisier</button>
                 </div>
-            </div>
-            <div class="carpenter-card" data-location="Abidjan">
-                <div class="profile-pic-container">
-                    <img src="" alt="Menuisier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Marie France Kouamé</h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Qualité et précision!"</p>
-                    <hr>
-                    <p class="text-center">Avis le plus récent :</p>
-                    <p class="review">"Très satisfaite du travail effectué!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le menuisier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-            <div class="carpenter-card" data-location="Bouaké">
-                <div class="profile-pic-container">
-                    <img src="" alt="Menuisier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Coulibaly Kolan</h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Qualité et précision!"</p>
-                    <hr>
-                    <p class="text-center">Avis le plus récent :</p>
-                    <p class="review">"Très satisfaite du travail effectué!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le menuisier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-            <div class="carpenter-card" data-location="Bouaké">
-                <div class="profile-pic-container">
-                    <img src="" alt="Menuisier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>David Kouadio </h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Meilleur finission de rendu !"</p>
-                    <hr>
-                    <p class="text-center">Avis le plus récent :</p>
-                    <p class="review">"Wouahh Meuble très jolie!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le menuisier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-            <div class="carpenter-card" data-location="Yopougon">
-                <div class="profile-pic-container">
-                    <img src="" alt="Menuisier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Aboubacar Sanogo </h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Travail bien fait et livré !"</p>
-                    <hr>
-                    <p class="text-center">Avis le plus récent :</p>
-                    <p class="review">"Délais de livraison respecté"</p>
-                    <br>
-                    <button class="contact-button">Contacter le menuisier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-            <div class="carpenters-list">
-                <div class="carpenter-card" data-location="Abobo">
-                    <div class="profile-pic-container">
-                        <img src="" alt="bijoutier 1" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>TRA BI</h2>
-                        <p>Note: ★★★★☆</p>
-                        <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
-                        <hr>
-                        <p class="text-center">Avis le plus récent : </p>
-                        <p class="review">"Excellent service, rapide et performant!"</p>
-                        <br>
-                        <button class="contact-button">Contacter le bijoutier</button>
-                    </div>
-                </div>
-                <div class="carpenters-list">
-                    <div class="carpenter-card" data-location="Abobo">
-                        <div class="profile-pic-container">
-                            <img src="" alt="bijoutier 1" class="profile-pic">
-                        </div>
-                        <div class="carpenter-info">
-                            <h2>Lamine Touré</h2>
-                            <p>Note: ★★★★☆</p>
-                            <p class="slogan-artisan">"Nous travaillons pour vous satisfaire!"</p>
-                            <hr>
-                            <p class="avis text-center">Avis le plus récent : </p>
-                            <p class="review">"Excellent service, rapide et performant!"</p>
-                            <br>
-                            <button class="contact-button">Contacter le bijoutier</button>
-                        </div>
-                    </div>
-                <div class="carpenter-card" data-location="Koumassi">
-                    <div class="profile-pic-container">
-                        <img src="" alt="bijoutier 2" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Fabrice Konan</h2>
-                        <p>Note: ★★★★★</p>
-                        <p class="slogan-artisan">"Qualité et précision!"</p>
-                        <hr>
-                        <p class="avis text-center">Avis le plus récent : </p>
-                        <p class="review">"Très satisfaite du travail effectué!"</p>
-                        <br>
-                        <button class="contact-button">Contacter le bijoutier</button>
-                    </div>
-                </div>
-                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-                <div class="carpenter-card" data-location="Koumassi">
-                    <div class="profile-pic-container">
-                        <img src="" alt="bijoutier 2" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Bakaré Oussein</h2>
-                        <p>Note: ★★★★★</p>
-                        <p class="slogan-artisan">"Service de Qualité !"</p>
-                        <hr>
-                        <p class="avis text-center">Avis le plus récent : </p>
-                        <p class="review">"Très satisfaite du travail effectué!"</p>
-                        <br>
-                        <button class="contact-button">Contacter le bijoutier</button>
-                    </div>
-                </div>
-                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-                <div class="carpenter-card" data-location="Bouaké">
-                    <div class="profile-pic-container">
-                        <img src="" alt="Menuisier 2" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Coulibaly Issa</h2>
-                        <p>Note: ★★★★★</p>
-                        <p class="slogan-artisan">"Qualité et précision!"</p>
-                        <hr>
-                        <p class="avis text-center">Avis le plus récent : </p>
-                        <p class="review">"Très satisfaite du travail effectué!"</p>
-                        <br>
-                        <button class="contact-button">Contacter le bijoutier</button>
-                    </div>
-                </div>
-                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-                <div class="carpenter-card" data-location="Bouaké">
-                    <div class="profile-pic-container">
-                        <img src="" alt="Menuisier 2" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Aristide DETHO </h2>
-                        <p>Note: ★★★★★</p>
-                        <p class="slogan-artisan">"Meilleur finission et de rendu !"</p>
-                        <hr>
-                        <p class="avis text-center">Avis le plus récent : </p>
-                        <p class="review">"Bague et bracelets très jolie!"</p>
-                        <br>
-                        <button class="contact-button">Contacter le Bijoutier</button>
-                    </div>
-                </div>
-                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-                <div class="carpenter-card" data-location="Bouaké">
-                    <div class="profile-pic-container">
-                        <img src="" alt="Menuisier 2" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Bamba Moussa </h2>
-                        <p>Note: ★★★★★</p>
-                        <p class="slogan-artisan">"Service de qualité supérieur !"</p>
-                        <hr>
-                        <p class="avis text-center">Avis le plus récent : </p>
-                        <p class="review">"Chaine de valeur avec une finission parfaite!"</p>
-                        <br>
-                        <button class="contact-button">Contacter le Bijoutier</button>
-                    </div>
-                </div>
-                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-                <div class="carpenter-card" data-location="Cocody">
-                    <div class="profile-pic-container">
-                        <img src="" alt="bijoutier 2" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Christian Sanogo </h2>
-                        <p>Note: ★★★★★</p>
-                        <p class="slogan-artisan">"Travail bien fait et livré !"</p>
-                        <hr>
-                        <p class="avis text-center">Avis le plus récent : </p>
-                        <p class="review">"Délais de livraison respecté"</p>
-                        <br>
-                        <button class="contact-button">Contacter le bijoutier</button>
-                    </div>
-                </div>
-                <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-                <div class="carpenter-card" data-location="Cocody">
-                    <div class="profile-pic-container">
-                        <img src="" alt="bijoutier 2" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Traoré Mahmoud </h2>
-                        <p>Note: ★★★★★</p>
-                        <p class="slogan-artisan">"Service de qualité !"</p>
-                        <hr>
-                        <p class="text-center">Avis le plus récent : </p>
-                        <p class="review">"Délais de livraison respecté"</p>
-                        <br>
-                        <button class="contact-button">Contacter le bijoutier</button>
-                    </div>
-                </div>
-
+            </div>   
         </div>
-        <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité
-            .</div>
-
-
-
-
-
+        <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité.</div>
         <script src="{% static 'artisanfinder/js/scripts.js}"></script>
-
-
     </div>
-
+    <div class="contact-card" id="contact-card">
+        <button class="close-button" onclick="hideContactCard()">X</button>
+        <div class="contact-options">
+            <a id="contact-phone" href="#" class="contact-option text-white">
+                <img src="{% static 'artisanfinder/images/phone.png' %}" alt="Appel téléphonique">
+                Appel téléphonique
+            </a>
+            <a id="contact-whatsapp" href="#" target="_blank" class="contact-option text-white">
+                <img src="{% static 'artisanfinder/images/whatsapp.png' %}" alt="WhatsApp">
+                WhatsApp
+            </a>
+            <a id="contact-email" href="#" class="contact-option text-white">
+                <img src="{% static 'artisanfinder/images/email.png' %}" alt="Email">
+                Email
+            </a>
+        </div>
+    </div>
     <!-- OpenStreetMap -->
-    <div class="container mt-5">
-        <div id="map"></div>
+<div class="container mt-5">
+    <div class="w-100" id="map">
+        
     </div>
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <!-- Leaflet Geocoding Plugin -->
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
 
-    <script>
-        let map;
-        let markers = [];
+</div>
 
-        function initMap() {
-            map = L.map('map').setView([7.681071510710642,-5.039615938796328], 10); // Centré sur Bouaké par défaut
+<!-- Modal HTML -->
+<div class="modal fade" id="artisanModal" tabindex="-1" aria-labelledby="artisanModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="artisanModalLabel">Détails de l'Artisan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="artisanDetails">
+                <!-- Les détails de l'artisan seront insérés ici -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- Leaflet Geocoding Plugin -->
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<!-- <script>
+    let map;
+    let markers = [];
+
+    function initMap() {
+        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Charger tous les artisans par défaut
+        loadArtisans();
+    }
+
+    function clearMarkers() {
+        for (let i = 0; i < markers.length; i++) {
+            map.removeLayer(markers[i]);
         }
+        markers = [];
+    }
 
-        function clearMarkers() {
-            for (let i = 0; i < markers.length; i++) {
-                map.removeLayer(markers[i]);
+    function addMarker(location, title) {
+        const marker = L.marker(location).addTo(map).bindPopup(title);
+        markers.push(marker);
+    }
+
+    function loadArtisans() {
+        fetch("{% url 'artisan' %}", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
             }
-            markers = [];
-        }
-
-        function addMarker(location, title) {
-            const marker = L.marker(location).addTo(map).bindPopup(title);
-            markers.push(marker);
-        }
-
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const activity = document.getElementById('activity').value;
-            const location = document.getElementById('location').value;
-            
-            // Utiliser le plugin de géocodage de Leaflet pour obtenir la position
-            L.Control.Geocoder.nominatim().geocode(location, function(results) {
-                if (results.length > 0) {
-                    const center = results[0].center;
-                    map.setView(center, 13);
-                    clearMarkers();
-
-                    // Exemple statique d'artisans. En production, vous récupérez ces données via une API ou une base de données.
-                    const artisans = [
-                        {lat: center.lat + 0.01, lng: center.lng, name: 'Artisan 1', activity: activity},
-                        {lat: center.lat - 0.01, lng: center.lng, name: 'Artisan 2', activity: activity},
-                        {lat: center.lat, lng: center.lng + 0.01, name: 'Artisan 3', activity: activity}
-                    ];
-
-                    artisans.forEach(function(artisan) {
-                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity);
-                    });
-                } else {
-                    alert('La géolocalisation a échoué.');
-                }
+        })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(artisan => {
+                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity);
             });
+        })
+        .catch(error => {
+            console.error('Error fetching artisans:', error);
+            alert('Erreur lors de la récupération des artisans.');
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const metier = document.getElementById('metier').value;
+        const ville = document.getElementById('ville').value;
+        const commune = document.getElementById('commune').value;
+        
+        // Utiliser le plugin de géocodage de Leaflet pour obtenir la position
+        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
+            if (results.length > 0) {
+                const center = results[0].center;
+                map.setView(center, 13);
+                clearMarkers();
+
+                // Envoyer une requête AJAX pour obtenir les artisans filtrés
+                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(artisan => {
+                        addMarker(
+                            [artisan.lat, artisan.lng], 
+                            artisan.name + ' - ' + artisan.activity, 
+                            
+                        );
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching artisans:', error);
+                    alert('Erreur lors de la récupération des artisans.');
+                });
+            } else {
+                alert('La géolocalisation a échoué.');
+            }
+        });
+    });
+
+    initMap();
+</script> -->
+
+<!-- <script>
+    let map;
+    let markers = [];
+
+    function initMap() {
+        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        loadArtisans();
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => map.removeLayer(marker));
+        markers = [];
+    }
+
+    function addMarker(location, title, artisanId) {
+        const marker = L.marker(location).addTo(map).bindPopup(`
+            <b>${title}</b><br>
+            <button type="button" data-id="${artisanId}" class="btn btn-primary view-details">
+                Voir plus
+            </button>
+            
+        `);
+        markers.push(marker);
+    }
+
+    function loadArtisans() {
+        fetch("{% url 'artisan' %}", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(artisan => {
+                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+            });
+
+            // Ajout de l'écouteur d'événements pour les liens "Voir plus"
+            document.querySelectorAll('.view-details').forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const artisanId = this.getAttribute('data-id');
+                    fetch(`/artisan/details/${artisanId}/`)
+                        .then(response => response.json())
+                        .then(details => {
+                            document.getElementById('artisanModalLabel').innerText = details.name;
+                            document.getElementById('artisanDetails').innerHTML = `
+                                <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
+                                <p><strong>Métier:</strong> ${details.metier}</p>
+                                <p><strong>Ville:</strong> ${details.ville}</p>
+                                <p><strong>Commune:</strong> ${details.commune}</p>
+                                <p><strong>Entreprise:</strong> ${details.entreprise}</p>
+                                <p><strong>Description:</strong> ${details.description}</p>
+                                <p><strong>Année d'expérience:</strong> ${details.experience}</p>
+                                <p><strong>Latitude:</strong> ${details.latitude}</p>
+                                <p><strong>Longitude:</strong> ${details.longitude}</p>
+                            `;
+                            $('#artisanModal').modal('show');
+                        })
+                        .catch(error => {
+                            console.error('Error fetching artisan details:', error);
+                            alert('Erreur lors de la récupération des détails de l\'artisan.');
+                        });
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching artisans:', error);
+            alert('Erreur lors de la récupération des artisans.');
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const metier = document.getElementById('metier').value;
+        const ville = document.getElementById('ville').value;
+        const commune = document.getElementById('commune').value;
+
+        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
+            if (results.length > 0) {
+                const center = results[0].center;
+                map.setView(center, 13);
+                clearMarkers();
+
+                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(artisan => {
+                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+                    });
+
+                    document.querySelectorAll('.view-details').forEach(link => {
+                        link.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            const artisanId = this.getAttribute('data-id');
+                            fetch(`/artisan/details/${artisanId}/`)
+                                .then(response => response.json())
+                                .then(details => {
+                                    document.getElementById('artisanModalLabel').innerText = details.name;
+                                    document.getElementById('artisanDetails').innerHTML = `
+                                        <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
+                                        <p><strong>Métier:</strong> ${details.metier}</p>
+                                        <p><strong>Ville:</strong> ${details.ville}</p>
+                                        <p><strong>Commune:</strong> ${details.commune}</p>
+                                        <p><strong>Entreprise:</strong> ${details.entreprise}</p>
+                                        <p><strong>Description:</strong> ${details.description}</p>
+                                        <p><strong>Année d'expérience:</strong> ${details.experience}</p>
+                                        <p><strong>Latitude:</strong> ${details.latitude}</p>
+                                        <p><strong>Longitude:</strong> ${details.longitude}</p>
+                                    `;
+                                    $('#artisanModal').modal('show');
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching artisan details:', error);
+                                    alert('Erreur lors de la récupération des détails de l\'artisan.');
+                                });
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching artisans:', error);
+                    alert('Erreur lors de la récupération des artisans.');
+                });
+            } else {
+                alert('La géolocalisation a échoué.');
+            }
+        });
+    });
+
+    initMap();
+</script> -->
+
+<!-- <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+    let map;
+    let markers = [];
+
+    function initMap() {
+        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        loadArtisans();
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => map.removeLayer(marker));
+        markers = [];
+    }
+
+    function addMarker(location, title, artisanId) {
+        const marker = L.marker(location).addTo(map).bindPopup(`
+            <b>${title}</b><br>
+            <button type="button" data-id="${artisanId}" class="btn btn-primary view-details" data-bs-toggle="modal" data-bs-target="#artisanModal">
+                Voir plus
+            </button>
+        `);
+        markers.push(marker);
+    }
+
+    function loadArtisans() {
+        fetch("{% url 'artisan' %}", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(artisan => {
+                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+            });
+
+            // Ajout de l'écouteur d'événements pour les boutons "Voir plus"
+            document.querySelectorAll('.view-details').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const artisanId = this.getAttribute('data-id');
+                    console.log('Button clicked for artisan ID:', artisanId);  // Ajoutez cette ligne
+                    fetch(`/artisan/details/${artisanId}/`)
+                        .then(response => response.json())
+                        .then(details => {
+                            document.getElementById('artisanModalLabel').innerText = details.name;
+                            document.getElementById('artisanDetails').innerHTML = `
+                                <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
+                                <p><strong>Métier:</strong> ${details.metier}</p>
+                                <p><strong>Ville:</strong> ${details.ville}</p>
+                                <p><strong>Commune:</strong> ${details.commune}</p>
+                                <p><strong>Entreprise:</strong> ${details.entreprise}</p>
+                                <p><strong>Description:</strong> ${details.description}</p>
+                                <p><strong>Année d'expérience:</strong> ${details.experience}</p>
+                                <p><strong>Latitude:</strong> ${details.latitude}</p>
+                                <p><strong>Longitude:</strong> ${details.longitude}</p>
+                            `;
+                            var artisanModal = new bootstrap.Modal(document.getElementById('artisanModal'));
+                            artisanModal.show();
+                        })
+                        .catch(error => {
+                            console.error('Error fetching artisan details:', error);
+                            alert('Erreur lors de la récupération des détails de l\'artisan.');
+                        });
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching artisans:', error);
+            alert('Erreur lors de la récupération des artisans.');
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const metier = document.getElementById('metier').value;
+        const ville = document.getElementById('ville').value;
+        const commune = document.getElementById('commune').value;
+
+        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
+            if (results.length > 0) {
+                const center = results[0].center;
+                map.setView(center, 13);
+                clearMarkers();
+
+                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(artisan => {
+                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+                    });
+
+                    document.querySelectorAll('.view-details').forEach(button => {
+                        button.addEventListener('click', function(event) {
+                            event.preventDefault();
+                            const artisanId = this.getAttribute('data-id');
+                            console.log('Button clicked for artisan ID:', artisanId);  // Ajoutez cette ligne
+                            fetch(`/artisan/details/${artisanId}/`)
+                                .then(response => response.json())
+                                .then(details => {
+                                    document.getElementById('artisanModalLabel').innerText = details.name;
+                                    document.getElementById('artisanDetails').innerHTML = `
+                                        <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
+                                        <p><strong>Métier:</strong> ${details.metier}</p>
+                                        <p><strong>Ville:</strong> ${details.ville}</p>
+                                        <p><strong>Commune:</strong> ${details.commune}</p>
+                                        <p><strong>Entreprise:</strong> ${details.entreprise}</p>
+                                        <p><strong>Description:</strong> ${details.description}</p>
+                                        <p><strong>Année d'expérience:</strong> ${details.experience}</p>
+                                        <p><strong>Latitude:</strong> ${details.latitude}</p>
+                                        <p><strong>Longitude:</strong> ${details.longitude}</p>
+                                    `;
+                                    var artisanModal = new bootstrap.Modal(document.getElementById('artisanModal'));
+                                    artisanModal.show();
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching artisan details:', error);
+                                    alert('Erreur lors de la récupération des détails de l\'artisan.');
+                                });
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching artisans:', error);
+                    alert('Erreur lors de la récupération des artisans.');
+                });
+            } else {
+                alert('La géolocalisation a échoué.');
+            }
+        });
+    });
+
+    initMap();
+})
+</script> -->
+
+<!-- <script>
+    let map;
+    let markers = [];
+
+    function initMap() {
+        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        loadArtisans();
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => map.removeLayer(marker));
+        markers = [];
+    }
+
+    function addMarker(location, title, artisanId) {
+        const marker = L.marker(location).addTo(map);
+
+        // Ajouter l'écouteur d'événement pour le clic sur le marqueur
+        marker.on('click', function() {
+            fetch(`/artisan/details/${artisanId}/`)
+                .then(response => response.json())
+                .then(details => {
+                    // Générer le contenu HTML du pop-up
+                    const competencyList = details.competencies.length > 0
+                    ? details.competencies.map(comp => `<li class="list-group-item"><span class="badge text-bg-light">${comp}</span></li>`).join('')
+                    : '<li>Aucune compétence enregistrée.</li>';
+                    const popupContent = `
+                        <div class="card" style="width: 19rem; height : 370px">
+                            <div class="table-responsive" style="width: 19rem; height : 100%">
+
+                                <img src="${details.photo ? details.photo : '{% static 'artisanfinder/images/Image1.png' %}'}" class="card-img-top img-thumbnail shadow" alt="${details.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${details.name}</h5>
+                                    <p class="card-text">${details.description}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Métier:</strong> ${details.metier}</li>
+                                    <li class="list-group-item"><strong>Entreprise:</strong> ${details.entreprise}</li>
+                                    <li class="list-group-item"><strong>Année d'expérience:</strong> ${details.experience}</li>
+                                    <li class="list-group-item"><strong>Ville:</strong> ${details.ville}</li>
+                                    <li class="list-group-item"><strong>Commune:</strong> ${details.commune}</li>
+                                    ${competencyList}
+                                </ul>
+                            </div>
+                            <div class="card-body row g-0">
+                                <button  class="btn btn-secondary col-md-6 text-white" type="button">Voir Portfolio</button>
+                                <button class="contact-button btn col-md-6 btn-success text-white" onclick="showContactCard()" type="button">Contacter</button>
+                            </div>
+                        </div>
+                    `;
+
+                    marker.bindPopup(popupContent).openPopup();
+
+                })
+                .catch(error => {
+                    console.error('Error fetching artisan details:', error);
+                    alert('Erreur lors de la récupération des détails de l\'artisan.');
+                });
         });
 
-        initMap();
-    </script>
+        markers.push(marker);
+    }
+
+    function loadArtisans() {
+        fetch("{% url 'artisan' %}", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(artisan => {
+                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching artisans:', error);
+            alert('Erreur lors de la récupération des artisans.');
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const metier = document.getElementById('metier').value;
+        const ville = document.getElementById('ville').value;
+        const commune = document.getElementById('commune').value;
+
+        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
+            if (results.length > 0) {
+                const center = results[0].center;
+                map.setView(center, 13);
+                clearMarkers();
+
+                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(artisan => {
+                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching artisans:', error);
+                    alert('Erreur lors de la récupération des artisans.');
+                });
+            } else {
+                alert('La géolocalisation a échoué.');
+            }
+        });
+    });
+
+    initMap();
+</script> -->
+
+<script>
+    let map;
+    let markers = [];
+
+    function initMap() {
+        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        loadArtisans();
+    }
+
+    function clearMarkers() {
+        markers.forEach(marker => map.removeLayer(marker));
+        markers = [];
+    }
+
+    function addMarker(location, title, artisanId) {
+        const marker = L.marker(location).addTo(map);
+
+        marker.on('click', function() {
+            fetch(`/artisan/details/${artisanId}/`)
+                .then(response => response.json())
+                .then(details => {
+                    // Mise à jour des options de contact
+                    document.getElementById('contact-phone').href = `tel:+225${details.telephone}`;
+                    document.getElementById('contact-whatsapp').href = `https://wa.me/+225${details.telephone}`;
+                    document.getElementById('contact-email').href = `mailto:${details.email}`;
+
+                    // Générer le contenu HTML du pop-up
+                    const competencyList = details.competencies.length > 0
+                        ? details.competencies.map(comp => `<li class="list-group-item"><span class="badge text-bg-light">${comp}</span></li>`).join('')
+                        : '<li>Aucune compétence enregistrée.</li>';
+                    const popupContent = `
+                        <div class="card" style="width: 19rem; height: 370px">
+                            <div class="table-responsive" style="width: 19rem; height: 100%">
+                                <img src="${details.photo ? details.photo : '{% static 'artisanfinder/images/Image1.png' %}'}" class="card-img-top img-thumbnail shadow" alt="${details.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${details.name}</h5>
+                                    <p class="card-text">${details.description}</p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Métier:</strong> ${details.metier}</li>
+                                    <li class="list-group-item"><strong>Entreprise:</strong> ${details.entreprise}</li>
+                                    <li class="list-group-item"><strong>Année d'expérience:</strong> ${details.experience}</li>
+                                    <li class="list-group-item"><strong>Ville:</strong> ${details.ville}</li>
+                                    <li class="list-group-item"><strong>Commune:</strong> ${details.commune}</li>
+                                    ${competencyList}
+                                </ul>
+                            </div>
+                            <div class="card-body row g-0">
+                                <button class="btn btn-secondary col-md-6 text-white" type="button">Voir Portfolio</button>
+                                <button class="contact-button btn btn-success col-md-6 text-white" onclick="showContactCard()" type="button">Contacter</button>
+                            </div>
+                        </div>
+                    `;
+
+                    marker.bindPopup(popupContent).openPopup();
+                })
+                .catch(error => {
+                    console.error('Error fetching artisan details:', error);
+                    alert('Erreur lors de la récupération des détails de l\'artisan.');
+                });
+        });
+
+        markers.push(marker);
+    }
+
+    function loadArtisans() {
+        fetch("{% url 'artisan' %}", {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(artisan => {
+                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching artisans:', error);
+            alert('Erreur lors de la récupération des artisans.');
+        });
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const metier = document.getElementById('metier').value;
+        const ville = document.getElementById('ville').value;
+        const commune = document.getElementById('commune').value;
+
+        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
+            if (results.length > 0) {
+                const center = results[0].center;
+                map.setView(center, 13);
+                clearMarkers();
+
+                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(artisan => {
+                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching artisans:', error);
+                    alert('Erreur lors de la récupération des artisans.');
+                });
+            } else {
+                alert('La géolocalisation a échoué.');
+            }
+        });
+    });
+
+    function showContactCard() {
+        document.getElementById('contact-card').style.display = 'block';
+    }
+
+    function hideContactCard() {
+        document.getElementById('contact-card').style.display = 'none';
+    }
+
+    initMap();
+</script>
+<!-- <script>
+    let map;
+    let markers = [];
+
+    function initMap() {
+        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    }
+
+    function clearMarkers() {
+        for (let i = 0; i < markers.length; i++) {
+            map.removeLayer(markers[i]);
+        }
+        markers = [];
+    }
+
+    function addMarker(location, title, id) {
+        const marker = L.marker(location).addTo(map).bindPopup(`
+            <b>${title}</b><br>
+            <button class="btn btn-primary" onclick="showDetails(${id})">Voir plus</button>
+        `);
+        markers.push(marker);
+    }
+
+    function showDetails(id) {
+        fetch(`/artisan/${id}/details/`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('modalTitle').textContent = data.name;
+                document.getElementById('modalBody').innerHTML = `
+                    <img src="${data.photo}" alt="Photo de profil" class="img-fluid"><br>
+                    <strong>Activité:</strong> ${data.activity}<br>
+                    <strong>Description:</strong> ${data.description}<br>
+                    <strong>Entreprise:</strong> ${data.entreprise}<br>
+                    <strong>Année d'expérience:</strong> ${data.experience}<br>
+                    <strong>Latitude:</strong> ${data.latitude}<br>
+                    <strong>Longitude:</strong> ${data.longitude}<br>
+                    ${data.portfolio.map(url => `<img src="${url}" alt="Portfolio" class="img-thumbnail" style="max-width: 100px; max-height: 100px; margin: 5px;">`).join('')}
+                `;
+                var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
+                    keyboard: false
+                });
+                myModal.show();
+            })
+            .catch(error => console.error('Error fetching details:', error));
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const metier = document.getElementById('metier').value;
+        const ville = document.getElementById('ville').value;
+        const commune = document.getElementById('commune').value;
+
+        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
+            if (results.length > 0) {
+                const center = results[0].center;
+                map.setView(center, 13);
+                clearMarkers();
+
+                fetch(window.location.href + '?metier=' + metier + '&ville=' + ville + '&commune=' + commune)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(artisan => {
+                            addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching artisans:', error);
+                        alert('Erreur lors de la récupération des artisans.');
+                    });
+            } else {
+                alert('La géolocalisation a échoué.');
+            }
+        });
+    });
+
+    initMap();
+</script> -->
+
+<!-- <script>
+    let map;
+    let markers = [];
+
+    function initMap() {
+        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    }
+
+    function clearMarkers() {
+        for (let i = 0; i < markers.length; i++) {
+            map.removeLayer(markers[i]);
+        }
+        markers = [];
+    }
+
+    function addMarker(location, title) {
+        const marker = L.marker(location).addTo(map).bindPopup(title);
+        markers.push(marker);
+    }
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const metier = document.getElementById('metier').value;
+        const ville = document.getElementById('ville').value;
+        const commune = document.getElementById('commune').value;
+        // Utiliser le plugin de géocodage de Leaflet pour obtenir la position
+        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
+            if (results.length > 0) {
+                const center = results[0].center;
+                map.setView(center, 13);
+                clearMarkers();
+
+                // Envoyer une requête AJAX pour obtenir les artisans
+                fetch(window.location.href + '?metier=' + metier + '&ville=' + ville + '&commune=' + commune)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(artisan => {
+                            addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching artisans:', error);
+                        alert('Erreur lors de la récupération des artisans.');
+                    });
+            } else {
+                alert('La géolocalisation a échoué.');
+            }
+        });
+    });
+
+    initMap();
+</script> -->
 
 </main>
 <!-- Le pieds de pages -->{% endblock %}

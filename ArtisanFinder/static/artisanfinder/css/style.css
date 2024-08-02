@@ -829,7 +829,7 @@ margin-bottom: 20px;
 /* style pour la vidéo flottante */
 #floating-video-container {
     position: fixed;
-    right: 0;
+    right: 3px;
     bottom: 20px;
     width: 300px;
     z-index: 1000;

@@ -159,6 +159,21 @@ class ArtisanProfilForm(forms.ModelForm):
 #         self.fields['Annee_experience'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
 #         self.fields['photo_de_profil'].widget.attrs.update({'class': 'form-control'})
 
+# class searchArtisanForm(forms.ModelForm):
+#     Metier = forms.ModelChoiceField(label="Metier",queryset=Metier.objects.all(), required=True, widget=forms.Select(attrs={'class': 'form-control'}))
+#     Ville = forms.CharField(label="Metier ou Commune", widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+class ArtisanSearchForm(forms.Form):
+    metier = forms.ModelChoiceField(queryset=Metier.objects.all(), required=False, label="Métier", widget=forms.Select(attrs={'class': 'form-control'}))
+    ville = forms.CharField(max_length=100, required=False, label="Metier ou Commune", widget=forms.TextInput(attrs={'placeholder': 'Entrez la ville ou la commune', 'class': 'form-control'}))
+    # class Meta:
+    #     model = Metier
+    #     fields = ['Nom']
+    
+    # def __init__(self, *args, **kwargs):
+    #     super(searchArtisanForm, self).__init__(*args, **kwargs)
+    #     self.fields['Nom'].widget.attrs.update({'class': 'form-control'})
+
 class UserProfileForm(forms.ModelForm):
     Competence = forms.ModelMultipleChoiceField(
         queryset=Tache.objects.none(),

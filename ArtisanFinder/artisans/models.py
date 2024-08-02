@@ -125,6 +125,7 @@ class Client(models.Model):
     IdUser                  = models.ForeignKey(Users, on_delete=models.CASCADE)
     def __str__(self):
         return self.Nom
+
 class Administrateur(models.Model):
     Nom                     = models.CharField(max_length=50, blank=False)
     Prenoms                 = models.CharField(max_length=70, blank=False)

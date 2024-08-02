@@ -1,5 +1,6 @@
+import re
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import UserCreationForm 
 # from .forms import CustomUserCreationForm
 from django.contrib.auth import login, authenticate, logout, update_session_auth_hash
@@ -14,7 +15,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
 import pandas as pd
 
-from artisans.forms import ArtisanForm, ArtisanProfilForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
+from artisans.forms import ArtisanForm, ArtisanProfilForm, ArtisanSearchForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
 from artisans.models import Artisan, Localisation, Metier, PortfolioPhoto, UserProfile, Users
 
 
@@ -47,12 +48,224 @@ def accueil_view(request) :
     }
     return render(request, 'accueil.html', context)
 
+from django.db.models import Q
+from unidecode import unidecode
+
+def normaliser_donnees():
+    profiles = UserProfile.objects.all()
+    for profile in profiles:
+        profile.Ville = unidecode(profile.Ville)
+        profile.Commune = unidecode(profile.Commune)
+        profile.save()
+
+# Exécute cette fonction pour mettre à jour les données en base
+
+def nettoyer_chaine(chaine):
+    # Remplace tout ce qui n'est pas un caractère alphabétique ou un espace par rien
+    return unidecode(chaine).strip()
+
+# def trouverArtisan_view(request):
+#     metiers = Metier.objects.all()
+#     artisans = Artisan.objects.all()
+#     ville = request.GET.get('ville', '')
+#     commune = request.GET.get('commune', '')
+#     metier_id = request.GET.get('metier')
+#     # Nettoyer les entrées utilisateur
+#     ville = nettoyer_chaine(ville)
+#     commune = nettoyer_chaine(commune)
+#     if metier_id:
+#         artisans = artisans.filter(Metier__id=metier_id)
+#      # Filtrer les artisans en fonction de la ville et de la commune
+#     if ville:
+#         artisans = artisans.filter(Q(userprofile__Ville__icontains=ville))
+#     if commune:
+#         artisans = artisans.filter(Q(userprofile__Commune__icontains=commune))
+#     context = {
+#         'artisans': artisans,
+#         'metiers': metiers,
+#     }
+        
+#     return render(request, 'trouver_Artisan.html', context)
 
 
-def trouverArtisan_view(request) :
-   return render(request, 'trouver_Artisan.html')
+# def artisan_details_view(request, artisan_id):
+#     artisan = get_object_or_404(Artisan, id=artisan_id)
+#     userprofile = get_object_or_404(UserProfile, user=artisan)
+#     PortPhoto = get_object_or_404(PortfolioPhoto, user=artisan)
+    
+#     try:
+#         localisation = Localisation.objects.get(user=artisan)
+#     except Localisation.DoesNotExist:
+#         localisation = None
+    
+#     details = {
+#         'name': f"{artisan.Nom} {artisan.Prenom}",
+#         'metier': artisan.Metier.Nom if artisan.Metier else 'N/A',
+#         'ville': userprofile.Ville if userprofile else 'N/A',
+#         'commune': userprofile.Commune if userprofile else 'N/A',
+#         'entreprise': userprofile.Entreprise if userprofile else 'N/A',
+#         'description': userprofile.Descriptions if userprofile else 'N/A',
+#         'experience': userprofile.Annee_experience if userprofile else 'N/A',
+#         'photo': userprofile.photo_de_profil.url if userprofile and userprofile.photo_de_profil else None,
+#         'media': PortPhoto.media.url if PortPhoto and PortPhoto.media else None,
+#         'latitude': localisation.Latitude if localisation else 'N/A',
+#         'longitude': localisation.Longitude if localisation else 'N/A'
+#     }
+    
+#     return JsonResponse(details)
 
+# def artisan_details_view(request, artisan_id):
+#     artisan = get_object_or_404(Artisan, id=artisan_id)
+#     print(artisan)
+#     try:
+#         localisation = Localisation.objects.get(user=artisan)
+#     except Localisation.DoesNotExist:
+#         localisation = None
 
+#     user_profile = get_object_or_404(UserProfile, user=artisan)
+
+#     details = {
+#         'name': f'{artisan.Nom} {artisan.Prenom}',
+#         'photo': user_profile.photo_de_profil.url if user_profile.photo_de_profil else '',
+#         'metier': artisan.Metier.Nom if artisan.Metier else 'Non spécifié',
+#         'ville': user_profile.Ville,
+#         'commune': user_profile.Commune,
+#         'entreprise': user_profile.Entreprise,
+#         'description': user_profile.Descriptions,
+#         'experience': user_profile.Annee_experience,
+#         'latitude': localisation.Latitude if localisation else 'Non spécifié',
+#         'longitude': localisation.Longitude if localisation else 'Non spécifié',
+#     }
+#     print(details)
+#     return JsonResponse(details)
+
+def artisan_details_view(request, artisan_id):
+    artisan = get_object_or_404(Artisan, id=artisan_id)
+    try:
+        localisation = Localisation.objects.get(user=artisan)
+    except Localisation.DoesNotExist:
+        localisation = None
+    user_profile = get_object_or_404(UserProfile, user=artisan)
+
+    # Obtenez les compétences de l'artisan
+    competencies = user_profile.Competence.all()
+    details = {
+        'name': f'{artisan.Nom} {artisan.Prenom}',
+        'photo': user_profile.photo_de_profil.url if user_profile.photo_de_profil else '',
+        'metier': artisan.Metier.Nom if artisan.Metier else 'Non spécifié',
+        'telephone': artisan.IdUser.Telephone if artisan.IdUser else 'Non spécifié',
+        'email': artisan.IdUser.email if artisan.IdUser else 'Non spécifié',
+        'ville': user_profile.Ville,
+        'commune': user_profile.Commune,
+        'entreprise': user_profile.Entreprise,
+        'description': user_profile.Descriptions,
+        'experience': user_profile.Annee_experience,
+        'latitude': localisation.Latitude if localisation else 'Non spécifié',
+        'longitude': localisation.Longitude if localisation else 'Non spécifié',
+        'competencies': [comp.description for comp in competencies]  # Ajouter les compétences ici
+    }
+
+    return JsonResponse(details)
+
+# def artisan_details_view(request, id):
+#     artisan = get_object_or_404(Artisan, id=id)
+#     localisation = Localisation.objects.filter(user=artisan).first()
+#     profile = UserProfile.objects.filter(user=artisan).first()
+
+#     data = {
+#         'name': f'{artisan.Nom} {artisan.Prenom}',
+#         'activity': artisan.Metier.Nom,
+#         'description': profile.Descriptions if profile else '',
+#         'entreprise': profile.Entreprise if profile else '',
+#         'experience': profile.Annee_experience if profile else '',
+#         'photo': profile.photo_de_profil.url if profile and profile.photo_de_profil else '',
+#         'portfolio': [photo.media.url for photo in PortfolioPhoto.objects.filter(user=artisan)] if profile else [],
+#         'latitude': float(localisation.Latitude) if localisation else '',
+#         'longitude': float(localisation.Longitude) if localisation else '',
+#     }
+
+#     return JsonResponse(data)
+# def trouverArtisan_view(request):
+#     print("Requête reçue")
+#     metiers = Metier.objects.all()
+#     artisans = Artisan.objects.all()
+#     ville = request.GET.get('ville', '')
+#     commune = request.GET.get('commune', '')
+#     metier_id = request.GET.get('metier')
+
+#     print("Ville:", ville)
+#     print("Commune:", commune)
+#     print("Métier ID:", metier_id)
+
+#     ville = nettoyer_chaine(ville)
+#     commune = nettoyer_chaine(commune)
+
+#     if metier_id and ville and commune:
+#         artisans = artisans.filter(Metier__id=metier_id, userprofile__Ville__icontains=ville, userprofile__Commune__icontains=commune)
+    
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         print("Requête AJAX détectée")
+#         data = []
+#         for artisan in artisans:
+#             try:
+#                 localisation = Localisation.objects.filter(user=artisan).first()
+#                 if localisation:
+#                     data.append({
+#                         'name': f'{artisan.Nom} {artisan.Prenom}',
+#                         'lat': float(localisation.Latitude),
+#                         'lng': float(localisation.Longitude),
+#                         'activity': artisan.Metier.Nom
+#                     })
+#             except Exception as e:
+#                 print('Erreur lors de la récupération de la localisation:', e)
+#         return JsonResponse(data, safe=False)
+    
+#     context = {
+#         'artisans': artisans,
+#         'metiers': metiers,
+#     }
+#     return render(request, 'trouver_Artisan.html', context)
+
+def trouverArtisan_view(request):
+    metiers = Metier.objects.all()
+    artisans = Artisan.objects.all()
+    ville = request.GET.get('ville', '')
+    commune = request.GET.get('commune', '')
+    metier_id = request.GET.get('metier')
+
+    ville = nettoyer_chaine(ville)
+    commune = nettoyer_chaine(commune)
+
+    if metier_id and ville and commune:
+        artisans = artisans.filter(Metier__id=metier_id, userprofile__Ville__icontains=ville, userprofile__Commune__icontains=commune)
+    elif metier_id:
+        artisans = artisans.filter(Metier__id=metier_id)
+    elif ville:
+        artisans = artisans.filter(userprofile__Ville__icontains=ville)
+    elif commune:
+        artisans = artisans.filter(userprofile__Commune__icontains=commune)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        data = []
+        for artisan in artisans:
+            try:
+                localisation = Localisation.objects.get(user=artisan)
+                data.append({
+                    'id': artisan.id,
+                    'name': f'{artisan.Nom} {artisan.Prenom}',
+                    'lat': float(localisation.Latitude),
+                    'lng': float(localisation.Longitude),
+                    'activity': artisan.Metier.Nom
+                })
+            except Localisation.DoesNotExist:
+                continue
+        return JsonResponse(data, safe=False)
+    
+    context = {
+        'artisans': artisans,
+        'metiers': metiers,
+    }
+    return render(request, 'trouver_Artisan.html', context)
 def services_view(request) : 
     metier = Metier.objects.all()
     context = {
@@ -69,82 +282,12 @@ def inscriptionClient_view(request) :
 def profile_view(request) : 
    return render(request,'profil.html')
 
-# def edit_profile_view(request):
-    
-#     # Récupérer l'utilisateur connecté
-#     utilisateur = get_object_or_404(Utilisateur, id=request.user.id)
-#     # Utiliser la clé étrangère pour récupérer le client associé
-#     clients = get_object_or_404(client, IdUtilisateur=utilisateur)
-    
-    
-    
-#     # artisan = get_object_or_404(Artisan, id=artisan_id)
-#     # if request.method == 'POST':
-#     #     form = ArtisanForm(request.POST, instance=artisan)
-#     #     if form.is_valid():
-#     #         form.save()
-#     #         return redirect('profil', artisan_id=artisan.id)
-#     # else:
-#     #     form = ArtisanForm(instance=artisan)
-#     return render(request, 'edit_profil.html')
-
-# @login_required(login_url='login')
-# def profilArtisan_view(request):
-#     user = request.user
-#     utilisateur = get_object_or_404(Users, id=user.id)
-#     artisan = get_object_or_404(Artisan, IdUser=utilisateur)
-#     userprofile, created = UserProfile.objects.get_or_create(user=artisan)
-#     if request.method == 'POST':
-#         user_form = ArtisanProfilForm(request.POST, instance=artisan)
-#         profile_form = UserProfileForm(request.POST, request.FILES, instance=userprofile, metier=artisan)
-#         emailform = UserForm(request.POST, instance=utilisateur)
-
-#         if user_form.is_valid() and profile_form.is_valid() and emailform.is_valid():
-#             user_form.save()
-#             profile_form.save()
-#             emailform.save()
-#             messages.success(request, 'Profile updated successfully')
-#             return redirect('profil')
-#     else:
-#         user_form = ArtisanProfilForm(instance=artisan)
-#         profile_form = UserProfileForm(instance=userprofile, user=artisan)
-#         emailform = UserForm(instance=utilisateur)
-        
-#     if request.method == 'POST':
-#         Portform = PortfolioPhotoForm(request.POST, request.FILES)
-#         if Portform.is_valid():
-#             portfolio_photo = Portform.save(commit=False)
-#             portfolio_photo.user = artisan
-#             portfolio_photo.save()
-#             messages.success(request, 'Ajouter avec succes')
-#             return redirect('profil')
-#         else:
-#             messages.error(request, 'Error updating profile')
-#     else:
-#         Portform = PortfolioPhotoForm()
-    
-#     list_port = PortfolioPhoto.objects.filter(user=artisan).order_by('DateAjout')
-    
-#     # Charger les données dans le contexte pour la vue
-#     context = {
-#         'utilisateur': utilisateur,
-#         'artisan': artisan,
-#         'userprofile': userprofile,
-#         'user_form': user_form,
-#         'Portform': Portform,
-#         'profile_form': profile_form,
-#         'emailform': emailform,
-#         'list_port': list_port
-#     }
-#     return render(request, 'profil_artisan.html', context)
-
 @login_required(login_url='login')
 def profilArtisan_view(request):
     user = request.user
     utilisateur = get_object_or_404(Users, id=user.id)
     artisan = get_object_or_404(Artisan, IdUser=utilisateur)
     userprofile, created = UserProfile.objects.get_or_create(user=artisan)
-    
     if request.method == 'POST':
         # Initialiser les formulaires ici pour garantir qu'ils soient définis dans tous les cas
         user_form = ArtisanProfilForm(request.POST, instance=artisan)
@@ -155,6 +298,7 @@ def profilArtisan_view(request):
             if user_form.is_valid() and profile_form.is_valid() and emailform.is_valid():
                 user_form.save()
                 profile_form.save()
+                normaliser_donnees()
                 emailform.save()
                 messages.success(request, 'Profile updated successfully')
                 return redirect('profil')
