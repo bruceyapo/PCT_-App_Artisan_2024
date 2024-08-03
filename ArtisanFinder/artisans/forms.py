@@ -1,7 +1,7 @@
 from urllib import request
 from django import forms
 from django.shortcuts import get_object_or_404
-from .models import Artisan, PortfolioPhoto, Tache, UserProfile, Users,Metier
+from .models import Artisan, Client, PortfolioPhoto, Tache, UserProfile, Users,Metier
 # from .models import Artisan, PortfolioPhoto, User, UserManager
 # from django.contrib.auth.forms import UserCreationForm
 
@@ -208,6 +208,69 @@ class PortfolioPhotoForm(forms.ModelForm):
         super(PortfolioPhotoForm, self).__init__(*args, **kwargs)
         self.fields['media'].widget.attrs.update({'placeholder': '', 'class': 'form-control'})
  
+class ClientForm(forms.ModelForm):
+    email = forms.EmailField(required=False, widget=forms.EmailInput(
+        attrs={'class': 'form-control', 'id':'email'}
+    ))
+    Telephone = forms.CharField(required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control', 'id':'phone'}
+    ))
+    password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'id':'password'}
+    ))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(
+        attrs={'class': 'form-control', 'id':'confirm_password'}
+    ))
+    class Meta:
+        model = Client
+        fields = ['Nom', 'Prenoms', 'Ville', 'Commune']
+    
+    def __init__(self, *args, **kwargs):
+        super(ClientForm, self).__init__(*args, **kwargs)
+        self.fields['Nom'].widget.attrs.update({'class': 'form-control', 'id':'firstName'})
+        self.fields['Prenoms'].widget.attrs.update({'class': 'form-control', 'id':'lastName'})
+        self.fields['Ville'].widget.attrs.update({'class': 'form-control', 'id':'Ville'})
+        self.fields['Commune'].widget.attrs.update({'class': 'form-control', 'id':'Commune'})
+
+    def clean_phone(self):
+        Telephone = self.cleaned_data.get('Telephone')
+        if Users.objects.filter(Telephone=Telephone).exists():
+            raise forms.ValidationError("Un utilisateur avec cet numéro de telephone existe déjà.")
+        return Telephone
+
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 6:
+            raise forms.ValidationError("Le mot de passe doit contenir au moins 6 caractères.")
+        return password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        confirm_password = cleaned_data.get("confirm_password")
+
+        if password and confirm_password and password != confirm_password:
+            self.add_error('confirm_password', "Les mots de passe ne correspondent pas.")
+
+    def save(self, commit=True):
+        instance = super(ClientForm, self).save(commit=False)
+        
+        utilisateur = Users(
+            Telephone=self.cleaned_data['Telephone'],
+            email=self.cleaned_data['email'],
+            username=self.cleaned_data['email'],  # Utiliser l'email comme username
+            roles='Client'
+        )
+        utilisateur.set_password(self.cleaned_data['password'])
+        
+        if commit:
+            utilisateur.save()
+            instance.IdUser = utilisateur
+            instance.save()
+        
+        return instance
+
+# class ArtisanForm(forms.ModelForm):
 class ArtisanForm(forms.ModelForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(
         attrs={'class': 'form-control'}

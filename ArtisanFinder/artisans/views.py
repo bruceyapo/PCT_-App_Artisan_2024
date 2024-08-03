@@ -15,8 +15,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
 import pandas as pd
 
-from artisans.forms import ArtisanForm, ArtisanProfilForm, ArtisanSearchForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
-from artisans.models import Artisan, Localisation, Metier, PortfolioPhoto, UserProfile, Users
+from artisans.forms import ArtisanForm, ArtisanProfilForm, ArtisanSearchForm, ClientForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
+from artisans.models import Artisan, Client, Localisation, Metier, PortfolioPhoto, Tache, UserProfile, Users
 
 
 
@@ -31,9 +31,57 @@ from artisans.models import Artisan, Localisation, Metier, PortfolioPhoto, UserP
 def plombier_view(request) :
    return render(request, 'services/plombier.html')
 
+def normaliser_donnees():
+    profiles = UserProfile.objects.all()
+    for profile in profiles:
+        profile.Ville = unidecode(profile.Ville)
+        profile.Commune = unidecode(profile.Commune)
+        profile.save()
 
-def menuisier_view(request) :
-   return render(request, 'services/menuisier.html')
+def normaliser_donnees_client():
+    clients = Client.objects.all()
+    for client in clients:
+        client.Ville = unidecode(client.Ville)
+        client.Commune = unidecode(client.Commune)
+        client.save()
+
+def profilClient(request):
+    # user = request.user
+    # context = {
+    #     'user': user
+    # }
+    return render(request, 'profil_client.html')    
+def metier_view(request, metier_id):
+    taches = Tache.objects.filter(metier= metier_id)
+    # metier_id = metier_id
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            Telephone = form.cleaned_data['Telephone']
+            password = form.cleaned_data['password']
+            log = form.save()
+            normaliser_donnees_client()
+            user = authenticate(request, Telephone=Telephone, password=password)
+            if user is not None:
+                login(request, user)
+            messages.success(request, "Resultat de recherche !")
+            # Récupérer les tâches sélectionnées
+            selected_taches_ids = request.POST.getlist('taches')
+            print(selected_taches_ids)
+            # selected_taches = Tache.objects.filter(id__in=selected_taches_ids)
+            # Traitez les tâches sélectionnées ici
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'error': 'Formulaire invalide'}, status=400)
+    else:
+        form = ClientForm()
+    context = {
+        'form': form,
+        'taches': taches,
+        'metier_id': metier_id,
+        # 'selected_taches':selected_taches
+    }
+    return render(request, 'services/metier.html', context)
 
 def bijoutier_view(request) :
    return render(request, 'services/bijoutier.html')
@@ -50,14 +98,6 @@ def accueil_view(request) :
 
 from django.db.models import Q
 from unidecode import unidecode
-
-def normaliser_donnees():
-    profiles = UserProfile.objects.all()
-    for profile in profiles:
-        profile.Ville = unidecode(profile.Ville)
-        profile.Commune = unidecode(profile.Commune)
-        profile.save()
-
 # Exécute cette fonction pour mettre à jour les données en base
 
 def nettoyer_chaine(chaine):
@@ -87,58 +127,6 @@ def nettoyer_chaine(chaine):
         
 #     return render(request, 'trouver_Artisan.html', context)
 
-
-# def artisan_details_view(request, artisan_id):
-#     artisan = get_object_or_404(Artisan, id=artisan_id)
-#     userprofile = get_object_or_404(UserProfile, user=artisan)
-#     PortPhoto = get_object_or_404(PortfolioPhoto, user=artisan)
-    
-#     try:
-#         localisation = Localisation.objects.get(user=artisan)
-#     except Localisation.DoesNotExist:
-#         localisation = None
-    
-#     details = {
-#         'name': f"{artisan.Nom} {artisan.Prenom}",
-#         'metier': artisan.Metier.Nom if artisan.Metier else 'N/A',
-#         'ville': userprofile.Ville if userprofile else 'N/A',
-#         'commune': userprofile.Commune if userprofile else 'N/A',
-#         'entreprise': userprofile.Entreprise if userprofile else 'N/A',
-#         'description': userprofile.Descriptions if userprofile else 'N/A',
-#         'experience': userprofile.Annee_experience if userprofile else 'N/A',
-#         'photo': userprofile.photo_de_profil.url if userprofile and userprofile.photo_de_profil else None,
-#         'media': PortPhoto.media.url if PortPhoto and PortPhoto.media else None,
-#         'latitude': localisation.Latitude if localisation else 'N/A',
-#         'longitude': localisation.Longitude if localisation else 'N/A'
-#     }
-    
-#     return JsonResponse(details)
-
-# def artisan_details_view(request, artisan_id):
-#     artisan = get_object_or_404(Artisan, id=artisan_id)
-#     print(artisan)
-#     try:
-#         localisation = Localisation.objects.get(user=artisan)
-#     except Localisation.DoesNotExist:
-#         localisation = None
-
-#     user_profile = get_object_or_404(UserProfile, user=artisan)
-
-#     details = {
-#         'name': f'{artisan.Nom} {artisan.Prenom}',
-#         'photo': user_profile.photo_de_profil.url if user_profile.photo_de_profil else '',
-#         'metier': artisan.Metier.Nom if artisan.Metier else 'Non spécifié',
-#         'ville': user_profile.Ville,
-#         'commune': user_profile.Commune,
-#         'entreprise': user_profile.Entreprise,
-#         'description': user_profile.Descriptions,
-#         'experience': user_profile.Annee_experience,
-#         'latitude': localisation.Latitude if localisation else 'Non spécifié',
-#         'longitude': localisation.Longitude if localisation else 'Non spécifié',
-#     }
-#     print(details)
-#     return JsonResponse(details)
-
 def artisan_details_view(request, artisan_id):
     artisan = get_object_or_404(Artisan, id=artisan_id)
     try:
@@ -167,64 +155,19 @@ def artisan_details_view(request, artisan_id):
 
     return JsonResponse(details)
 
-# def artisan_details_view(request, id):
-#     artisan = get_object_or_404(Artisan, id=id)
-#     localisation = Localisation.objects.filter(user=artisan).first()
-#     profile = UserProfile.objects.filter(user=artisan).first()
 
-#     data = {
-#         'name': f'{artisan.Nom} {artisan.Prenom}',
-#         'activity': artisan.Metier.Nom,
-#         'description': profile.Descriptions if profile else '',
-#         'entreprise': profile.Entreprise if profile else '',
-#         'experience': profile.Annee_experience if profile else '',
-#         'photo': profile.photo_de_profil.url if profile and profile.photo_de_profil else '',
-#         'portfolio': [photo.media.url for photo in PortfolioPhoto.objects.filter(user=artisan)] if profile else [],
-#         'latitude': float(localisation.Latitude) if localisation else '',
-#         'longitude': float(localisation.Longitude) if localisation else '',
-#     }
-
-#     return JsonResponse(data)
-# def trouverArtisan_view(request):
-#     print("Requête reçue")
-#     metiers = Metier.objects.all()
-#     artisans = Artisan.objects.all()
-#     ville = request.GET.get('ville', '')
-#     commune = request.GET.get('commune', '')
-#     metier_id = request.GET.get('metier')
-
-#     print("Ville:", ville)
-#     print("Commune:", commune)
-#     print("Métier ID:", metier_id)
-
-#     ville = nettoyer_chaine(ville)
-#     commune = nettoyer_chaine(commune)
-
-#     if metier_id and ville and commune:
-#         artisans = artisans.filter(Metier__id=metier_id, userprofile__Ville__icontains=ville, userprofile__Commune__icontains=commune)
+def portfolio_photos_view(request, artisan_id):
+    try:
+        photos = PortfolioPhoto.objects.filter(user=artisan_id)
+        
+        dataMedia = {
+            'portfolio': [photo.media.url for photo in photos]
+        }
+        return JsonResponse(dataMedia)
+        
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
     
-#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-#         print("Requête AJAX détectée")
-#         data = []
-#         for artisan in artisans:
-#             try:
-#                 localisation = Localisation.objects.filter(user=artisan).first()
-#                 if localisation:
-#                     data.append({
-#                         'name': f'{artisan.Nom} {artisan.Prenom}',
-#                         'lat': float(localisation.Latitude),
-#                         'lng': float(localisation.Longitude),
-#                         'activity': artisan.Metier.Nom
-#                     })
-#             except Exception as e:
-#                 print('Erreur lors de la récupération de la localisation:', e)
-#         return JsonResponse(data, safe=False)
-    
-#     context = {
-#         'artisans': artisans,
-#         'metiers': metiers,
-#     }
-#     return render(request, 'trouver_Artisan.html', context)
 
 def trouverArtisan_view(request):
     metiers = Metier.objects.all()
@@ -238,12 +181,6 @@ def trouverArtisan_view(request):
 
     if metier_id and ville and commune:
         artisans = artisans.filter(Metier__id=metier_id, userprofile__Ville__icontains=ville, userprofile__Commune__icontains=commune)
-    elif metier_id:
-        artisans = artisans.filter(Metier__id=metier_id)
-    elif ville:
-        artisans = artisans.filter(userprofile__Ville__icontains=ville)
-    elif commune:
-        artisans = artisans.filter(userprofile__Commune__icontains=commune)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         data = []
@@ -340,6 +277,7 @@ def supp_portfolio(request, portfolio_id):
     portfolio.delete()
     messages.success(request, 'portfolio retiré avec succes')
     return redirect('profil')
+
 # def profilArtisan_view(request) :
 #     user = request.user
 #     # Récupérer l'utilisateur connecté
@@ -397,7 +335,7 @@ def supp_portfolio(request, portfolio_id):
 
 def deconnexion(request):
     logout(request)
-    messages.success(request,f"vous êtes déconnecté")
+    # messages.success(request,f"vous êtes déconnecté")
     return redirect('login')  # Redirige vers la page de connexion après la déconnexion
 def login_view(request):
     if request.method == 'POST':

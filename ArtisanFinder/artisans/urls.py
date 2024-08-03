@@ -14,7 +14,7 @@ urlpatterns = [
     path('services/', views.services_view, name='services'),
     path('artisan/', views.trouverArtisan_view, name='artisan'),
     path('artisan/details/<int:artisan_id>/', views.artisan_details_view, name='artisan-details'),
-    # path('artisan/<int:id>/details/', views.artisan_details_view, name='artisan_details'),
+    path('artisan/portfolio_photos/<int:artisan_id>/', views.portfolio_photos_view, name='portfolio_photos'),
     path('connexion/', views.login_view, name='login'),
     path('deconnexion/', views.deconnexion, name='deconnexion'),
     path('espaceArtisan/', views.espaceArtisan_view, name='espace-artisan'),
@@ -36,7 +36,8 @@ urlpatterns = [
     path('supp_portfolio/<int:portfolio_id>', views.supp_portfolio, name='supp_portfolio'),
     path('profil/', views.profilArtisan_view, name='profil'),
     path('plombier/', views.plombier_view, name= 'plombier'),
-    path('menuisier/', views.menuisier_view, name= 'menuisier'),
+    path('metier/<int:metier_id>', views.metier_view, name= 'metier'),
+    path('profilClient/', views.profilClient, name= 'profilClient'),
     path('bijoutier/', views.bijoutier_view, name= 'bijoutier'),
 ]
 if settings.DEBUG:

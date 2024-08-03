@@ -120,8 +120,8 @@ class PortfolioPhoto(models.Model):
 class Client(models.Model):
     Nom                     = models.CharField(max_length=50, blank=False)
     Prenoms                 = models.CharField(max_length=70, blank=False)
-    Lieu_habitation         = models.CharField(max_length=70, blank=False)
-    Telephone               = models.CharField(max_length=20, blank=False)
+    Ville                   = models.CharField(max_length=70, blank=True, null=True)
+    Commune                 = models.CharField(max_length=70, blank=True, null=True)
     IdUser                  = models.ForeignKey(Users, on_delete=models.CASCADE)
     def __str__(self):
         return self.Nom

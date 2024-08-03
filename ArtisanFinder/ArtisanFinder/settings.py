@@ -98,7 +98,7 @@ WSGI_APPLICATION = 'ArtisanFinder.wsgi.application'
 #         'HOST': 'localhost',
 #         'PORT': '3306'
         
-#     },
+#     }
       
      
 #     # 'default': {

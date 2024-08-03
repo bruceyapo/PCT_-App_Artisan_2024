@@ -8,7 +8,7 @@
     <div class="container mt-5">
         <h1 class="display-5">Trouver un artisan</h1>
         <!-- <form id="searchForm" method="GET"> -->
-            <form method="GET" action="{% url 'artisan' %}">
+            <form id="artisan-filter-form" method="GET" action="{% url 'artisan' %}">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="metier">Métier:</label>
@@ -38,14 +38,29 @@
                     <img src="" alt="Menuisier 1" class="profile-pic">
                 </div>
                 <div class="carpenter-info">
-                    <h2>Doumbia Allassane</h2>
+                    {% if userprofile.photo_de_profil %}
+
+                    <img src="{{ userprofile.photo_de_profil.url }}" width="150px" height="150px" alt="Profile picture"
+                        class="img-fluid">
+
+                    {% else %}
+
+                    <img width="150px" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}"
+                        class="img-fluid" alt="Franck Kouamé">
+
+                    {% endif %}
+
+                    <h2>{{artisan.Prenom}} {{artisan.Nom}}</h2>
+                    <p>{{userprofile.Ville}}, {{userprofile.Commune}}</p>
                     <p>Note: ★★★★☆</p>
                     <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
                     <hr>
                     <p class="text-center">Avis le plus récent :</p>
                     <p class="review">"Excellent service, rapide et efficace!"</p>
                     <br>
-                    <button class="contact-button">Contacter le menuisier</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#artisanModal">
+                        Voir le profil
+                    </button>
                 </div>
             </div>   
         </div>
@@ -78,20 +93,21 @@
 
 </div>
 
-<!-- Modal HTML -->
-<div class="modal fade" id="artisanModal" tabindex="-1" aria-labelledby="artisanModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal pour le portfolio -->
+<div class="modal fade" id="portfolioModal" tabindex="-1" aria-labelledby="portfolioModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="artisanModalLabel">Détails de l'Artisan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="portfolioModalLabel">Portfolio</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
             </div>
-            <div class="modal-body" id="artisanDetails">
-                <!-- Les détails de l'artisan seront insérés ici -->
+            <div class="modal-body" id="portfolio-content">
+                <!-- Les images du portfolio seront chargées ici -->
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+              </div> -->
         </div>
     </div>
 </div>
@@ -100,503 +116,6 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <!-- Leaflet Geocoding Plugin -->
 <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
-<!-- <script>
-    let map;
-    let markers = [];
-
-    function initMap() {
-        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Charger tous les artisans par défaut
-        loadArtisans();
-    }
-
-    function clearMarkers() {
-        for (let i = 0; i < markers.length; i++) {
-            map.removeLayer(markers[i]);
-        }
-        markers = [];
-    }
-
-    function addMarker(location, title) {
-        const marker = L.marker(location).addTo(map).bindPopup(title);
-        markers.push(marker);
-    }
-
-    function loadArtisans() {
-        fetch("{% url 'artisan' %}", {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(artisan => {
-                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching artisans:', error);
-            alert('Erreur lors de la récupération des artisans.');
-        });
-    }
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const metier = document.getElementById('metier').value;
-        const ville = document.getElementById('ville').value;
-        const commune = document.getElementById('commune').value;
-        
-        // Utiliser le plugin de géocodage de Leaflet pour obtenir la position
-        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
-            if (results.length > 0) {
-                const center = results[0].center;
-                map.setView(center, 13);
-                clearMarkers();
-
-                // Envoyer une requête AJAX pour obtenir les artisans filtrés
-                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(artisan => {
-                        addMarker(
-                            [artisan.lat, artisan.lng], 
-                            artisan.name + ' - ' + artisan.activity, 
-                            
-                        );
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching artisans:', error);
-                    alert('Erreur lors de la récupération des artisans.');
-                });
-            } else {
-                alert('La géolocalisation a échoué.');
-            }
-        });
-    });
-
-    initMap();
-</script> -->
-
-<!-- <script>
-    let map;
-    let markers = [];
-
-    function initMap() {
-        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        loadArtisans();
-    }
-
-    function clearMarkers() {
-        markers.forEach(marker => map.removeLayer(marker));
-        markers = [];
-    }
-
-    function addMarker(location, title, artisanId) {
-        const marker = L.marker(location).addTo(map).bindPopup(`
-            <b>${title}</b><br>
-            <button type="button" data-id="${artisanId}" class="btn btn-primary view-details">
-                Voir plus
-            </button>
-            
-        `);
-        markers.push(marker);
-    }
-
-    function loadArtisans() {
-        fetch("{% url 'artisan' %}", {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(artisan => {
-                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
-            });
-
-            // Ajout de l'écouteur d'événements pour les liens "Voir plus"
-            document.querySelectorAll('.view-details').forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const artisanId = this.getAttribute('data-id');
-                    fetch(`/artisan/details/${artisanId}/`)
-                        .then(response => response.json())
-                        .then(details => {
-                            document.getElementById('artisanModalLabel').innerText = details.name;
-                            document.getElementById('artisanDetails').innerHTML = `
-                                <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
-                                <p><strong>Métier:</strong> ${details.metier}</p>
-                                <p><strong>Ville:</strong> ${details.ville}</p>
-                                <p><strong>Commune:</strong> ${details.commune}</p>
-                                <p><strong>Entreprise:</strong> ${details.entreprise}</p>
-                                <p><strong>Description:</strong> ${details.description}</p>
-                                <p><strong>Année d'expérience:</strong> ${details.experience}</p>
-                                <p><strong>Latitude:</strong> ${details.latitude}</p>
-                                <p><strong>Longitude:</strong> ${details.longitude}</p>
-                            `;
-                            $('#artisanModal').modal('show');
-                        })
-                        .catch(error => {
-                            console.error('Error fetching artisan details:', error);
-                            alert('Erreur lors de la récupération des détails de l\'artisan.');
-                        });
-                });
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching artisans:', error);
-            alert('Erreur lors de la récupération des artisans.');
-        });
-    }
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const metier = document.getElementById('metier').value;
-        const ville = document.getElementById('ville').value;
-        const commune = document.getElementById('commune').value;
-
-        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
-            if (results.length > 0) {
-                const center = results[0].center;
-                map.setView(center, 13);
-                clearMarkers();
-
-                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(artisan => {
-                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
-                    });
-
-                    document.querySelectorAll('.view-details').forEach(link => {
-                        link.addEventListener('click', function(event) {
-                            event.preventDefault();
-                            const artisanId = this.getAttribute('data-id');
-                            fetch(`/artisan/details/${artisanId}/`)
-                                .then(response => response.json())
-                                .then(details => {
-                                    document.getElementById('artisanModalLabel').innerText = details.name;
-                                    document.getElementById('artisanDetails').innerHTML = `
-                                        <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
-                                        <p><strong>Métier:</strong> ${details.metier}</p>
-                                        <p><strong>Ville:</strong> ${details.ville}</p>
-                                        <p><strong>Commune:</strong> ${details.commune}</p>
-                                        <p><strong>Entreprise:</strong> ${details.entreprise}</p>
-                                        <p><strong>Description:</strong> ${details.description}</p>
-                                        <p><strong>Année d'expérience:</strong> ${details.experience}</p>
-                                        <p><strong>Latitude:</strong> ${details.latitude}</p>
-                                        <p><strong>Longitude:</strong> ${details.longitude}</p>
-                                    `;
-                                    $('#artisanModal').modal('show');
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching artisan details:', error);
-                                    alert('Erreur lors de la récupération des détails de l\'artisan.');
-                                });
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching artisans:', error);
-                    alert('Erreur lors de la récupération des artisans.');
-                });
-            } else {
-                alert('La géolocalisation a échoué.');
-            }
-        });
-    });
-
-    initMap();
-</script> -->
-
-<!-- <script>
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded and parsed');
-    let map;
-    let markers = [];
-
-    function initMap() {
-        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        loadArtisans();
-    }
-
-    function clearMarkers() {
-        markers.forEach(marker => map.removeLayer(marker));
-        markers = [];
-    }
-
-    function addMarker(location, title, artisanId) {
-        const marker = L.marker(location).addTo(map).bindPopup(`
-            <b>${title}</b><br>
-            <button type="button" data-id="${artisanId}" class="btn btn-primary view-details" data-bs-toggle="modal" data-bs-target="#artisanModal">
-                Voir plus
-            </button>
-        `);
-        markers.push(marker);
-    }
-
-    function loadArtisans() {
-        fetch("{% url 'artisan' %}", {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(artisan => {
-                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
-            });
-
-            // Ajout de l'écouteur d'événements pour les boutons "Voir plus"
-            document.querySelectorAll('.view-details').forEach(button => {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const artisanId = this.getAttribute('data-id');
-                    console.log('Button clicked for artisan ID:', artisanId);  // Ajoutez cette ligne
-                    fetch(`/artisan/details/${artisanId}/`)
-                        .then(response => response.json())
-                        .then(details => {
-                            document.getElementById('artisanModalLabel').innerText = details.name;
-                            document.getElementById('artisanDetails').innerHTML = `
-                                <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
-                                <p><strong>Métier:</strong> ${details.metier}</p>
-                                <p><strong>Ville:</strong> ${details.ville}</p>
-                                <p><strong>Commune:</strong> ${details.commune}</p>
-                                <p><strong>Entreprise:</strong> ${details.entreprise}</p>
-                                <p><strong>Description:</strong> ${details.description}</p>
-                                <p><strong>Année d'expérience:</strong> ${details.experience}</p>
-                                <p><strong>Latitude:</strong> ${details.latitude}</p>
-                                <p><strong>Longitude:</strong> ${details.longitude}</p>
-                            `;
-                            var artisanModal = new bootstrap.Modal(document.getElementById('artisanModal'));
-                            artisanModal.show();
-                        })
-                        .catch(error => {
-                            console.error('Error fetching artisan details:', error);
-                            alert('Erreur lors de la récupération des détails de l\'artisan.');
-                        });
-                });
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching artisans:', error);
-            alert('Erreur lors de la récupération des artisans.');
-        });
-    }
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const metier = document.getElementById('metier').value;
-        const ville = document.getElementById('ville').value;
-        const commune = document.getElementById('commune').value;
-
-        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
-            if (results.length > 0) {
-                const center = results[0].center;
-                map.setView(center, 13);
-                clearMarkers();
-
-                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(artisan => {
-                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
-                    });
-
-                    document.querySelectorAll('.view-details').forEach(button => {
-                        button.addEventListener('click', function(event) {
-                            event.preventDefault();
-                            const artisanId = this.getAttribute('data-id');
-                            console.log('Button clicked for artisan ID:', artisanId);  // Ajoutez cette ligne
-                            fetch(`/artisan/details/${artisanId}/`)
-                                .then(response => response.json())
-                                .then(details => {
-                                    document.getElementById('artisanModalLabel').innerText = details.name;
-                                    document.getElementById('artisanDetails').innerHTML = `
-                                        <img src="${details.photo}" alt="Photo" style="width:100px;height:auto;">
-                                        <p><strong>Métier:</strong> ${details.metier}</p>
-                                        <p><strong>Ville:</strong> ${details.ville}</p>
-                                        <p><strong>Commune:</strong> ${details.commune}</p>
-                                        <p><strong>Entreprise:</strong> ${details.entreprise}</p>
-                                        <p><strong>Description:</strong> ${details.description}</p>
-                                        <p><strong>Année d'expérience:</strong> ${details.experience}</p>
-                                        <p><strong>Latitude:</strong> ${details.latitude}</p>
-                                        <p><strong>Longitude:</strong> ${details.longitude}</p>
-                                    `;
-                                    var artisanModal = new bootstrap.Modal(document.getElementById('artisanModal'));
-                                    artisanModal.show();
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching artisan details:', error);
-                                    alert('Erreur lors de la récupération des détails de l\'artisan.');
-                                });
-                        });
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching artisans:', error);
-                    alert('Erreur lors de la récupération des artisans.');
-                });
-            } else {
-                alert('La géolocalisation a échoué.');
-            }
-        });
-    });
-
-    initMap();
-})
-</script> -->
-
-<!-- <script>
-    let map;
-    let markers = [];
-
-    function initMap() {
-        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        loadArtisans();
-    }
-
-    function clearMarkers() {
-        markers.forEach(marker => map.removeLayer(marker));
-        markers = [];
-    }
-
-    function addMarker(location, title, artisanId) {
-        const marker = L.marker(location).addTo(map);
-
-        // Ajouter l'écouteur d'événement pour le clic sur le marqueur
-        marker.on('click', function() {
-            fetch(`/artisan/details/${artisanId}/`)
-                .then(response => response.json())
-                .then(details => {
-                    // Générer le contenu HTML du pop-up
-                    const competencyList = details.competencies.length > 0
-                    ? details.competencies.map(comp => `<li class="list-group-item"><span class="badge text-bg-light">${comp}</span></li>`).join('')
-                    : '<li>Aucune compétence enregistrée.</li>';
-                    const popupContent = `
-                        <div class="card" style="width: 19rem; height : 370px">
-                            <div class="table-responsive" style="width: 19rem; height : 100%">
-
-                                <img src="${details.photo ? details.photo : '{% static 'artisanfinder/images/Image1.png' %}'}" class="card-img-top img-thumbnail shadow" alt="${details.name}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${details.name}</h5>
-                                    <p class="card-text">${details.description}</p>
-                                </div>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><strong>Métier:</strong> ${details.metier}</li>
-                                    <li class="list-group-item"><strong>Entreprise:</strong> ${details.entreprise}</li>
-                                    <li class="list-group-item"><strong>Année d'expérience:</strong> ${details.experience}</li>
-                                    <li class="list-group-item"><strong>Ville:</strong> ${details.ville}</li>
-                                    <li class="list-group-item"><strong>Commune:</strong> ${details.commune}</li>
-                                    ${competencyList}
-                                </ul>
-                            </div>
-                            <div class="card-body row g-0">
-                                <button  class="btn btn-secondary col-md-6 text-white" type="button">Voir Portfolio</button>
-                                <button class="contact-button btn col-md-6 btn-success text-white" onclick="showContactCard()" type="button">Contacter</button>
-                            </div>
-                        </div>
-                    `;
-
-                    marker.bindPopup(popupContent).openPopup();
-
-                })
-                .catch(error => {
-                    console.error('Error fetching artisan details:', error);
-                    alert('Erreur lors de la récupération des détails de l\'artisan.');
-                });
-        });
-
-        markers.push(marker);
-    }
-
-    function loadArtisans() {
-        fetch("{% url 'artisan' %}", {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            data.forEach(artisan => {
-                addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching artisans:', error);
-            alert('Erreur lors de la récupération des artisans.');
-        });
-    }
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const metier = document.getElementById('metier').value;
-        const ville = document.getElementById('ville').value;
-        const commune = document.getElementById('commune').value;
-
-        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
-            if (results.length > 0) {
-                const center = results[0].center;
-                map.setView(center, 13);
-                clearMarkers();
-
-                fetch("{% url 'artisan' %}?metier=" + metier + "&ville=" + ville + "&commune=" + commune, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(artisan => {
-                        addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching artisans:', error);
-                    alert('Erreur lors de la récupération des artisans.');
-                });
-            } else {
-                alert('La géolocalisation a échoué.');
-            }
-        });
-    });
-
-    initMap();
-</script> -->
 
 <script>
     let map;
@@ -651,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </ul>
                             </div>
                             <div class="card-body row g-0">
-                                <button class="btn btn-secondary col-md-6 text-white" type="button">Voir Portfolio</button>
+                                <button class="btn btn-secondary col-md-6 text-white" type="button" onclick="showPortfolio(${artisanId})">Voir Portfolio</button>
                                 <button class="contact-button btn btn-success col-md-6 text-white" onclick="showContactCard()" type="button">Contacter</button>
                             </div>
                         </div>
@@ -686,7 +205,50 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    document.querySelector('form').addEventListener('submit', function(event) {
+    function showPortfolio(artisanId) {
+        fetch(`/artisan/portfolio_photos/${artisanId}/`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(dataMedia => {
+                // Vérifiez les données reçues
+                if (!dataMedia || !Array.isArray(dataMedia.portfolio)) {
+                    throw new Error('Invalid data format');
+                }
+
+                // Afficher les photos du portfolio
+                const portfolioContent = document.getElementById('portfolio-content');
+                portfolioContent.innerHTML = dataMedia.portfolio.length > 0
+                    ? dataMedia.portfolio.map(photoUrl => 
+                        `<div class="row">
+                            <div class="col-md-12 mb-3">
+                                <img src="${photoUrl}" class="img-fluid img-thumbnail">
+                            </div>
+                        </div>`
+                      ).join('')
+                    : '<p class="text-center">Aucune photo disponible.</p>';
+
+                // Afficher le modal
+                new bootstrap.Modal(document.getElementById('portfolioModal')).show();
+            })
+            .catch(error => {
+                console.error('Error fetching portfolio photos:', error);
+                alert('Erreur lors de la récupération des photos du portfolio.');
+            });
+    }
+
+    function showContactCard() {
+        document.getElementById('contact-card').style.display = 'block';
+    }
+
+    function hideContactCard() {
+        document.getElementById('contact-card').style.display = 'none';
+    }
+
+    document.getElementById('artisan-filter-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const metier = document.getElementById('metier').value;
         const ville = document.getElementById('ville').value;
@@ -719,154 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    function showContactCard() {
-        document.getElementById('contact-card').style.display = 'block';
-    }
-
-    function hideContactCard() {
-        document.getElementById('contact-card').style.display = 'none';
-    }
-
     initMap();
 </script>
-<!-- <script>
-    let map;
-    let markers = [];
-
-    function initMap() {
-        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10);
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-    }
-
-    function clearMarkers() {
-        for (let i = 0; i < markers.length; i++) {
-            map.removeLayer(markers[i]);
-        }
-        markers = [];
-    }
-
-    function addMarker(location, title, id) {
-        const marker = L.marker(location).addTo(map).bindPopup(`
-            <b>${title}</b><br>
-            <button class="btn btn-primary" onclick="showDetails(${id})">Voir plus</button>
-        `);
-        markers.push(marker);
-    }
-
-    function showDetails(id) {
-        fetch(`/artisan/${id}/details/`)
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('modalTitle').textContent = data.name;
-                document.getElementById('modalBody').innerHTML = `
-                    <img src="${data.photo}" alt="Photo de profil" class="img-fluid"><br>
-                    <strong>Activité:</strong> ${data.activity}<br>
-                    <strong>Description:</strong> ${data.description}<br>
-                    <strong>Entreprise:</strong> ${data.entreprise}<br>
-                    <strong>Année d'expérience:</strong> ${data.experience}<br>
-                    <strong>Latitude:</strong> ${data.latitude}<br>
-                    <strong>Longitude:</strong> ${data.longitude}<br>
-                    ${data.portfolio.map(url => `<img src="${url}" alt="Portfolio" class="img-thumbnail" style="max-width: 100px; max-height: 100px; margin: 5px;">`).join('')}
-                `;
-                var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'), {
-                    keyboard: false
-                });
-                myModal.show();
-            })
-            .catch(error => console.error('Error fetching details:', error));
-    }
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const metier = document.getElementById('metier').value;
-        const ville = document.getElementById('ville').value;
-        const commune = document.getElementById('commune').value;
-
-        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
-            if (results.length > 0) {
-                const center = results[0].center;
-                map.setView(center, 13);
-                clearMarkers();
-
-                fetch(window.location.href + '?metier=' + metier + '&ville=' + ville + '&commune=' + commune)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(artisan => {
-                            addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity, artisan.id);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching artisans:', error);
-                        alert('Erreur lors de la récupération des artisans.');
-                    });
-            } else {
-                alert('La géolocalisation a échoué.');
-            }
-        });
-    });
-
-    initMap();
-</script> -->
-
-<!-- <script>
-    let map;
-    let markers = [];
-
-    function initMap() {
-        map = L.map('map').setView([7.681071510710642, -5.039615938796328], 10); // Centré sur Bouaké par défaut
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-    }
-
-    function clearMarkers() {
-        for (let i = 0; i < markers.length; i++) {
-            map.removeLayer(markers[i]);
-        }
-        markers = [];
-    }
-
-    function addMarker(location, title) {
-        const marker = L.marker(location).addTo(map).bindPopup(title);
-        markers.push(marker);
-    }
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const metier = document.getElementById('metier').value;
-        const ville = document.getElementById('ville').value;
-        const commune = document.getElementById('commune').value;
-        // Utiliser le plugin de géocodage de Leaflet pour obtenir la position
-        L.Control.Geocoder.nominatim().geocode(ville + ' ' + commune, function(results) {
-            if (results.length > 0) {
-                const center = results[0].center;
-                map.setView(center, 13);
-                clearMarkers();
-
-                // Envoyer une requête AJAX pour obtenir les artisans
-                fetch(window.location.href + '?metier=' + metier + '&ville=' + ville + '&commune=' + commune)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(artisan => {
-                            addMarker([artisan.lat, artisan.lng], artisan.name + ' - ' + artisan.activity);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error fetching artisans:', error);
-                        alert('Erreur lors de la récupération des artisans.');
-                    });
-            } else {
-                alert('La géolocalisation a échoué.');
-            }
-        });
-    });
-
-    initMap();
-</script> -->
-
 </main>
 <!-- Le pieds de pages -->{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Profile Client{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mt-5">Trouvez les meilleurs menuisiers près de chez vous!</h1>
+    <div class="carpenters-list">
+        <div class="carpenter-card" data-location="Abidjan">
+            <div class="profile-pic-container">
+                <img src="" alt="Menuisier 1" class="profile-pic">
+            </div>
+            <div class="carpenter-info">
+                <h2>Doumbia Allassane</h2>
+                <p>Note: ★★★★☆</p>
+                <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
+                <hr>
+                <p class="avis text-center">Avis le plus récent :</p>
+                <p class="review">"Excellent service, rapide et efficace!"</p>
+                <br>
+                <button class="contact-button">Contacter le menuisier</button>
+            </div>
+        </div>
+        <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
+    </div>
+    <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité.</div>
+</div>
+{% endblock %}
