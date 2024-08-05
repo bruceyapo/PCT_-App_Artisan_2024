@@ -16,7 +16,7 @@ from django.urls import reverse
 import pandas as pd
 
 from artisans.forms import ArtisanForm, ArtisanProfilForm, ArtisanSearchForm, ClientForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
-from artisans.models import Artisan, Client, Localisation, Metier, PortfolioPhoto, Tache, UserProfile, Users
+from artisans.models import Artisan, Client, ContratClientArtisan, Localisation, Metier, PortfolioPhoto, Tache, UserProfile, Users
 
 
 
@@ -45,44 +45,158 @@ def normaliser_donnees_client():
         client.Commune = unidecode(client.Commune)
         client.save()
 
+# def profilClient(request):
+#     user = request.user
+#     utilisateur = get_object_or_404(Users, id=user.id)
+#     client = get_object_or_404(Client, IdUser=utilisateur)
+    
+#     # Récupération des contrats associés au client
+#     contrats = ContratClientArtisan.objects.filter(client=client)
+#     # listArtisan = None
+#     for contrat in contrats:
+#         # Correction : Assurez-vous que vous filtrez avec un champ 'Metier' et non une chaîne
+#         listArtisan = UserProfile.objects.filter(
+#             Ville=client.Ville,
+#             Commune=client.Commune,
+#             user__Metier=contrat.metier  # Utilisation correcte du champ 'Metier'
+#         )
+#         # artisan = Artisan.objects.filter(user=listArtisan.artisan)
+#         contratFinal = ContratClientArtisan.objects.get(client=client, metier=contrat.metier)
+#         if contratFinal:
+#             contratFinal.artisan = listArtisan.user
+#             contratFinal.save()
+    
+#     context = {
+#         'client': client,
+#         'utilisateur': utilisateur,
+#         'listArtisan': listArtisan,
+#     }
+#     return render(request, 'profil_client.html', context)
+from django.views.decorators.http import require_POST
+
+# @require_POST
+# def update_artisan(request):
+#     try:
+#         contrat_id = request.POST.get('contrat_id')
+#         artisan_id = request.POST.get('artisan_id')
+
+#         contrat = ContratClientArtisan.objects.get(id=contrat_id)
+#         artisan = UserProfile.objects.get(user_id=artisan_id)
+
+#         contrat.artisan = artisan.user
+#         contrat.save()
+
+#         return JsonResponse({'success': True})
+#     except (ContratClientArtisan.DoesNotExist, UserProfile.DoesNotExist) as e:
+#         return JsonResponse({'error': str(e)}, status=400)
+    
+# def profilClient(request):
+#     user = request.user
+#     utilisateur = get_object_or_404(Users, id=user.id)
+#     client = get_object_or_404(Client, IdUser=utilisateur)
+    
+#     # Récupération des contrats associés au client
+#     contrats = ContratClientArtisan.objects.filter(client=client)
+#     listArtisan = UserProfile.objects.none()  # Crée une QuerySet vide pour initialiser
+
+#     for contrat in contrats:
+#         # Filtrer les artisans basés sur la ville, la commune et le métier
+#         artisans = UserProfile.objects.filter(
+#             Ville=client.Ville,
+#             Commune=client.Commune,
+#             user__Metier=contrat.metier
+#         )
+#         listArtisan |= artisans  # Combine les QuerySets
+
+#     context = {
+#         'client': client,
+#         'utilisateur': utilisateur,
+#         'listArtisan': listArtisan,
+#     }
+#     return render(request, 'profil_client.html', context)
+
+
 def profilClient(request):
-    # user = request.user
-    # context = {
-    #     'user': user
-    # }
-    return render(request, 'profil_client.html')    
+    user = request.user
+    utilisateur = get_object_or_404(Users, id=user.id)
+    client = get_object_or_404(Client, IdUser=utilisateur)
+    
+    # Récupération des contrats associés au client
+    contrats = ContratClientArtisan.objects.filter(client=client)
+    listArtisan = UserProfile.objects.none()  # Crée une QuerySet vide pour initialiser
+
+    for contrat in contrats:
+        # Filtrer les artisans basés sur la ville, la commune et le métier
+        artisans = UserProfile.objects.filter(
+            Ville=client.Ville,
+            Commune=client.Commune,
+            user__Metier=contrat.metier
+        )
+        listArtisan |= artisans  # Combine les QuerySets
+        # artisan = Artisan.objects.filter(user=listArtisan.artisan)
+        # Mise à jour du champ artisan du contrat
+        if artisans.exists():
+            # On suppose que vous voulez associer le premier artisan trouvé
+            contrat.artisan = artisans.first().user
+            contrat.save()
+        photos = PortfolioPhoto.objects.filter(user=artisans.first().user)
+    context = {
+        'client': client,
+        'utilisateur': utilisateur,
+        'listArtisan': listArtisan,
+        'photos': photos,
+    }
+    return render(request, 'profil_client.html', context)
+
+
 def metier_view(request, metier_id):
-    taches = Tache.objects.filter(metier= metier_id)
-    # metier_id = metier_id
+    taches = Tache.objects.filter(metier=metier_id)
+    metier = Metier.objects.get(id=metier_id)
     if request.method == 'POST':
         form = ClientForm(request.POST)
         if form.is_valid():
             Telephone = form.cleaned_data['Telephone']
             password = form.cleaned_data['password']
-            log = form.save()
+            client_instance = form.save()  # Enregistrez le client
+            
+            # Normalisation des données du client
             normaliser_donnees_client()
+
+            # Authentifiez l'utilisateur
             user = authenticate(request, Telephone=Telephone, password=password)
+
             if user is not None:
                 login(request, user)
-            messages.success(request, "Resultat de recherche !")
-            # Récupérer les tâches sélectionnées
-            selected_taches_ids = request.POST.getlist('taches')
-            print(selected_taches_ids)
-            # selected_taches = Tache.objects.filter(id__in=selected_taches_ids)
-            # Traitez les tâches sélectionnées ici
-            return JsonResponse({'success': True})
+
+                # Récupérez les tâches sélectionnées
+                selected_taches_ids = request.POST.getlist('taches')
+                selected_taches = Tache.objects.filter(id__in=selected_taches_ids)
+
+                # Créez un contrat
+                Contrat = ContratClientArtisan(
+                    client=client_instance,  # Assignez l'instance du client ici
+                    metier_id=metier_id
+                )
+                Contrat.save()
+                Contrat.tache.set(selected_taches)  # Assignez les tâches
+                Contrat.save()
+
+                messages.success(request, "Résultat de recherche !")
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'error': 'Échec de l\'authentification'}, status=400)
         else:
             return JsonResponse({'error': 'Formulaire invalide'}, status=400)
     else:
         form = ClientForm()
+
     context = {
         'form': form,
         'taches': taches,
+        'metier': metier,
         'metier_id': metier_id,
-        # 'selected_taches':selected_taches
     }
     return render(request, 'services/metier.html', context)
-
 def bijoutier_view(request) :
    return render(request, 'services/bijoutier.html')
 
@@ -175,6 +289,7 @@ def trouverArtisan_view(request):
     ville = request.GET.get('ville', '')
     commune = request.GET.get('commune', '')
     metier_id = request.GET.get('metier')
+    
 
     ville = nettoyer_chaine(ville)
     commune = nettoyer_chaine(commune)
@@ -203,6 +318,44 @@ def trouverArtisan_view(request):
         'metiers': metiers,
     }
     return render(request, 'trouver_Artisan.html', context)
+
+
+# def trouverArtisan_view(request):
+#     metiers = Metier.objects.all()
+#     artisans = Artisan.objects.all()
+#     ville = request.GET.get('ville', '')
+#     commune = request.GET.get('commune', '')
+#     metier_id = request.GET.get('metier')
+
+#     ville = nettoyer_chaine(ville)
+#     commune = nettoyer_chaine(commune)
+
+#     if metier_id and ville and commune:
+#         artisans = artisans.filter(Metier__id=metier_id, userprofile__Ville__icontains=ville, userprofile__Commune__icontains=commune)
+
+#     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+#         data = []
+#         for artisan in artisans:
+#             try:
+#                 localisation = Localisation.objects.get(user=artisan)
+#                 data.append({
+#                     'id': artisan.id,
+#                     'name': f'{artisan.Nom} {artisan.Prenom}',
+#                     'lat': float(localisation.Latitude),
+#                     'lng': float(localisation.Longitude),
+#                     'activity': artisan.Metier.Nom
+#                 })
+#             except Localisation.DoesNotExist:
+#                 continue
+#         return JsonResponse(data, safe=False)
+    
+#     context = {
+#         'artisans': artisans,
+#         'metiers': metiers,
+#     }
+#     return render(request, 'trouver_Artisan.html', context)
+
+
 def services_view(request) : 
     metier = Metier.objects.all()
     context = {

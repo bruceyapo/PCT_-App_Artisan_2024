@@ -1,28 +1,578 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Profile Client{% endblock %}
+{% block title %}Profil Artisan{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1 class="text-center mt-5">Trouvez les meilleurs menuisiers près de chez vous!</h1>
-    <div class="carpenters-list">
-        <div class="carpenter-card" data-location="Abidjan">
-            <div class="profile-pic-container">
-                <img src="" alt="Menuisier 1" class="profile-pic">
+
+
+  <style>
+    /* Styles pour le portfolio */
+    .portfolio-section {
+      margin-top: 20px;
+    }
+
+    .portfolio {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .portfolio-item {
+      position: relative;
+      width: 150px;
+      height: 150px;
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .delete-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .delete-button:hover {
+      background-color: rgba(255, 0, 0, 0.9);
+
+    }
+
+    /* Styles pour le formulaire d'ajout de photo au portfolio*/
+    #add-photo-form {
+      margin-top: 20px;
+    }
+
+    #add-photo-form button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    #add-photo-form button:hover {
+      background-color: #45a049;
+    }
+
+    /* Styles pour la carte de contact */
+    .contact-button {
+      background-color: #008CBA;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .contact-button:hover {
+      background-color: #007B9A;
+    }
+
+    .contact-card {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-card .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+
+    .contact-card .contact-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: black;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .contact-option img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .contact-option:hover {
+      background-color: #f0f0f0;
+
+    }
+
+
+    .carpenters-list,
+    .plumbers-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .carpenter-card,
+    .plumber-card {
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      margin: 15px;
+      padding: 20px;
+      text-align: left;
+    }
+
+    .profile-pic-container {
+      width: 100%;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 15px;
+      background: #f0f0f0;
+      position: relative;
+    }
+
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 15px;
+      object-fit: cover;
+    }
+
+    .profile-pic-container img[src=""] {
+      display: none;
+    }
+
+    .profile-pic-container:before {
+      content: "\1F464";
+      /* Unicode for user icon */
+      /* content: url('../images/profil.png'); Unicode for user icon */
+      font-size: 50px;
+      color: #ccc;
+      position: absolute;
+
+    }
+
+    .carpenter-info,
+    .plumber-info h2 {
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+  </style>
+
+
+  <main>
+    <h1 class="text-center mt-4">Profil Client</h1>
+    <section class="bg-light py-3 py-md-5 py-xl-8">
+
+      <div class="container">
+        <div class="row gy-4 gy-lg-0">
+          <div class="col-12 col-lg-4 col-xl-3">
+            <div class="row gy-4">
+              <div class="col-12">
+                <div class="card widget-card border-light shadow-sm">
+                  <div class="card-header text-bg-secondary text-center">Bienvenue, {{client.Prenoms}} {{client.Nom}}</div>
+                  <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img width="150px" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid rounded-circle"
+                              alt=""> 
+                      <!-- <img src="images/Image1.png" class="img-fluid rounded-circle" alt="Profil-artisan"> -->
+                    </div>
+                    <h5 class="text-center mb-1">{{client.Prenoms}} {{client.Nom}}</h5>
+                    <p class="text-center text-secondary mb-4">Trouvez les meilleurs artisans !</p>
+                    
+                   
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="card widget-card border-light shadow-sm">
+                  <div class="card-header text-bg-secondary text-center">A propos de moi</div>
+                  <div class="card-body">
+                    <ul class="list-group list-group-flush mb-0">
+
+                      <li class="list-group-item">
+                        <h6 class="mb-1">
+                          <span class="bii bi-geo-alt-fill me-2"></span>
+                          Localisation
+                        </h6>
+                        <span>{{client.Ville}} {{client.Commune}}</span>
+                      </li>
+                      <li class="list-group-item">
+                        <h6 class="mb-1">
+                          <span class="bii bi-phone-fill me-2"></span>
+                          Numéro de téléphone
+                        </h6>
+                        <span>{{utilisateur.Telephone}}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div class="carpenter-info">
-                <h2>Doumbia Allassane</h2>
-                <p>Note: ★★★★☆</p>
-                <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
-                <hr>
-                <p class="avis text-center">Avis le plus récent :</p>
-                <p class="review">"Excellent service, rapide et efficace!"</p>
-                <br>
-                <button class="contact-button">Contacter le menuisier</button>
-            </div>
+          </div>
+          <div class="col-12 col-lg-8 col-xl-9">
+            
+            <div class="card widget-card border-light shadow-sm">
+              <div class="card-body p-4">
+                <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab"
+                      data-bs-target="#overview-tab-pane" type="button" role="tab" aria-controls="overview-tab-pane"
+                      aria-selected="true">Résultat de recherche</button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                      type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mon
+                      Profil</button>
+                  </li>
+
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password-tab-pane"
+                      type="button" role="tab" aria-controls="password-tab-pane" aria-selected="false">Mot de
+                      passe</button>
+                  </li>
+                </ul>
+                <div class="tab-content pt-4" id="profileTabContent">
+                  <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel"
+                    aria-labelledby="overview-tab" tabindex="0">
+                    <h5 class="mb-3">Liste des artisans </h5>
+
+                    <!-- Carte Artisan -->
+                    <div class="row">
+                        {% for listArt in listArtisan %}
+                        <div class="col-12 col-md-4 col-sm-6 mb-4">
+                            <div class="card" style="width: 15rem;">
+                                {% if listArt.photo_de_profil %}
+                                <div class="col-md-12" width="200">
+                                    <img src="{{ listArt.photo_de_profil.url }}" width="200" alt="Profile picture" class="img-fluid img-thumbnail shadow">
+                                </div>
+                                {% else %}
+                                <div class="col-md-12" width="200">
+                                    <img width="200" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid img-thumbnail" alt="">
+                                </div>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{ listArt.user.Prenom }} {{ listArt.user.Nom }}</h5>
+                                    <p class="card-text text-center"><i>{{ listArt.user.Metier }}</i></p>
+                                    <p class="card-text" style="line-height: 1;"><small>{{ listArt.Descriptions }}</small></p>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ listArt.user.id }}" class="contact-button">Voir le profil</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="staticBackdrop{{ listArt.user.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ listArt.user.id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel{{ listArt.user.id }}">{{ listArt.user.Prenom }} {{ listArt.user.Nom }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="column">
+                                            <div class="col-md-12 mb-3">
+
+                                                {% if listArt.photo_de_profil %}
+                                                <img src="{{ listArt.photo_de_profil.url }}" width="200" alt="Profile picture" class="img-fluid img-thumbnail shadow">
+                                                {% else %}
+                                                <img width="200" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid img-thumbnail" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-12">
+                                                <li class="list-group-item">
+                                                    <h6 class="mb-1">
+                                                      <span class="bii bi-geo-alt-fill me-2"></span>
+                                                      Localisation
+                                                    </h6>
+                                                    <span>{{listArt.Ville}}, {{listArt.Commune}}</span>
+                                                  </li>
+                                                  <li class="list-group-item">
+                                                      <h6 class="mb-1">
+                                                          <span class="bii bi-building-fill-gear me-2"></span>
+                                                          Nom de l'Entreprise
+                                                        </h6>
+                                                        {% if listArt.Entreprise %}
+                                                        <span>{{listArt.Entreprise}}</span>
+                                                        {% else %}
+                                                        <span>Aucun pour l'instant</span>
+                                                        {% endif %}
+                                                        
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <h6 class="mb-1">
+                                                          <!-- <span class="bii bi-geo-alt-fill me-2"></span> -->
+                                                          Compétences
+                                                        </h6>
+                                                        {% for competence in competencies %}
+                                                        <span class="badge text-bg-light">{{ competence.description }}</span>
+                                                        {% empty %}
+                                                            <li>Aucune compétence enregistrée.</li>
+                                                        {% endfor %}
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <h6 class="mb-1">
+                                                          <!-- <span class="bii bi-geo-alt-fill me-2"></span> -->
+                                                          Année d'experience
+                                                        </h6>
+                                                        
+                                                        <span>{{listArt.Annee_experience}} an(s)</span>
+                                                        
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <h6 class="mb-1">
+                                                          <!-- <span class="bii bi-geo-alt-fill me-2"></span> -->
+                                                          Portfolio
+                                                        </h6>
+                                                        <div class="row">
+                      
+                                                            <!-- Exemple d'image de portfolio -->
+                                                              {% for photo in photos %}
+                                                              
+                                                              <div class="col-sm-6 col-md-4 col-lg-3">
+                                                                  
+                                                                    <img src="{{ photo.media.url }}" class="img-thumbnail shadow" width="300"  style="width: 100%; height:200px; object-fit: cover" alt="Projet 1">
+                                                                </div>
+                                                              
+                                                            
+                                                            <!-- Button trigger modal -->
+                                      
+                                                              <!-- Modal -->
+                                                             
+                                                            {%empty%}
+                                      
+                                                            <div class="text-center">
+                                                              <p>Aucun portfolio disponible pour le moment.</p>
+                                                            </div>
+                                      
+                                                            {% endfor %}
+                                                        </div>
+                                                           
+                                                    </li>
+                                                
+                                            </div>
+                                            
+
+                                        </div>
+
+
+
+                                            <div class="contact-card" id="contact-card{{ listArt.user.id }}">
+                                                <button class="close-button" onclick="hiderContactCard({{ listArt.user.id }})">X</button>
+                                                <div class="contact-options">
+                                                    <a href="tel:+225{{ listArt.user.IdUser.Telephone }}" class="contact-option text-white">
+                                                        <img src="{% static 'artisanfinder/images/phone.png' %}" alt="Appel téléphonique">
+                                                        Appel téléphonique
+                                                    </a>
+                                                    <a href="https://wa.me/+225{{ listArt.user.IdUser.Telephone }}" target="_blank" class="contact-option text-white">
+                                                        <img src="{% static 'artisanfinder/images/whatsapp.png' %}" alt="WhatsApp">
+                                                        WhatsApp
+                                                    </a>
+                                                    <a href="mailto:{{ listArt.user.IdUser.email }}" class="contact-option text-white">
+                                                        <img src="{% static 'artisanfinder/images/email.png' %}" alt="Email">
+                                                        Email
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary mt-0" onclick="showsContactCard({{ listArt.user.id }})">Contacter l'artisan</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <script>
+                        function showsContactCard(id) {
+                            console.log('ID pour la carte de contact:', id);
+                            var contactCard = document.getElementById('contact-card' + id);
+                            console.log('Élément trouvé:', contactCard);
+                            if (contactCard) {
+                                contactCard.style.display = 'block';
+                            } else {
+                                console.error('Carte de contact non trouvée pour l\'ID : ' + id);
+                            }
+                        }
+                        
+                        function hiderContactCard(id) {
+                            console.log('ID pour la carte de contact:', id);
+                            var contactCard = document.getElementById('contact-card' + id);
+                            console.log('Élément trouvé:', contactCard);
+                            if (contactCard) {
+                                contactCard.style.display = 'none';
+                            } else {
+                                console.error('Carte de contact non trouvée pour l\'ID : ' + id);
+                            }
+                        }
+                    </script>
+                        <!-- Button trigger modal -->
+                        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Launch static backdrop modal
+                        </button> -->
+                        
+                        <!-- Modal -->
+                       
+                     </div>
+                    <!-- <div class="carpenters-list row g-0">
+                      <div class="carpenter-card" data-location="Abidjan">
+                        <div class="profile-pic-container">
+                          <img src="" alt="Menuisier 1" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="carpenter-info">
+                          <h4>Doumbia Allassane</h4>
+                          <p>Note: ★★★★☆</p>
+                          <hr>
+                          <p class="avis text-center">Avis le plus récent :</p>
+                          <p class="review">"Excellent service, rapide et efficace!"</p>
+                          <br>
+                          <button class="contact-button" action="">Voir le profil </button>
+                        </div>
+                      </div>
+                      <div class="carpenter-card" data-location="Abidjan">
+                        <div class="profile-pic-container">
+                          <img src="" alt="Menuisier 2" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="carpenter-info">
+                          <h4>Marie France</h4>
+                          <p>Note: ★★★★★</p>
+                          <hr>
+                          <p class="avis text-center">Avis le plus récent :</p>
+                          <p class="review">"Très satisfaite du travail effectué!"</p>
+                          <br>
+                          <button class="contact-button" action="">Voir le profil</button>
+                        </div>
+                      </div>
+
+
+                    
+                    </div> -->
+                    <!-- <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                      tabindex="0">
+                      <form action="#!" class="row gy-3 gy-xxl-4">
+                        <div class="col-12">
+                          <div class="row gy-2">
+                            <label class="col-12 form-label m-0">Photo de profil</label>
+                            <div class="col-12">
+                              <img width="150px" height="150px" src="images/Image1.png" class="img-fluid"
+                                alt="Franck Kouamé">
+                            </div>
+                            <div class="col-12">
+                              <a href="#!" class="d-inline-block bg-primary link-light lh-1 p-2 rounded">
+                                <i class="bi bi-upload"></i>
+                              </a>
+                              <a href="#!" class="d-inline-block bg-danger link-light lh-1 p-2 rounded">
+                                <i class="bi bi-trash"></i>
+                              </a>
+                            </div>
+                          </div>
+
+                          
+
+                        </div>
+                        <div class="col-12 col-md-6">
+                          
+                          <label for="inputFirstName" class="form-label">Nom</label>
+                          <input type="text" class="form-control" id="inputFirstName" value="Kouamé">
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <label for="inputLastName" class="form-label">Prénom</label>
+                          <input type="text" class="form-control" id="inputLastName" value="Franck">
+                        </div>
+                                               
+                        <div class="col-12 col-md-6">
+                          <label for="inputPhone" class="form-label">Numéro de téléphone</label>
+                          <input type="tel" class="form-control" id="inputPhone" value="+2250700000000">
+                        </div>
+                        
+                        <div class="col-12 col-md-6">
+                          <label for="inputAddress" class="form-label">Localisation</label>
+                          <input type="text" class="form-control" id="inputAddress" value="Abidjan, Cocody">
+                        </div>
+                        
+                        <div class="col-12">
+                          <label for="inputAbout" class="form-label">A propos de moi</label>
+                          <textarea class="form-control"
+                            id="inputAbout"></textarea>
+                        </div>
+                        <div class="col-12">
+                          <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
+                        </div>
+                      </form>
+                    </div> -->
+                    
+                    <!-- <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab"
+                      tabindex="0">
+                      <form action="#!">
+                        <div class="row gy-3 gy-xxl-4">
+                          <div class="col-12">
+                            <label for="currentPassword" class="form-label">Mot de passe actuel</label>
+                            <input type="password" class="form-control" id="currentPassword">
+                          </div>
+                          <div class="col-12">
+                            <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="newPassword">
+                          </div>
+                          <div class="col-12">
+                            <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+                            <input type="password" class="form-control" id="confirmPassword">
+                          </div>
+                          <div class="col-12">
+                            <button type="submit" class="btn btn-success">Enregistrer le Changement</button>
+                          </div>
+                        </div>
+                      </form>
+                    </div> -->
+                  </div>
+                </div>
+
+              </div>
+
+
+              
+          </div>
         </div>
-        <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-    </div>
-    <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité.</div>
-</div>
-{% endblock %}
+
+    </section>
+
+
+
+
+  </main>
+ 
+  <!-- Le pieds de pages -->{% endblock %}

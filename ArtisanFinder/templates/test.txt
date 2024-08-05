@@ -1059,3 +1059,155 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </main>
 <!-- Le pieds de pages -->{% endblock %}
+
+
+
+
+
+
+
+<div class="form-step">
+    <div class="form-group">
+        <label for="Ville" class="required-label">Entrez la ville</label>
+        {{ form.Ville }}
+        {% if form.Ville.errors %}
+            <div class="text-danger">{{ form.Ville.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="Commune" class="required-label">Entrez la commune</label>
+        {{ form.Commune }}
+        {% if form.Commune.errors %}
+            <div class="text-danger">{{ form.Commune.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+</div>
+<div class="form-step">
+    <div class="form-group">
+        <label for="firstName" class="required-label">Entrez votre nom</label>
+        {{ form.Nom }}
+        {% if form.Nom.errors %}
+            <div class="text-danger">{{ form.Nom.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="lastName" class="required-label">Entrez votre prénom</label>
+        {{ form.Prenoms }}
+        {% if form.Prenoms.errors %}
+            <div class="text-danger">{{ form.Prenoms.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+</div>
+<div class="form-step">
+    <div class="form-group">
+        <label for="phone" class="required-label">Entrez votre numéro de téléphone</label>
+        {{ form.Telephone }}
+        {% if form.Telephone.errors %}
+            <div class="text-danger">{{ form.Telephone.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="email" class="required-label">Entrez votre adresse email (Facultatif)</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="text-danger">{{ form.email.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+</div>
+<div class="form-step">
+    <div class="form-group">
+        <label for="password" class="required-label">Choisissez un mot de passe pour vous connecter</label>
+        {{ form.password }}
+        {% if form.password.errors %}
+            <div class="text-danger">{{ form.password.errors }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="confirm_password" class="required-label">Confirmer votre mot de passe</label>
+        {{ form.confirm_password }}
+        {% if form.confirm_password.errors %}
+            <div class="text-danger">{{ form.confirm_password.errors }}</div>
+        {% endif %}
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button type="submit" class="btn btn-success" style="border-radius: 15px;">Rechercher l'artisan</button>
+</div>
+
+
+
+
+<div class="form-step active">
+    <div class="form-group">
+        <label for="metier" class="required-label">Métier:</label>
+        <select name="metier" id="metier" class="form-control form-select" aria-label="Default select example">
+            <option value="">-- Sélectionner un métier --</option>
+            {% for metier in metiers %}
+                <option value="{{ metier.id }}">{{ metier.Nom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="task" class="required-label">Choisissez une tâche</label><br>
+        {% for tache in taches %}
+            <input type="checkbox" name="taches" value="{{ tache.id }}" class="btn-check" id="btn-check-outlined{{ tache.id }}" style="width: 100% !important;" autocomplete="off">
+            <label class="btn btn-outline-primary" for="btn-check-outlined{{ tache.id }}">{{ tache.description }}</label><br>
+        {% endfor %}
+    </div>
+    <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+</div>
+
+<div class="form-step">
+    <div class="form-group">
+        <label for="Ville" class="required-label">Entrez la ville</label>
+        <input type="text" name="ville" id="ville" class="form-control" placeholder="Ex: Abidjan, Yopougon, Bouaké">
+    </div>
+    <div class="form-group">
+        <label for="Commune" class="required-label">Entrez la commune</label>
+        <input type="text" name="commune" id="commune" class="form-control" placeholder="Commune">
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+</div>
+<div class="form-step">
+    <div class="form-group">
+        <label for="firstName" class="required-label">Entrez votre nom</label>
+        <input type="text" name="nom" id="firstName" class="form-control" placeholder="Entrez votre nom">
+    </div>
+    <div class="form-group">
+        <label for="lastName" class="required-label">Entrez votre prénom</label>
+        <input type="text" name="prenom" id="lastName" class="form-control" placeholder="Entrez votre prenom">
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+</div>
+<div class="form-step">
+    <div class="form-group">
+        <label for="phone" class="required-label">Entrez votre numéro de téléphone</label>
+        <input type="text" name="telephone" id="phone" class="form-control" placeholder="Entrez votre n° de telephone">
+    </div>
+    <div class="form-group">
+        <label for="email" class="required-label">Entrez votre adresse email (Facultatif)</label>
+        <input type="email" name="email" id="email" class="form-control" placeholder="Entrez votre email">
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+</div>
+<div class="form-step">
+    <div class="form-group">
+        <label for="password" class="required-label">Choisissez un mot de passe pour vous connecter</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Entrez votre mot de passe">
+    </div>
+    <div class="form-group">
+        <label for="confirm_password" class="required-label">Confirmer votre mot de passe</label>
+        <input type="password" name="password" id="confirm_password" class="form-control" placeholder="Entrez le même mot de passe">
+    </div>
+    <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+    <button class="btn btn-success" style="border-radius: 15px;" type="submit">Rechercher</button>
+    <!-- <button type="submit" class="btn btn-success" style="border-radius: 15px;">Rechercher l'artisan</button> -->
+</div>

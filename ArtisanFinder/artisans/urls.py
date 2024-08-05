@@ -38,6 +38,7 @@ urlpatterns = [
     path('plombier/', views.plombier_view, name= 'plombier'),
     path('metier/<int:metier_id>', views.metier_view, name= 'metier'),
     path('profilClient/', views.profilClient, name= 'profilClient'),
+    # path('update_artisan/', views.update_artisan, name='update_artisan'),
     path('bijoutier/', views.bijoutier_view, name= 'bijoutier'),
 ]
 if settings.DEBUG:

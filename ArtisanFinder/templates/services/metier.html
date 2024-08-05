@@ -46,7 +46,7 @@
 
 
     <div class="container">
-        <h1 class="text-center mt-5">Trouvez les meilleurs menuisiers près de chez vous!</h1>
+        <h1 class="text-center mt-5">Trouvez les meilleurs {{metier.Nom}} près de chez vous!</h1>
 
         <div class="card">
             <div class="card-header text-center">
@@ -146,38 +146,7 @@
                 </div>
 
             </div>
-        </div>
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- <div class="search-container">
-            <select id="carpentry-work" onchange="displaySelectedWork()">
-                <option value="" disabled selected>Choisissez un travail de menuiserie</option>
-                <option value="fabrication">Fabrication de portes</option>
-                <option value="fabrication">Fabrication de fenêtres</option>
-                <option value="fabrication">Fabrication d'escaliers</option>
-                <option value="fabrication">Fabrication de placards</option>
-                <option value="fabrication">Fabrication de meubles sur-mesure</option>
-                <option value="reparation">Réparation</option>
-                <option value="entretien">Entretien</option>
-            </select>
-
-            <input type="text" id="location-input" placeholder="Entrez votre localisation..." class="location-input">
-            <button class="btn-custom" onclick="filterByLocation()">Rechercher</button>
-
-        </div> -->
-
+        </div> 
 
         <div class="carpenters-list">
             <div class="carpenter-card" data-location="Abidjan">
@@ -291,14 +260,9 @@
             </div>
             <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
         </div>
-        <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité
-            .</div>
+        <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité.</div>
 
-    </div>
-    
-
-
-
+    </div> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -376,7 +340,7 @@ document.getElementById('multiStepForm').addEventListener('submit', function (ev
 });
 
 showStep(currentStep);
-    </script>
+</script>
 
 
 

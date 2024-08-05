@@ -95,7 +95,6 @@ class UserProfile(models.Model):
     photo_de_profil         = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
     Descriptions            = models.TextField(blank=True)
     Annee_experience        = models.IntegerField(blank=True, null=True)
-    # portfolio_photos        = models.ManyToManyField('PortfolioPhoto', blank=True)
     
     def __str__(self):
         return self.user.Nom
@@ -125,6 +124,16 @@ class Client(models.Model):
     IdUser                  = models.ForeignKey(Users, on_delete=models.CASCADE)
     def __str__(self):
         return self.Nom
+    
+class ContratClientArtisan(models.Model):
+    client                   = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True)
+    artisan                  = models.ForeignKey(Artisan, on_delete=models.CASCADE, null=True, blank=True)
+    metier                   = models.ForeignKey(Metier, on_delete=models.CASCADE, null=True, blank=True)
+    tache                    = models.ManyToManyField(Tache, blank=True)
+    def __str__(self):
+        return self.client.Nom
+    
+    
 
 class Administrateur(models.Model):
     Nom                     = models.CharField(max_length=50, blank=False)
