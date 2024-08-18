@@ -1,184 +1,215 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Bijoutier{% endblock %}
+{% block title %}Trouver un Artisan{% endblock %}
 
 {% block content %}
 
 <main>
-    <div class="container">
-        <h1 class="text-center mt-5">Trouvez les meilleurs Bijoutiers près de chez vous!</h1>
-
-        <div class="search-container">
-            <select id="carpentry-work" onchange="displaySelectedWork()">
-                <option value="" disabled selected>Choisissez un travail de bijoutier</option>
-                <option value="fabrication">Fabrication de bijoux</option>
-                <option value="fabrication">Fabrication de bracelets</option>
-                <option value="fabrication">Fabrication boucle d'oreille</option>
-                <option value="fabrication">Fabrication de chaines de valeurs</option>
-                <option value="fabrication">Fabrication debagues de mariage</option>
-                <option value="reparation">Réparation</option>
-                <option value="entretien">Entretien</option>
-            </select>
-
-            <input type="text" id="location-input" placeholder="Entrez votre localisation..." class="location-input">
-            <button class="btn-custom" onclick="filterByLocation()">Rechercher</button>
-
-        </div>
-        <div id="selected-work" class="selected-work"></div>
-        
-        <div class="carpenters-list">
-            <div class="carpenter-card" data-location="Abobo">
-                <div class="profile-pic-container">
-                    <img src="" alt="bijoutier 1" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>TRA BI</h2>
-                    <p>Note: ★★★★☆</p>
-                    <p class="slogan-artisan">"Votre satisfaction est notre priorité!"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Excellent service, rapide et performant!"</p>
-                    <button class="contact-button">Contacter le bijoutier</button>
-                </div>
-            </div>
-            <div class="carpenters-list">
-                <div class="carpenter-card" data-location="Abobo">
-                    <div class="profile-pic-container">
-                        <img src="" alt="bijoutier 1" class="profile-pic">
-                    </div>
-                    <div class="carpenter-info">
-                        <h2>Lamine Touré</h2>
-                        <p>Note: ★★★★☆</p>
-                        <p class="slogan-artisan">"Nous travaillons pour vous satisfaire!"</p>
-                        <hr>
-                        <p class="avis text-center">Avis le plus récent : </p>
-                        <p class="review">"Excellent service, rapide et performant!"</p>
-                        <br>
-                        <button class="contact-button">Contacter le bijoutier</button>
-                    </div>
-                </div>
-            <div class="carpenter-card" data-location="Koumassi">
-                <div class="profile-pic-container">
-                    <img src="" alt="bijoutier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Fabrice Konan</h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Qualité et précision!"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Très satisfaite du travail effectué!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le bijoutier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-            <div class="carpenter-card" data-location="Koumassi">
-                <div class="profile-pic-container">
-                    <img src="" alt="bijoutier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Bakaré Oussein</h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Service de Qualité !"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Très satisfaite du travail effectué!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le bijoutier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-            <div class="carpenter-card" data-location="Bouaké">
-                <div class="profile-pic-container">
-                    <img src="" alt="Menuisier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Coulibaly Issa</h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Qualité et précision!"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Très satisfaite du travail effectué!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le bijoutier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->
-            <div class="carpenter-card" data-location="Bouaké">
-                <div class="profile-pic-container">
-                    <img src="" alt="Menuisier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Aristide DETHO </h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Meilleur finission et de rendu !"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Bague et bracelets très jolie!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le Bijoutier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-            <div class="carpenter-card" data-location="Bouaké">
-                <div class="profile-pic-container">
-                    <img src="" alt="Menuisier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Bamba Moussa </h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Service de qualité supérieur !"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Chaine de valeur avec une finission parfaite!"</p>
-                    <br>
-                    <button class="contact-button">Contacter le Bijoutier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-            <div class="carpenter-card" data-location="Cocody">
-                <div class="profile-pic-container">
-                    <img src="" alt="bijoutier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Christian Sanogo </h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Travail bien fait et livré !"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Délais de livraison respecté"</p>
-                    <br>
-                    <button class="contact-button">Contacter le bijoutier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-            <div class="carpenter-card" data-location="Cocody">
-                <div class="profile-pic-container">
-                    <img src="" alt="bijoutier 2" class="profile-pic">
-                </div>
-                <div class="carpenter-info">
-                    <h2>Traoré Mahmoud </h2>
-                    <p>Note: ★★★★★</p>
-                    <p class="slogan-artisan">"Service de qualité !"</p>
-                    <hr>
-                    <p class="avis text-center">Avis le plus récent : </p>
-                    <p class="review">"Délais de livraison respecté"</p>
-                    <br>
-                    <button class="contact-button">Contacter le bijoutier</button>
-                </div>
-            </div>
-            <!-- Ajoutez plus de cartes de menuisiers ici avec leurs localisations -->  
-        </div>
-        <div id="no-results" class="no-results text-center">Aucun artisan n'a encore été enregistré dans votre localité
-            .</div>
-
-    </div>
     <script src="{% static 'artisanfinder/js/scripts.js}"></script>
-    
+<style>
+ .progress-container {
+    width: 100%;
+    background-color: #f3f3f3;
+    margin-bottom: 20px;
+}
 
+.progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: #FF5841;
+}
+
+.form-step {
+    display: none;
+    width: 100%;
+}
+
+.card {
+
+    width: 80%;
+    border-radius: 10px;
+}
+
+
+
+.form-step.active {
+    display: block;
+}
+
+.required-label::after {
+    content: " *";
+    color: red;
+}
+
+
+</style>
+
+
+    <div class="container">
+        <h1 class="text-center mt-5">Trouvez les meilleurs {{metier.Nom}} près de chez vous!</h1>
+
+        <div class="card">
+            <div class="card-header text-center">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="container mt-5">
+                    <form id="multiStepForm" method="POST" action="{% url 'metier_view_update' metier_id %}">
+                        {% csrf_token %}
+                        <!-- Step 1: Choisir une tâche -->
+                        <div class="form-step active">
+                            <div class="form-group">
+                                <label for="task" class="required-label">Choisissez une tâche</label><br>
+                                {% for tache in taches %}
+                                    <input type="checkbox" name="taches" value="{{ tache.id }}" class="btn-check" id="btn-check-outlined{{ tache.id }}" style="width: 100% !important;" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="btn-check-outlined{{ tache.id }}">{{ tache.description }}</label><br>
+                                {% endfor %}
+                            </div>
+                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                        </div>
+                    
+                        <!-- Step 2: Entrez la ville et la commune -->
+                        <div class="form-step">
+                            <div class="form-group">
+                                <label for="Ville" class="required-label">Entrez la ville</label>
+                                {{ client_form.Ville }}
+                                {% if client_form.Ville.errors %}
+                                    <div class="text-danger">{{ client_form.Ville.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="Commune" class="required-label">Entrez la commune</label>
+                                {{ client_form.Commune }}
+                                {% if client_form.Commune.errors %}
+                                    <div class="text-danger">{{ client_form.Commune.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                        </div>
+                    
+                        <!-- Step 3: Entrez le nom et le prénom -->
+                        <div class="form-step">
+                            <div class="form-group">
+                                <label for="firstName" class="required-label">Entrez votre nom</label>
+                                {{ client_form.Nom }}
+                                {% if client_form.Nom.errors %}
+                                    <div class="text-danger">{{ client_form.Nom.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="required-label">Entrez votre prénom</label>
+                                {{ client_form.Prenoms }}
+                                {% if client_form.Prenoms.errors %}
+                                    <div class="text-danger">{{ client_form.Prenoms.errors }}</div>
+                                {% endif %}
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+                            <button type="submit" class="btn btn-success" style="border-radius: 15px;">Rechercher l'artisan</button>
+                        </div>
+                    </form>
+                    
+                </div>
+
+            </div>
+        </div> 
+
+        
+    </div> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'artisanfinder/js/scripts.js}"></script>
+
+    <script>
+        let currentStep = 0;
+
+function updateProgressBar() {
+    const progressBar = document.getElementById('progressBar');
+    const totalSteps = document.querySelectorAll('.form-step').length;
+    const percentage = ((currentStep + 1) / totalSteps) * 100;
+    progressBar.style.width = percentage + '%';
+}
+
+function showStep(step) {
+    const steps = document.querySelectorAll('.form-step');
+    steps.forEach((element, index) => {
+        element.classList.toggle('active', index === step);
+    });
+    updateProgressBar();
+}
+
+function nextStep() {
+    const steps = document.querySelectorAll('.form-step');
+    const currentInputs = steps[currentStep].querySelectorAll('input, select');
+    let allValid = true;
+
+    currentInputs.forEach(input => {
+        if (!input.checkValidity()) {
+            input.reportValidity();
+            allValid = false;
+        }
+    });
+
+    if (allValid && currentStep < steps.length - 1) {
+        currentStep++;
+        showStep(currentStep);
+    }
+}
+
+function prevStep() {
+    if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+    }
+}
+
+document.getElementById('multiStepForm').addEventListener('submit', function (event) {
+    event.preventDefault(); // Empêche la soumission normale du formulaire
+
+    const formData = new FormData(this);
     
+    fetch(this.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': formData.get('csrfmiddlewaretoken') // Assure que le token CSRF est envoyé
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Form submitted successfully!');
+            // Redirection ou autre action en cas de succès
+            window.location.href = "{% url 'profilClient' %}";
+        } else {
+            alert('Erreur lors de la soumission du formulaire : ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur de soumission du formulaire :', error);
+        alert('Erreur lors de la soumission du formulaire.');
+    });
+});
+
+showStep(currentStep);
+</script>
+
+
+
+
+
+
+
+
+
+
 </main>
+
+
 
 
 <!-- Le pieds de pages -->{% endblock %}

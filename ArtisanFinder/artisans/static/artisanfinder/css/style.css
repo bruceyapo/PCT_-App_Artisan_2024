@@ -718,24 +718,31 @@ margin-bottom: 20px;
     text-align: center;
 }
 
-.category-grid {
+/* .category-grid {
     display: flex;
     justify-content: center;
     gap: 2rem;
     flex-wrap: wrap;
-}
+} */
 
 .category-item {
-    width: 160px;
+    /* width: 10px !important; */
     text-align: center;
-    padding: 1rem;
     border: 1px solid #4acc9a;
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
 }
-
+.testimonial-category-item {
+    width: 240px;
+    padding: 1rem;
+    border: 1px solid #4acc9a;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
 .category-item:hover {
     transform: translateY(-5px);

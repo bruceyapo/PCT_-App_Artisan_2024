@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   autoplay();
   function autoplay() {
     $('.slideshow').slideshow('next');
-    setTimeout(autoplay, 5500);
+    setTimeout(autoplay, 4500);
   }
   });
 
@@ -162,46 +162,4 @@ document.addEventListener('DOMContentLoaded', loadAdvertisements);
       document.getElementById('contact-card').style.display = 'none';
     }
 
-// Pour l'affichage de la barre de progression sur les formulaire
-
-    let currentStep = 0;
-
-    function updateProgressBar() {
-        const progressBar = document.getElementById('progressBar');
-        const totalSteps = document.querySelectorAll('.form-step').length;
-        const percentage = ((currentStep + 1) / totalSteps) * 100;
-        progressBar.style.width = percentage + '%';
-    }
-
-    function showStep(step) {
-        const steps = document.querySelectorAll('.form-step');
-        steps.forEach((element, index) => {
-            element.classList.toggle('active', index === step);
-        });
-        updateProgressBar();
-    }
-
-    function nextStep() {
-        const steps = document.querySelectorAll('.form-step');
-        const currentInputs = steps[currentStep].querySelectorAll('input, select');
-        let allValid = true;
-
-        currentInputs.forEach(input => {
-            if (!input.checkValidity()) {
-                input.reportValidity();
-                allValid = false;
-            }
-        });
-
-        if (allValid && currentStep < steps.length - 1) {
-            currentStep++;
-            showStep(currentStep);
-        }
-    }
-
-    document.getElementById('multiStepForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        alert('Form submitted successfully!');
-    });
-
-    showStep(currentStep);
+  

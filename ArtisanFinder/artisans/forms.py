@@ -333,6 +333,19 @@ class ClientForm(forms.ModelForm):
         
         return instance
 
+
+class UpdateClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ['Nom', 'Prenoms', 'Ville', 'Commune']
+    
+    def __init__(self, *args, **kwargs):
+        super(UpdateClientForm, self).__init__(*args, **kwargs)
+        self.fields['Nom'].widget.attrs.update({'class': 'form-control', 'id':'firstName'})
+        self.fields['Prenoms'].widget.attrs.update({'class': 'form-control', 'id':'lastName'})
+        self.fields['Ville'].widget.attrs.update({'class': 'form-control', 'id':'Ville'})
+        self.fields['Commune'].widget.attrs.update({'class': 'form-control', 'id':'Commune'})
+
 # class ArtisanForm(forms.ModelForm):
 class ArtisanForm(forms.ModelForm):
     email = forms.EmailField(required=True, widget=forms.EmailInput(

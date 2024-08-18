@@ -39,8 +39,8 @@ ROLES_CHOICES = (
 )
 
 class Users(AbstractBaseUser):
-    username = models.CharField(max_length=50, unique=True, null=True, blank=True)
-    email = models.EmailField(max_length=100, unique=True, null=True, blank=True)
+    username = models.CharField(max_length=50, null=True, blank=True)
+    email = models.EmailField(max_length=100, null=True, blank=True)
     Telephone = models.CharField(max_length=20, unique=True)
     roles = models.CharField(choices=ROLES_CHOICES, max_length=100)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -115,7 +115,7 @@ class PortfolioPhoto(models.Model):
 
     def __str__(self):
         return self.user.Nom
-# Model d'enregistrement client :
+
 class Client(models.Model):
     Nom                     = models.CharField(max_length=50, blank=False)
     Prenoms                 = models.CharField(max_length=70, blank=False)
@@ -127,7 +127,7 @@ class Client(models.Model):
     
 class ContratClientArtisan(models.Model):
     client                   = models.ForeignKey(Client, on_delete=models.CASCADE, null=True, blank=True)
-    artisan                  = models.ForeignKey(Artisan, on_delete=models.CASCADE, null=True, blank=True)
+    artisan                  = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, blank=True)
     metier                   = models.ForeignKey(Metier, on_delete=models.CASCADE, null=True, blank=True)
     tache                    = models.ManyToManyField(Tache, blank=True)
     def __str__(self):

@@ -17,12 +17,21 @@
                 <ul class="list-metier row">
                     {% for met in metier %}
                     <li class="btn-custom col-md-3">
+                        {% if user.id is None %}
                         <a href="{% url 'metier' met.id %}">
                             <figure style="padding: 10px 5px;">
                                 <img src="{{met.icon.url}}." alt="{{met.Nom}}">
                                 <figcaption> {{met.Nom}} </figcaption>
                             </figure>
                         </a>
+                        {% else %}
+                        <a href="{% url 'metier_view_update' met.id %}">
+                            <figure style="padding: 10px 5px;">
+                                <img src="{{met.icon.url}}." alt="{{met.Nom}}">
+                                <figcaption> {{met.Nom}} </figcaption>
+                            </figure>
+                        </a>
+                        {% endif %}
                     </li>
                     {% endfor %}
                 </ul>

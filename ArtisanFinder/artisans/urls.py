@@ -37,9 +37,11 @@ urlpatterns = [
     path('profil/', views.profilArtisan_view, name='profil'),
     path('plombier/', views.plombier_view, name= 'plombier'),
     path('metier/<int:metier_id>', views.metier_view, name= 'metier'),
+    path('metier_view_update/<int:metier_id>', views.metier_view_update, name= 'metier_view_update'),
     path('profilClient/', views.profilClient, name= 'profilClient'),
-    # path('update_artisan/', views.update_artisan, name='update_artisan'),
-    path('bijoutier/', views.bijoutier_view, name= 'bijoutier'),
+    path('update-artisan-contrat/<int:artisan_id>/', views.update_artisan_contrat, name='update_artisan_contrat'),
+    path('supp-artisan-contrat/<int:contrat_id>/', views.supp_artisan_contrat, name='supp_artisan_contrat'),
+    # path('update_artisan/<int:artisan_id>', views.update_artisan, name='update_artisan'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

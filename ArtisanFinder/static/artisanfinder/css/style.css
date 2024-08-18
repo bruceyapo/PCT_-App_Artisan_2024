@@ -17,33 +17,28 @@ header .container {
 }
 
 header .logo h1 {
-    /* margin: auto; */
+    margin: auto;
     font-size: 1.5rem;
     color: #ff6f61;
 }
 
-header nav  {
+header nav ul {
     list-style: none;
-    margin: 10px;
-    padding: auto;
+    margin: 0;
+    padding: 0;
     display: flex;
     font-weight: bold;
-    
 }
 
-.bout {
-    border-radius: 15px;
-}
-
-header nav  li {
-    margin-left: 0,5rem;
+header nav ul li {
+    margin-left: 1rem;
 }
 
 header nav ul li a {
     color: #333;
     text-decoration: none;
     font-weight: bold;
-    /* padding: auto;  */
+    padding: auto; 
     transition: background-color 0.3s;
     /* padding: 0.5rem 1rem; */
 }
@@ -98,7 +93,7 @@ font-family: "Josefin Sans", sans-serif;
 	box-sizing: border-box; 
 	list-style: none;
 }
-.slide1, .carousel-slide {
+.slide1 {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -107,7 +102,7 @@ font-family: "Josefin Sans", sans-serif;
 	background-size: cover;
 	background-position: center center;
 }
-.slideshow, .carousel-slide {
+.slideshow {
 	position: absolute;
 	width: 800px;
 	margin: auto;
@@ -115,20 +110,20 @@ font-family: "Josefin Sans", sans-serif;
 	box-shadow: 0 20px 20px 5px rgba(0, 0, 0, 0.3);
 	border-radius: 15px;
 }
-.slideshow, .carousel-slide {
+.slideshow ul {
 	position: relative;
 	left: 0;
 	width: 7000px;
-	/* transition: left  0.3s ease;
-	animation: slide 20s infinite; */
+	transition: left  0.1s ease;
+	animation: slide 15s infinite;
 }
-.slideshow {
+.slideshow ul li {
 	display: inline-block;
 	height: auto;
 	float: none;
 	width: 800px;
 }
-.single-img , .carousel-item {
+.single-img {
 	margin: 0 auto;
 	padding: 0;
 	width: 800px;
@@ -237,7 +232,7 @@ font-family: "Josefin Sans", sans-serif;
 
 #map {
             height: 500px;
-            width: 80%;
+            width: 100%;
         }
         
 .login-box {
@@ -303,7 +298,7 @@ font-family: "Josefin Sans", sans-serif;
 
     /* Debut de la Mise en forme de la d'inscription */
     
-        input[type="text"], input[type="email"], input[type="password"], .form-select {
+        input[type="text"], input[type="email"], input[type="password"] {
             width: 100%; /* Ajustez la largeur selon vos besoins */
             height: 20PX;
             padding: 20px;
@@ -318,11 +313,12 @@ font-family: "Josefin Sans", sans-serif;
         .form-select{
 
             width: 100%; 
-            height: 40px;
-            padding: 40px;
+            height: 30px;
+            padding: 20px;
             border: 1px solid #6f8a69;
             border-radius: 10px; 
-            margin-bottom: 15px;
+
+
         }
 
 
@@ -350,7 +346,7 @@ font-family: "Josefin Sans", sans-serif;
         .form-group2{
 
             margin-bottom: 15px;
-            width: 70%;                /* Ajustez la largeur des inputs  de la page trouver un artisan */
+            width: 60%;                /* Ajustez la largeur des inputs  de la page trouver un artisan */
         }
 
 
@@ -473,7 +469,7 @@ font-family: "Josefin Sans", sans-serif;
 .list-metier {
     list-style-type: none;
     padding: 0;
-    /* display: flex; */
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
@@ -482,7 +478,7 @@ font-family: "Josefin Sans", sans-serif;
 .list-metier li {
     margin: 10px;
     padding: 1px;
-    /* flex: 1 1 calc(25% - 30px); */
+    flex: 1 1 calc(25% - 30px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -490,14 +486,14 @@ font-family: "Josefin Sans", sans-serif;
 
 .list-metier li:hover {
     transform: translateY(-5px);
-    /* box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Style pour les liens */
 .list-metier a {
     text-decoration: none;
     color: inherit;
-    /* display: block; */
+    display: block;
     text-align: center;
 }
 
@@ -618,7 +614,6 @@ h2 a:hover {
     border-color: #5cb85c; /* Bordure verte au survol */
     transform: scale(1.05); /* Légèrement agrandir le bouton au survol */
 }
-
 .image-section {
     flex: 0 0 300px; /* Vous pouvez ajuster la largeur selon vos besoins */
     padding: 20px;
@@ -723,24 +718,31 @@ margin-bottom: 20px;
     text-align: center;
 }
 
-.category-grid {
+/* .category-grid {
     display: flex;
     justify-content: center;
     gap: 2rem;
     flex-wrap: wrap;
-}
+} */
 
 .category-item {
-    width: 160px;
+    /* width: 10px !important; */
     text-align: center;
-    padding: 1rem;
     border: 1px solid #4acc9a;
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
 }
-
+.testimonial-category-item {
+    width: 240px;
+    padding: 1rem;
+    border: 1px solid #4acc9a;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
 
 .category-item:hover {
     transform: translateY(-5px);
@@ -829,7 +831,7 @@ margin-bottom: 20px;
 /* style pour la vidéo flottante */
 #floating-video-container {
     position: fixed;
-    right: 3px;
+    right: 0;
     bottom: 20px;
     width: 300px;
     z-index: 1000;
@@ -1331,51 +1333,3 @@ margin-bottom: 20px;
     
     background-color: #fd7e14;
   }
-
-  /* Styles pour le modal de pub */
-
-  
-  .modal-dialog {
-    max-width: 100%;
-  }
-  .modal-body img {
-    width: 100%;
-    height: auto;
-  }
-
-
-  /* Styles pour le formulaire de contact de l'artisan */
-
-  .progress-container {
-    width: 100%;
-    background-color: #f3f3f3;
-    margin-bottom: 20px;
-}
-
-.progress-bar {
-    width: 0%;
-    height: 20px;
-    background-color: #FF5841;
-}
-
-.form-step {
-    display: none;
-    width: 100%;
-}
-
-.card-artisan {
-
-    width: 80%;
-    border-radius: 10px;
-}
-
-
-
-.form-step.active {
-    display: block;
-}
-
-.required-label::after {
-    content: " *";
-    color: red;
-}

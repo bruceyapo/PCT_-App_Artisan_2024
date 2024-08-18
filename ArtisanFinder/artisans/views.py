@@ -15,16 +15,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.urls import reverse
 import pandas as pd
 
-from artisans.forms import ArtisanForm, ArtisanProfilForm, ArtisanSearchForm, ClientForm, LoginForm, PortfolioPhotoForm, UploadFileForm, UserForm, UserProfileForm
+from artisans.forms import ArtisanForm, ArtisanProfilForm, ArtisanSearchForm, ClientForm, LoginForm, PortfolioPhotoForm, UpdateClientForm, UploadFileForm, UserForm, UserProfileForm
 from artisans.models import Artisan, Client, ContratClientArtisan, Localisation, Metier, PortfolioPhoto, Tache, UserProfile, Users
-
-
-
-
-
-
-
-
 
 # from ..auth_app.forms import ContactForm
 
@@ -75,21 +67,48 @@ def normaliser_donnees_client():
 from django.views.decorators.http import require_POST
 
 # @require_POST
-# def update_artisan(request):
+# def update_artisan(request, artisan_id):
 #     try:
-#         contrat_id = request.POST.get('contrat_id')
-#         artisan_id = request.POST.get('artisan_id')
+#         # contrat_id = request.POST.get('contrat_id')
+#         # artisan_id = request.POST.get('artisan_id')
+#         user = request.user
+#         utilisateur = get_object_or_404(Users, id=user.id)
+#         client = get_object_or_404(Client, IdUser=utilisateur)
+    
+#         # Récupération des contrats associés au client
+#         contrats = ContratClientArtisan.objects.filter(client=client, artisan= None)
+#         listArtisan = UserProfile.objects.none()  # Crée une QuerySet vide pour initialiser
 
-#         contrat = ContratClientArtisan.objects.get(id=contrat_id)
-#         artisan = UserProfile.objects.get(user_id=artisan_id)
+#         for contrat in contrats:
+#             # Filtrer les artisans basés sur la ville, la commune et le métier
+#             artisans = UserProfile.objects.filter(
+#                 Ville=client.Ville,
+#                 Commune=client.Commune,
+#                 user__Metier=contrat.metier
+#             )
+#             listArtisan |= artisans  # Combine les QuerySets
+#             # artisan = Artisan.objects.filter(user=listArtisan.artisan)
+#             # Mise à jour du champ artisan du contrat
+            
+#             # if artisans.exists():
+#             #     # On suppose que vous voulez associer le premier artisan trouvé
+#             #     contrat.artisan = artisans.user
+#             #     contrat.save()
 
-#         contrat.artisan = artisan.user
-#         contrat.save()
+#             # contrat = ContratClientArtisan.objects.get(id=contrat_id)
+#             artisan = UserProfile.objects.get(user_id=artisan_id)
 
-#         return JsonResponse({'success': True})
+#             contrat.artisan = artisan.user
+#             contrat.save()
+
+#             return JsonResponse({'success': True})
+#             # print('Contrat client authenticated')
+        
 #     except (ContratClientArtisan.DoesNotExist, UserProfile.DoesNotExist) as e:
 #         return JsonResponse({'error': str(e)}, status=400)
+#         # print('Contrat client not authenticate')
     
+
 # def profilClient(request):
 #     user = request.user
 #     utilisateur = get_object_or_404(Users, id=user.id)
@@ -115,16 +134,41 @@ from django.views.decorators.http import require_POST
 #     }
 #     return render(request, 'profil_client.html', context)
 
+def update_artisan_contrat(request, artisan_id):
+    if request.method == 'POST':
+        try:
+            user = request.user
+            utilisateur = get_object_or_404(Users, id=user.id)
+            client = get_object_or_404(Client, IdUser=utilisateur)
+            # contrat = ContratClientArtisan.objects.get(id=contrat_id)
+            # Récupération des contrats associés au client
+            artisan = UserProfile.objects.get(user=artisan_id)
+            contrat = ContratClientArtisan.objects.filter(client=client, metier=artisan.user.Metier)
+            for cont in contrat:
+                cont.artisan = artisan
+                cont.save()
+            return JsonResponse({'success': True})
+        except ContratClientArtisan.DoesNotExist:
+            return JsonResponse({'error': 'Contrat non trouvé'}, status=404)
+        except Artisan.DoesNotExist:
+            return JsonResponse({'error': 'Artisan non trouvé'}, status=404)
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 
+@login_required(login_url='login')
 def profilClient(request):
     user = request.user
     utilisateur = get_object_or_404(Users, id=user.id)
     client = get_object_or_404(Client, IdUser=utilisateur)
-    
     # Récupération des contrats associés au client
-    contrats = ContratClientArtisan.objects.filter(client=client)
+    contrats = ContratClientArtisan.objects.filter(client=client, artisan= None)
     listArtisan = UserProfile.objects.none()  # Crée une QuerySet vide pour initialiser
-
+    photos = PortfolioPhoto.objects.none()  # Crée une QuerySet vide pour initialiser
+    listArtisanProfile = UserProfile.objects.none() # Crée une QuerySet vide pour initialiser
+    listcontrat = ContratClientArtisan.objects.filter(client=client)
+    # for cont in listcontrat:
+    #     ArtisanProfile = UserProfile.objects.filter(user=cont.artisan)
+    #     listArtisanProfile |= ArtisanProfile  # Combine les QuerySets
+        
     for contrat in contrats:
         # Filtrer les artisans basés sur la ville, la commune et le métier
         artisans = UserProfile.objects.filter(
@@ -133,21 +177,29 @@ def profilClient(request):
             user__Metier=contrat.metier
         )
         listArtisan |= artisans  # Combine les QuerySets
-        # artisan = Artisan.objects.filter(user=listArtisan.artisan)
-        # Mise à jour du champ artisan du contrat
-        if artisans.exists():
-            # On suppose que vous voulez associer le premier artisan trouvé
-            contrat.artisan = artisans.first().user
-            contrat.save()
-        photos = PortfolioPhoto.objects.filter(user=artisans.first().user)
+        # photos = PortfolioPhoto.objects.filter(user=artisans.first().user)
+        for art in artisans:
+            # contrat.artisan = art.user
+            # contrat.save() 
+            media = PortfolioPhoto.objects.filter(user=art.user)
+            photos |= media  # Combine les QuerySets
     context = {
         'client': client,
         'utilisateur': utilisateur,
         'listArtisan': listArtisan,
         'photos': photos,
+        'listcontrat': listcontrat,
+        'listArtisanProfile': listArtisanProfile,
     }
     return render(request, 'profil_client.html', context)
 
+
+@login_required
+def supp_artisan_contrat(request, contrat_id):
+    contrat = ContratClientArtisan.objects.filter(id=contrat_id)
+    contrat.delete()
+    messages.success(request, 'Artisan retiré avec succes')
+    return redirect('profilClient')
 
 def metier_view(request, metier_id):
     taches = Tache.objects.filter(metier=metier_id)
@@ -158,20 +210,15 @@ def metier_view(request, metier_id):
             Telephone = form.cleaned_data['Telephone']
             password = form.cleaned_data['password']
             client_instance = form.save()  # Enregistrez le client
-            
             # Normalisation des données du client
             normaliser_donnees_client()
-
             # Authentifiez l'utilisateur
             user = authenticate(request, Telephone=Telephone, password=password)
-
             if user is not None:
                 login(request, user)
-
                 # Récupérez les tâches sélectionnées
                 selected_taches_ids = request.POST.getlist('taches')
                 selected_taches = Tache.objects.filter(id__in=selected_taches_ids)
-
                 # Créez un contrat
                 Contrat = ContratClientArtisan(
                     client=client_instance,  # Assignez l'instance du client ici
@@ -197,10 +244,41 @@ def metier_view(request, metier_id):
         'metier_id': metier_id,
     }
     return render(request, 'services/metier.html', context)
-def bijoutier_view(request) :
-   return render(request, 'services/bijoutier.html')
+def metier_view_update(request, metier_id):
+    taches = Tache.objects.filter(metier=metier_id)
+    metier = get_object_or_404(Metier, id=metier_id)
+    # user = request.user
+    utilisateur = get_object_or_404(Users, id=request.user.id)
+    client = get_object_or_404(Client, IdUser=utilisateur)
 
+    if request.method == 'POST':
+        client_form = UpdateClientForm(request.POST, instance=client)
+        if client_form.is_valid():
+            client_form.save()
+            selected_taches_ids = request.POST.getlist('taches')
+            selected_taches = Tache.objects.filter(id__in=selected_taches_ids)
 
+            contrat = ContratClientArtisan(
+                client=client,
+                metier_id=metier_id
+            )
+            contrat.save()
+            contrat.tache.set(selected_taches)
+            contrat.save()
+
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'error': 'Formulaire invalide'}, status=400)
+    else:
+        client_form = UpdateClientForm(instance=client)
+
+    context = {
+        'client_form': client_form,
+        'taches': taches,
+        'metier': metier,
+        'metier_id': metier_id,
+    }
+    return render(request, 'services/metier.html', context)
 
 
 def accueil_view(request) :
@@ -282,7 +360,6 @@ def portfolio_photos_view(request, artisan_id):
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
     
-
 def trouverArtisan_view(request):
     metiers = Metier.objects.all()
     artisans = Artisan.objects.all()
@@ -319,7 +396,6 @@ def trouverArtisan_view(request):
     }
     return render(request, 'trouver_Artisan.html', context)
 
-
 # def trouverArtisan_view(request):
 #     metiers = Metier.objects.all()
 #     artisans = Artisan.objects.all()
@@ -355,7 +431,6 @@ def trouverArtisan_view(request):
 #     }
 #     return render(request, 'trouver_Artisan.html', context)
 
-
 def services_view(request) : 
     metier = Metier.objects.all()
     context = {
@@ -365,12 +440,6 @@ def services_view(request) :
 
 def choix_view(request) : 
    return render(request,'choix_inscription.html')
-
-def inscriptionClient_view(request) : 
-   return render(request,'inscription_client.html')
-
-def profile_view(request) : 
-   return render(request,'profil.html')
 
 @login_required(login_url='login')
 def profilArtisan_view(request):

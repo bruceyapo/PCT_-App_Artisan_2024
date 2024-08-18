@@ -57,9 +57,96 @@
 
             <div class="card-body">
                 <div class="container mt-5">
-
-                    <form id="multiStepForm" method="POST" action="{% url 'metier' metier_id %}">
+                    {% if user.id is None %}
+                        <form id="multiStepForm" method="POST" action="{% url 'metier' metier_id %}">
+                            {% csrf_token %}
+                            <div class="form-step active">
+                                <div class="form-group">
+                                    <label for="task" class="required-label">Choisissez une tâche</label><br>
+                                    {% for tache in taches %}
+                                        <input type="checkbox" name="taches" value="{{ tache.id }}" class="btn-check" id="btn-check-outlined{{ tache.id }}" style="width: 100% !important;" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="btn-check-outlined{{ tache.id }}">{{ tache.description }}</label><br>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                            </div>
+                            <div class="form-step">
+                                <div class="form-group">
+                                    <label for="Ville" class="required-label">Entrez la ville</label>
+                                    {{ form.Ville }}
+                                    {% if form.Ville.errors %}
+                                        <div class="text-danger">{{ form.Ville.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="Commune" class="required-label">Entrez la commune</label>
+                                    {{ form.Commune }}
+                                    {% if form.Commune.errors %}
+                                        <div class="text-danger">{{ form.Commune.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+                                <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                            </div>
+                            <div class="form-step">
+                                <div class="form-group">
+                                    <label for="firstName" class="required-label">Entrez votre nom</label>
+                                    {{ form.Nom }}
+                                    {% if form.Nom.errors %}
+                                        <div class="text-danger">{{ form.Nom.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName" class="required-label">Entrez votre prénom</label>
+                                    {{ form.Prenoms }}
+                                    {% if form.Prenoms.errors %}
+                                        <div class="text-danger">{{ form.Prenoms.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+                                <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                            </div>
+                            <div class="form-step">
+                                <div class="form-group">
+                                    <label for="phone" class="required-label">Entrez votre numéro de téléphone</label>
+                                    {{ form.Telephone }}
+                                    {% if form.Telephone.errors %}
+                                        <div class="text-danger">{{ form.Telephone.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="required-label">Entrez votre adresse email (Facultatif)</label>
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="text-danger">{{ form.email.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+                                <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
+                            </div>
+                            <div class="form-step">
+                                <div class="form-group">
+                                    <label for="password" class="required-label">Choisissez un mot de passe pour vous connecter</label>
+                                    {{ form.password }}
+                                    {% if form.password.errors %}
+                                        <div class="text-danger">{{ form.password.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirm_password" class="required-label">Confirmer votre mot de passe</label>
+                                    {{ form.confirm_password }}
+                                    {% if form.confirm_password.errors %}
+                                        <div class="text-danger">{{ form.confirm_password.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
+                                <button type="submit" class="btn btn-success" style="border-radius: 15px;">Rechercher l'artisan</button>
+                            </div>
+                        </form>
+                    {% else %}
+                    <form id="multiStepForm" method="POST" action="{% url 'metier_view_update' metier_id %}">
                         {% csrf_token %}
+                        <!-- Step 1: Choisir une tâche -->
                         <div class="form-step active">
                             <div class="form-group">
                                 <label for="task" class="required-label">Choisissez une tâche</label><br>
@@ -70,79 +157,48 @@
                             </div>
                             <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
                         </div>
+                    
+                        <!-- Step 2: Entrez la ville et la commune -->
                         <div class="form-step">
                             <div class="form-group">
                                 <label for="Ville" class="required-label">Entrez la ville</label>
-                                {{ form.Ville }}
-                                {% if form.Ville.errors %}
-                                    <div class="text-danger">{{ form.Ville.errors }}</div>
+                                {{ client_form.Ville }}
+                                {% if client_form.Ville.errors %}
+                                    <div class="text-danger">{{ client_form.Ville.errors }}</div>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="Commune" class="required-label">Entrez la commune</label>
-                                {{ form.Commune }}
-                                {% if form.Commune.errors %}
-                                    <div class="text-danger">{{ form.Commune.errors }}</div>
+                                {{ client_form.Commune }}
+                                {% if client_form.Commune.errors %}
+                                    <div class="text-danger">{{ client_form.Commune.errors }}</div>
                                 {% endif %}
                             </div>
                             <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
                             <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
                         </div>
+                    
+                        <!-- Step 3: Entrez le nom et le prénom -->
                         <div class="form-step">
                             <div class="form-group">
                                 <label for="firstName" class="required-label">Entrez votre nom</label>
-                                {{ form.Nom }}
-                                {% if form.Nom.errors %}
-                                    <div class="text-danger">{{ form.Nom.errors }}</div>
+                                {{ client_form.Nom }}
+                                {% if client_form.Nom.errors %}
+                                    <div class="text-danger">{{ client_form.Nom.errors }}</div>
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 <label for="lastName" class="required-label">Entrez votre prénom</label>
-                                {{ form.Prenoms }}
-                                {% if form.Prenoms.errors %}
-                                    <div class="text-danger">{{ form.Prenoms.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
-                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
-                        </div>
-                        <div class="form-step">
-                            <div class="form-group">
-                                <label for="phone" class="required-label">Entrez votre numéro de téléphone</label>
-                                {{ form.Telephone }}
-                                {% if form.Telephone.errors %}
-                                    <div class="text-danger">{{ form.Telephone.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="required-label">Entrez votre adresse email (Facultatif)</label>
-                                {{ form.email }}
-                                {% if form.email.errors %}
-                                    <div class="text-danger">{{ form.email.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
-                            <button type="button" class="btn btn-success" onclick="nextStep()" style="border-radius: 15px;">Suivant</button>
-                        </div>
-                        <div class="form-step">
-                            <div class="form-group">
-                                <label for="password" class="required-label">Choisissez un mot de passe pour vous connecter</label>
-                                {{ form.password }}
-                                {% if form.password.errors %}
-                                    <div class="text-danger">{{ form.password.errors }}</div>
-                                {% endif %}
-                            </div>
-                            <div class="form-group">
-                                <label for="confirm_password" class="required-label">Confirmer votre mot de passe</label>
-                                {{ form.confirm_password }}
-                                {% if form.confirm_password.errors %}
-                                    <div class="text-danger">{{ form.confirm_password.errors }}</div>
+                                {{ client_form.Prenoms }}
+                                {% if client_form.Prenoms.errors %}
+                                    <div class="text-danger">{{ client_form.Prenoms.errors }}</div>
                                 {% endif %}
                             </div>
                             <button type="button" class="btn btn-secondary" onclick="prevStep()" style="border-radius: 15px;">Retour</button>
                             <button type="submit" class="btn btn-success" style="border-radius: 15px;">Rechercher l'artisan</button>
                         </div>
                     </form>
+                    {% endif %}
                 </div>
 
             </div>
@@ -330,12 +386,14 @@ document.getElementById('multiStepForm').addEventListener('submit', function (ev
             // Redirection ou autre action en cas de succès
             window.location.href = "{% url 'profilClient' %}";
         } else {
-            alert('Erreur lors de la soumission du formulaire : ' + data.error);
+            alert('erreur ' + data.error);
         }
     })
     .catch(error => {
         console.error('Erreur de soumission du formulaire :', error);
-        alert('Erreur lors de la soumission du formulaire.');
+        alert('Erreur!! Veuillez vous connecter à votre espace client pour continuer');
+        // Redirection sur la page de connexion en cas d'erreur
+        window.location.href = "{% url 'login' %}";
     });
 });
 

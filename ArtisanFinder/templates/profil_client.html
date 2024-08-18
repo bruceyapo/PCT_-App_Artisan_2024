@@ -255,8 +255,7 @@
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
-                      type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mon
-                      Profil</button>
+                      type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Mes contacts recents</button>
                   </li>
 
                   <li class="nav-item" role="presentation">
@@ -272,6 +271,7 @@
 
                     <!-- Carte Artisan -->
                     <div class="row">
+
                         {% for listArt in listArtisan %}
                         <div class="col-12 col-md-4 col-sm-6 mb-4">
                             <div class="card" style="width: 15rem;">
@@ -357,56 +357,40 @@
                                                           Portfolio
                                                         </h6>
                                                         <div class="row">
-                      
-                                                            <!-- Exemple d'image de portfolio -->
+                                                          <!-- Exemple d'image de portfolio -->
                                                               {% for photo in photos %}
                                                               
                                                               <div class="col-sm-6 col-md-4 col-lg-3">
                                                                   
                                                                     <img src="{{ photo.media.url }}" class="img-thumbnail shadow" width="300"  style="width: 100%; height:200px; object-fit: cover" alt="Projet 1">
                                                                 </div>
-                                                              
-                                                            
-                                                            <!-- Button trigger modal -->
-                                      
-                                                              <!-- Modal -->
-                                                             
-                                                            {%empty%}
-                                      
-                                                            <div class="text-center">
+                                                                {%empty%}
+                                                                <div class="text-center">
                                                               <p>Aucun portfolio disponible pour le moment.</p>
                                                             </div>
-                                      
                                                             {% endfor %}
                                                         </div>
                                                            
-                                                    </li>
-                                                
+                                                    </li>  
                                             </div>
-                                            
-
                                         </div>
-
-
-
-                                            <div class="contact-card" id="contact-card{{ listArt.user.id }}">
+                                        <div class="contact-card" id="contact-card{{ listArt.user.id }}">
                                                 <button class="close-button" onclick="hiderContactCard({{ listArt.user.id }})">X</button>
                                                 <div class="contact-options">
-                                                    <a href="tel:+225{{ listArt.user.IdUser.Telephone }}" class="contact-option text-white">
-                                                        <img src="{% static 'artisanfinder/images/phone.png' %}" alt="Appel téléphonique">
-                                                        Appel téléphonique
-                                                    </a>
-                                                    <a href="https://wa.me/+225{{ listArt.user.IdUser.Telephone }}" target="_blank" class="contact-option text-white">
-                                                        <img src="{% static 'artisanfinder/images/whatsapp.png' %}" alt="WhatsApp">
-                                                        WhatsApp
-                                                    </a>
-                                                    <a href="mailto:{{ listArt.user.IdUser.email }}" class="contact-option text-white">
-                                                        <img src="{% static 'artisanfinder/images/email.png' %}" alt="Email">
-                                                        Email
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        
+                                                  <a href="javascript:void(0);" onclick="contactArtisan('phone', '{{ listArt.user.id }}')" class="contact-option text-white">
+                                                      <img src="{% static 'artisanfinder/images/phone.png' %}" alt="Appel téléphonique">
+                                                      Appel téléphonique
+                                                  </a>
+                                                  <a href="javascript:void(0);" onclick="contactArtisan('whatsapp', '{{ listArt.user.id }}')" class="contact-option text-white">
+                                                      <img src="{% static 'artisanfinder/images/whatsapp.png' %}" alt="WhatsApp">
+                                                      WhatsApp
+                                                  </a>
+                                                  <a href="javascript:void(0);" onclick="contactArtisan('email', '{{ listArt.user.id }}')" class="contact-option text-white">
+                                                      <img src="{% static 'artisanfinder/images/email.png' %}" alt="Email">
+                                                      Email
+                                                  </a>
+                                              </div>
+                                            </div>    
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -414,6 +398,10 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        {%empty%}
+                        <div class="text-center">
+                            <p>Aucun artisan disponible dans ces localité.</p>
                         </div>
                         {% endfor %}
                     </div>
@@ -440,6 +428,32 @@
                                 console.error('Carte de contact non trouvée pour l\'ID : ' + id);
                             }
                         }
+                        // JavaScript function to update the contract and contact the artisan
+                        function contactArtisan(method, artisanId) {
+                        // Update the contract via Ajax
+                        fetch(`/update-artisan-contrat/${artisanId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}', // Assurez-vous que le token CSRF est disponible dans le template
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Redirect to the contact method
+                                if (method === 'phone') {
+                                    window.location.href = `tel:+225${artisanId}`;
+                                } else if (method === 'whatsapp') {
+                                    window.location.href = `https://wa.me/+225${artisanId}`;
+                                } else if (method === 'email') {
+                                    window.location.href = `mailto:${artisanId}`;
+                                }
+                            } else {
+                                console.error('Erreur lors de la mise à jour du contrat:', data.error);
+                            }
+                        })
+                        .catch(error => console.error('Erreur réseau:', error));
+                      }
                     </script>
                         <!-- Button trigger modal -->
                         <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -448,43 +462,227 @@
                         
                         <!-- Modal -->
                        
-                     </div>
-                    <!-- <div class="carpenters-list row g-0">
-                      <div class="carpenter-card" data-location="Abidjan">
-                        <div class="profile-pic-container">
-                          <img src="" alt="Menuisier 1" class="img-fluid rounded-circle">
-                        </div>
-                        <div class="carpenter-info">
-                          <h4>Doumbia Allassane</h4>
-                          <p>Note: ★★★★☆</p>
-                          <hr>
-                          <p class="avis text-center">Avis le plus récent :</p>
-                          <p class="review">"Excellent service, rapide et efficace!"</p>
-                          <br>
-                          <button class="contact-button" action="">Voir le profil </button>
-                        </div>
-                      </div>
-                      <div class="carpenter-card" data-location="Abidjan">
-                        <div class="profile-pic-container">
-                          <img src="" alt="Menuisier 2" class="img-fluid rounded-circle">
-                        </div>
-                        <div class="carpenter-info">
-                          <h4>Marie France</h4>
-                          <p>Note: ★★★★★</p>
-                          <hr>
-                          <p class="avis text-center">Avis le plus récent :</p>
-                          <p class="review">"Très satisfaite du travail effectué!"</p>
-                          <br>
-                          <button class="contact-button" action="">Voir le profil</button>
-                        </div>
-                      </div>
-
-
-                    
-                    </div> -->
-                    <!-- <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                  </div>
+                    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
                       tabindex="0">
-                      <form action="#!" class="row gy-3 gy-xxl-4">
+                      <div class="tab-pane fade show active" id="overview-tab-pane" role="tabpanel"
+                    aria-labelledby="overview-tab" tabindex="0">
+                    <h5 class="mb-3">Liste des artisans contactés</h5>
+
+                    <!-- Carte Artisan -->
+                    <div class="row">
+
+                        {% for listCont in listcontrat %}
+                        <div class="col-12 col-md-4 col-sm-6 mb-4">
+                          <div class="card" style="width: 15rem;">
+                              <div class="row" style="width: 100%;">
+                                <div class="col-10">
+    
+                                </div>
+                                <div class="col-2">
+                                  <a href="{% url 'supp_artisan_contrat' listCont.id %}" onclick="return confirm('Êtes-vous sûr de vouloir retirer cet artisan ?')" class="btn btn-outline-danger text-center">X</a>
+                                </div>
+                              </div>
+                                {% if listCont.artisan.photo_de_profil %}
+                                <div class="col-md-12" width="200">
+                                    <img src="{{ listCont.artisan.photo_de_profil.url }}" width="200" alt="Profile picture" class="img-fluid img-thumbnail shadow">
+                                </div>
+                                {% else %}
+                                <div class="col-md-12" width="200">
+                                    <img width="200" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid img-thumbnail" alt="">
+                                </div>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{ listCont.artisan.user.Prenom }} {{ listCont.artisan.user.Nom }}</h5>
+                                    <p class="card-text text-center"><i>{{ listCont.artisan.user.Metier }}</i></p>
+                                </div>
+                                <div class="card-body"> 
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ listCont.artisan.user.id }}" class="contact-button">Voir le profil</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="staticBackdrop{{ listCont.artisan.user.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel{{ listCont.artisan.user.id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel{{ listCont.artisan.user.id }}">{{ listCont.artisan.user.Prenom }} {{ listCont.artisan.user.Nom }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="column">
+                                            <div class="col-md-12 mb-3">
+                                                {% if listCont.artisan.photo_de_profil %}
+                                                  <img src="{{ listCont.artisan.photo_de_profil.url }}" width="200" alt="Profile picture" class="img-fluid img-thumbnail shadow">
+                                                  {% else %}
+                                                  <img width="200" height="150px" src="{% static 'artisanfinder/images/Image1.png' %}" class="img-fluid img-thumbnail" alt="">
+                                                  {% endif %}
+                                            </div>
+                                            <div class="col-md-12">
+                                              <li class="list-group-item">
+                                                <h6 class="mb-1">
+                                                  <span class="bii bi-geo-alt-fill me-2"></span>
+                                                  Localisation
+                                                </h6>
+                                                <span>{{listCont.artisan.Ville}}, {{listCont.artisan.Commune}}</span>
+                                              </li>
+                                              <li class="list-group-item">
+                                                <h6 class="mb-1">
+                                                    <span class="bii bi-building-fill-gear me-2"></span>
+                                                    Nom de l'Entreprise
+                                                  </h6>
+                                                  {% if listCont.artisan.Entreprise %}
+                                                  <span>{{listCont.artisan.Entreprise}}</span>
+                                                  {% else %}
+                                                  <span>Aucun pour l'instant</span>
+                                                  {% endif %}
+                                                  
+                                              </li>
+                                              <li class="list-group-item">
+                                                  <h6 class="mb-1">
+                                                    <!-- <span class="bii bi-geo-alt-fill me-2"></span> -->
+                                                    Année d'experience
+                                                  </h6> 
+                                                  <span>{{listCont.artisan.Annee_experience}} an(s)</span> 
+                                              </li>
+                                              <li class="list-group-item">
+                                                <h6 class="mb-1">
+                                                    <span class="bii bi-building-fill-gear me-2"></span>
+                                                    À propos
+                                                  </h6>
+                                                  {% if listCont.artisan.Descriptions %}
+                                                  <span><small>{{ listCont.artisan.Descriptions }}</small></span>
+
+                                                  {% else %}
+                                                  <span>Aucun pour l'instant</span>
+                                                  {% endif %}
+                                                  
+                                              </li>
+                                              <li class="list-group-item">
+                                                <h6 class="mb-1">
+                                                  <!-- <span class="bii bi-geo-alt-fill me-2"></span> -->
+                                                  Compétences
+                                                </h6>
+                                                {% for competence in competencies %}
+                                                <span class="badge text-bg-light">{{ competence.description }}</span>
+                                                {% empty %}
+                                                    <span>Aucune compétence enregistrée.</span>
+                                                {% endfor %}
+                                              </li>
+                                              <li class="list-group-item">
+                                                  <h6 class="mb-1">
+                                                    <!-- <span class="bii bi-geo-alt-fill me-2"></span> -->
+                                                    Portfolio
+                                                  </h6>
+                                                  <div class="row">
+                                                    <!-- Exemple d'image de portfolio -->
+                                                        {% for photo in photos %}
+                                                        
+                                                        <div class="col-sm-6 col-md-4 col-lg-3">
+                                                            
+                                                              <img src="{{ photo.media.url }}" class="img-thumbnail shadow" width="300"  style="width: 100%; height:200px; object-fit: cover" alt="Projet 1">
+                                                          </div>
+                                                          {%empty%}
+                                                          <div class="text-center">
+                                                        <p>Aucun portfolio disponible pour le moment.</p>
+                                                      </div>
+                                                      {% endfor %}
+                                                  </div>
+                                                      
+                                              </li>  
+                                            </div>
+                                        </div>
+                                        <div class="contact-card" id="contact-card{{ listCont.artisan.user.id }}">
+                                                <button class="close-button" onclick="hiderContactCard({{ listCont.artisan.user.id }})">X</button>
+                                                <div class="contact-options">
+                                                    <a href="tel:+225{{ listCont.artisan.user.IdUser.Telephone }}" class="contact-option text-white">
+                                                        <img src="{% static 'artisanfinder/images/phone.png' %}" alt="Appel téléphonique">
+                                                        Appel téléphonique
+                                                    </a>
+                                                    <a href="https://wa.me/+225{{ listCont.artisan.user.IdUser.Telephone }}" class="contact-option text-white">
+                                                        <img src="{% static 'artisanfinder/images/whatsapp.png' %}" alt="WhatsApp">
+                                                        WhatsApp
+                                                    </a>
+                                                    <a href="mailto:{{ listCont.artisan.user.IdUser.email }}" class="contact-option text-white">
+                                                        <img src="{% static 'artisanfinder/images/email.png' %}" alt="Email">
+                                                        Email
+                                                    </a>
+                                                </div>
+                                            </div>    
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary mt-0" onclick="showsContactCard({{ listCont.artisan.user.id }})">Recontacter l'artisan</button>
+
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        {%empty%}
+                        <div class="text-center">
+                            <p>Aucun artisan contacter.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <script>
+                        function showsContactCard(id) {
+                            console.log('ID pour la carte de contact:', id);
+                            var contactCard = document.getElementById('contact-card' + id);
+                            console.log('Élément trouvé:', contactCard);
+                            if (contactCard) {
+                                contactCard.style.display = 'block';
+                            } else {
+                                console.error('Carte de contact non trouvée pour l\'ID : ' + id);
+                            }
+                        }
+                        
+                        function hiderContactCard(id) {
+                            console.log('ID pour la carte de contact:', id);
+                            var contactCard = document.getElementById('contact-card' + id);
+                            console.log('Élément trouvé:', contactCard);
+                            if (contactCard) {
+                                contactCard.style.display = 'none';
+                            } else {
+                                console.error('Carte de contact non trouvée pour l\'ID : ' + id);
+                            }
+                        }
+                        // JavaScript function to update the contract and contact the artisan
+                        function contactArtisan(method, artisanId) {
+                        // Update the contract via Ajax
+                        fetch(`/update-artisan-contrat/${artisanId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRFToken': '{{ csrf_token }}', // Assurez-vous que le token CSRF est disponible dans le template
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Redirect to the contact method
+                                if (method === 'phone') {
+                                    window.location.href = `tel:+225${artisanId}`;
+                                } else if (method === 'whatsapp') {
+                                    window.location.href = `https://wa.me/+225${artisanId}`;
+                                } else if (method === 'email') {
+                                    window.location.href = `mailto:${artisanId}`;
+                                }
+                            } else {
+                                console.error('Erreur lors de la mise à jour du contrat:', data.error);
+                            }
+                        })
+                        .catch(error => console.error('Erreur réseau:', error));
+                      }
+                    </script>
+                        <!-- Button trigger modal -->
+                        <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Launch static backdrop modal
+                        </button> -->
+                        
+                        <!-- Modal -->
+                       
+                  </div>
+                      <!-- <form action="#!" class="row gy-3 gy-xxl-4">
                         <div class="col-12">
                           <div class="row gy-2">
                             <label class="col-12 form-label m-0">Photo de profil</label>
@@ -533,8 +731,8 @@
                         <div class="col-12">
                           <button type="submit" class="btn btn-success">Enregistrer les modifications</button>
                         </div>
-                      </form>
-                    </div> -->
+                      </form> -->
+                    </div>
                     
                     <!-- <div class="tab-pane fade" id="password-tab-pane" role="tabpanel" aria-labelledby="password-tab"
                       tabindex="0">
@@ -558,6 +756,7 @@
                         </div>
                       </form>
                     </div> -->
+                
                   </div>
                 </div>
 
@@ -567,7 +766,7 @@
               
           </div>
         </div>
-
+      </div>
     </section>
 
 
